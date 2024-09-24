@@ -27,12 +27,15 @@
         /* Contenu de la fenêtre modale */
         .modal-content {
             background-color: white;
-            margin: 15% auto;
             padding: 20px;
             border-radius: 10px;
             width: 350px;
             text-align: center;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            cursor: move; /* Curseur de déplacement */
         }
         /* Bouton pour fermer */
         .close {
@@ -83,7 +86,7 @@
 
     <!-- Fenêtre modale affichée dès le début -->
     <div id="myModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" id="modalContent">
             <span class="close" id="closeModal">&times;</span>
             <h2>Formulaire d'inscription</h2>
             <form id="inscriptionForm">
@@ -117,6 +120,7 @@
     <script>
         const modal = document.getElementById("myModal");
         const closeModal = document.getElementById("closeModal");
+        const modalContent = document.getElementById("modalContent");
         const categorieSelect = document.getElementById("categorie");
         const serviceSelect = document.getElementById("service");
         const payBtn = document.getElementById("payBtn");
@@ -204,6 +208,27 @@
         // Bouton "Retour" pour revenir à la page précédente
         backBtn.addEventListener("click", function() {
             history.back(); // Retourner à la page précédente
+        });
+
+        // Fonction pour rendre la fenêtre modale déplaçable
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        modalContent.addEventListener("mousedown", function(e) {
+            isDragging = true;
+            offsetX = e.clientX - modalContent.offsetLeft;
+            offsetY = e.clientY - modalContent.offsetTop;
+        });
+
+        document.addEventListener("mousemove", function(e) {
+            if (isDragging) {
+                modalContent.style.left = e.clientX - offsetX + "px";
+                modalContent.style.top = e.clientY - offsetY + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", function() {
+            isDragging = false;
         });
     </script>
 
