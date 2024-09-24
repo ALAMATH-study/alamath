@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription à alamath.com</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: url('/mnt/data/Formulaire d’inscription.png') no-repeat center center;
+            background-size: cover;
+        }
+        .form-wrapper {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin: 10px 0;
+            display: block;
+            color: #333;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:disabled {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-wrapper">
+            <h2>Formulaire d'inscription</h2>
+            <form id="inscriptionForm">
+                <label for="nomComplet">Nom complet :</label>
+                <input type="text" id="nomComplet" name="nomComplet" placeholder="Votre nom complet" required>
+
+                <label for="categorie">Catégorie de service :</label>
+                <select id="categorie" name="categorie" required>
+                    <option value="">Sélectionner une catégorie</option>
+                    <option value="cat1">Cat1</option>
+                    <option value="cat2">Cat2</option>
+                </select>
+
+                <label for="service">Service :</label>
+                <select id="service" name="service" required>
+                    <option value="">Sélectionner un service</option>
+                </select>
+
+                <label for="payment">Paiement (Visa) :</label>
+                <input type="text" id="visaPayment" name="visaPayment" placeholder="Numéro de carte Visa" required>
+
+                <button type="button" id="payBtn">Payer</button>
+                <button type="submit">Envoyer les informations</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const categorieSelect = document.getElementById("categorie");
+        const serviceSelect = document.getElementById("service");
+        const payBtn = document.getElementById("payBtn");
+
+        const services = {
+            cat1: ["S1-Cat1", "S2-Cat1"],
+            cat2: ["S1-Cat2", "S2-Cat2"]
+        };
+
+        categorieSelect.addEventListener("change", function() {
+            const selectedCategory = categorieSelect.value;
+            serviceSelect.innerHTML = "<option value=''>Sélectionner un service</option>";
+
+            if (selectedCategory) {
+                services[selectedCategory].forEach(service => {
+                    const option = document.createElement("option");
+                    option.value = service;
+                    option.textContent = service;
+                    serviceSelect.appendChild(option);
+                });
+            }
+        });
+
+        payBtn.addEventListener("click", function() {
+            const visaPayment = document.getElementById("visaPayment").value;
+            if (visaPayment && visaPayment.length === 16) {
+                alert("Paiement réussi !");
+                payBtn.disabled = true;
+            } else {
+                alert("Veuillez entrer un numéro de carte Visa valide (16 chiffres).");
+            }
+        });
+
+        document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nomComplet = document.getElementById("nomComplet").value;
+            const categorie = categorieSelect.value;
+            const service = serviceSelect.value;
+
+            const data = {
+                nomComplet: nomComplet,
+                categorie: categorie,
+                service: service
+            };
+
+            fetch("https://api.telegram.org/bot<VOTRE_BOT_TOKEN>/sendMessage", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chat_id: "<VOTRE_CHAT_ID>",
+                    text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nCatégorie : ${data.categorie}\nService : ${data.service}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Les informations ont été envoyées avec succès !");
+            })
+            .catch(error => {
+                alert("Erreur lors de l'envoi des informations !");
+                console.error("Erreur:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>
 
