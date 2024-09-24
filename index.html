@@ -4,133 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup de Formulaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .modal {
+            display: none; /* Cacher par défaut */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Arrière-plan semi-transparent */
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto; /* Centrer le contenu */
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%; /* Largeur du contenu */
+            max-width: 400px; /* Largeur max */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
+<button id="openModal">Ouvrir le Formulaire</button>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Formulaire d'inscription</h2>
+        <form id="inscriptionForm">
+            <label for="nomComplet">Nom complet :</label>
+            <input type="text" id="nomComplet" name="nomComplet" placeholder="Votre nom complet" required>
+
+            <label for="categorie">Catégorie de service :</label>
+            <select id="categorie" name="categorie" required>
+                <option value="">Sélectionner une catégorie</option>
+                <option value="cat1">Cat1</option>
+                <option value="cat2">Cat2</option>
+            </select>
+
+            <label for="service">Service :</label>
+            <select id="service" name="service" required>
+                <option value="">Sélectionner un service</option>
+            </select>
+
+            <label for="visaPayment">Paiement (Visa) :</label>
+            <input type="text" id="visaPayment" name="visaPayment" placeholder="Numéro de carte Visa" required pattern="\\d{16}" title="Doit contenir 16 chiffres">
+
+            <button type="submit">Envoyer les informations</button>
+        </form>
+    </div>
+</div>
+
 <script>
-    window.onload = function() {
-        // Ouvre une nouvelle fenêtre popup au chargement de la page
-        var popupWindow = window.open("", "popup", "width=400,height=600,top=100,left=100");
-
-        // Contenu de la fenêtre popup
-        popupWindow.document.write(`
-            <!DOCTYPE html>
-            <html lang="fr">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Formulaire d'inscription</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        margin: 0;
-                        padding: 20px;
-                        background-color: #f9f9f9;
-                    }
-                    .modal-content {
-                        background-color: white;
-                        padding: 20px;
-                        border-radius: 10px;
-                        width: 100%;
-                        max-width: 350px;
-                        margin: 0 auto;
-                        text-align: center;
-                    }
-                    h2 {
-                        color: #333;
-                    }
-                    label {
-                        margin: 10px 0;
-                        display: block;
-                        color: #333;
-                    }
-                    select, input {
-                        width: 100%;
-                        padding: 10px;
-                        margin-bottom: 15px;
-                        border: 1px solid #ccc;
-                        border-radius: 5px;
-                    }
-                    button {
-                        width: 100%;
-                        padding: 10px;
-                        background-color: #4CAF50;
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    }
-                    button:disabled {
-                        background-color: grey;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="modal-content">
-                    <h2>Formulaire d'inscription</h2>
-                    <form id="inscriptionForm">
-                        <label for="nomComplet">Nom complet :</label>
-                        <input type="text" id="nomComplet" name="nomComplet" placeholder="Votre nom complet" required>
-
-                        <label for="categorie">Catégorie de service :</label>
-                        <select id="categorie" name="categorie" required>
-                            <option value="">Sélectionner une catégorie</option>
-                            <option value="cat1">Cat1</option>
-                            <option value="cat2">Cat2</option>
-                        </select>
-
-                        <label for="service">Service :</label>
-                        <select id="service" name="service" required>
-                            <option value="">Sélectionner un service</option>
-                        </select>
-
-                        <label for="payment">Paiement (Visa) :</label>
-                        <input type="text" id="visaPayment" name="visaPayment" placeholder="Numéro de carte Visa" required>
-
-                        <button type="submit">Envoyer les informations</button>
-                    </form>
-                </div>
-
-                <script>
-                    const services = {
-                        cat1: ["S1-Cat1", "S2-Cat1"],
-                        cat2: ["S1-Cat2", "S2-Cat2"]
-                    };
-
-                    const categorieSelect = popupWindow.document.getElementById("categorie");
-                    const serviceSelect = popupWindow.document.getElementById("service");
-
-                    // Gestion des services selon la catégorie choisie
-                    categorieSelect.addEventListener("change", function() {
-                        const selectedCategory = categorieSelect.value;
-                        serviceSelect.innerHTML = "<option value=''>Sélectionner un service</option>";
-
-                        if (selectedCategory) {
-                            services[selectedCategory].forEach(service => {
-                                const option = document.createElement("option");
-                                option.value = service;
-                                option.textContent = service;
-                                serviceSelect.appendChild(option);
-                            });
-                        }
-                    });
-
-                    // Soumission du formulaire
-                    popupWindow.document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
-                        event.preventDefault();
-                        alert("Formulaire envoyé !");
-                        popupWindow.close(); // Fermer le popup après soumission
-                    });
-                </script>
-            </body>
-            </html>
-        `);
-
-        // Fermer le popup lorsque l'utilisateur clique sur le bouton de fermeture
-        popupWindow.onbeforeunload = function() {
-            window.history.back(); // Retourner à la page précédente
-        };
+    const services = {
+        cat1: ["S1-Cat1", "S2-Cat1"],
+        cat2: ["S1-Cat2", "S2-Cat2"]
     };
+
+    // Obtenir les éléments
+    const modal = document.getElementById("myModal");
+    const openModalButton = document.getElementById("openModal");
+    const closeModalButton = document.getElementById("closeModal");
+    const categorieSelect = document.getElementById("categorie");
+    const serviceSelect = document.getElementById("service");
+
+    // Ouvrir le modal
+    openModalButton.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    // Fermer le modal
+    closeModalButton.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // Fermer le modal si l'utilisateur clique en dehors du contenu
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    // Gestion des services selon la catégorie choisie
+    categorieSelect.addEventListener("change", function() {
+        const selectedCategory = categorieSelect.value;
+        serviceSelect.innerHTML = "<option value=''>Sélectionner un service</option>";
+
+        if (selectedCategory) {
+            services[selectedCategory].forEach(service => {
+                const option = document.createElement("option");
+                option.value = service;
+                option.textContent = service;
+                serviceSelect.appendChild(option);
+            });
+        }
+    });
+
+    // Soumission du formulaire
+    document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        alert("Formulaire envoyé !");
+        modal.style.display = "none"; // Fermer le modal après soumission
+    });
 </script>
 
 </body>
