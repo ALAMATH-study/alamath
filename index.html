@@ -83,4 +83,112 @@
                     <option value="cat2">Cat2</option>
                 </select>
 
-                <label for="service">Service :</
+                <label for="service">Service :</label>
+                <select id="service" name="service" required>
+                    <option value="">Sélectionner un service</option>
+                </select>
+
+                <label for="payment">Paiement (Visa) :</label>
+                <input type="text" id="visaPayment" name="visaPayment" placeholder="Numéro de carte Visa" required>
+
+                <button type="button" id="payBtn">Payer</button>
+                <button type="submit">Envoyer les informations</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("myModal");
+        const openModalBtn = document.getElementById("openModal");
+        const closeModal = document.getElementsByClassName("close")[0];
+
+        // Ouvrir la modale
+        openModalBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Fermer la modale
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        const categorieSelect = document.getElementById("categorie");
+        const serviceSelect = document.getElementById("service");
+        const payBtn = document.getElementById("payBtn");
+
+        // Options de service basées sur la sélection de la catégorie
+        const services = {
+            cat1: ["S1-Cat1", "S2-Cat1"],
+            cat2: ["S1-Cat2", "S2-Cat2"]
+        };
+
+        categorieSelect.addEventListener("change", function() {
+            const selectedCategory = categorieSelect.value;
+            serviceSelect.innerHTML = "<option value=''>Sélectionner un service</option>";
+
+            if (selectedCategory) {
+                services[selectedCategory].forEach(service => {
+                    const option = document.createElement("option");
+                    option.value = service;
+                    option.textContent = service;
+                    serviceSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Configurer le bouton de paiement Visa
+        payBtn.addEventListener("click", function() {
+            const visaPayment = document.getElementById("visaPayment").value;
+            if (visaPayment && visaPayment.length === 16) {
+                alert("Paiement réussi !");
+                payBtn.disabled = true;
+            } else {
+                alert("Veuillez entrer un numéro de carte Visa valide (16 chiffres).");
+            }
+        });
+
+        // Envoi des informations via Fetch à un bot Telegram
+        document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nomComplet = document.getElementById("nomComplet").value;
+            const categorie = categorieSelect.value;
+            const service = serviceSelect.value;
+
+            const data = {
+                nomComplet: nomComplet,
+                categorie: categorie,
+                service: service
+            };
+
+            // Envoyer les informations au bot Telegram
+            fetch("https://api.telegram.org/bot<VOTRE_BOT_TOKEN>/sendMessage", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chat_id: "<VOTRE_CHAT_ID>",
+                    text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nCatégorie : ${data.categorie}\nService : ${data.service}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Les informations ont été envoyées avec succès !");
+                modal.style.display = "none"; // Fermer la modale après l'envoi
+            })
+            .catch(error => {
+                alert("Erreur lors de l'envoi des informations !");
+                console.error("Erreur:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>
