@@ -31,7 +31,7 @@
 
         /* Styles de la modale */
         .modal {
-            display: none; /* Cachée par défaut */
+            display: none;
             position: fixed; 
             z-index: 1; 
             left: 0;
@@ -39,7 +39,7 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgba(0, 0, 0, 0.9); /* Arrière-plan noir transparent */
+            background-color: rgba(0, 0, 0, 0.9);
         }
         .modal-content {
             background-color: #fefefe;
@@ -47,7 +47,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Effet d'ombre */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
         .close {
             color: #aaa;
@@ -74,7 +74,7 @@
                 <label for="nomComplet">الإسم الكامل : </label>
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
-                 <label for="agent">المهمة :</label>
+                <label for="agent">المهمة :</label>
                 <select id="agent" name="agent" required>
                     <option value=""> إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
@@ -88,12 +88,11 @@
                     <option value="cat2">المواكبة البيداغوجية</option>
                 </select>
 
-                <label for="nomComplet">البريد الإليكتروني : </label>
-                <input type="text" id="email" name="nomComplet" placeholder="البريد الإليكتروني" required>
+                <label for="email">البريد الإليكتروني : </label>
+                <input type="email" id="email" name="email" placeholder="البريد الإليكتروني" required>
 
-                 <label for="nomComplet">رقم الوتساب: </label>
-                <input type="text" id="whatsup" name="nomComplet" placeholder="رقم الوتساب" required>
-                
+                <label for="whatsup">رقم الوتساب: </label>
+                <input type="tel" id="whatsup" name="whatsup" placeholder="رقم الوتساب" required>
 
                 <button type="submit">Envoyer les informations</button>
             </form>
@@ -121,63 +120,34 @@
         }
 
         const categorieSelect = document.getElementById("categorie");
-        const serviceSelect = document.getElementById("service");
-        const payBtn = document.getElementById("payBtn");
-
-        // Options de service basées sur la sélection de la catégorie
-        const services = {
-            cat1: ["S1-Cat1", "S2-Cat1"],
-            cat2: ["S1-Cat2", "S2-Cat2"]
-        };
-
-        categorieSelect.addEventListener("change", function() {
-            const selectedCategory = categorieSelect.value;
-            serviceSelect.innerHTML = "<option value=''>Sélectionner un service</option>";
-
-            if (selectedCategory) {
-                services[selectedCategory].forEach(service => {
-                    const option = document.createElement("option");
-                    option.value = service;
-                    option.textContent = service;
-                    serviceSelect.appendChild(option);
-                });
-            }
-        });
-
-        // Configurer le bouton de paiement Visa
-        payBtn.addEventListener("click", function() {
-            const visaPayment = document.getElementById("visaPayment").value;
-            if (visaPayment && visaPayment.length === 16) {
-                alert("Paiement réussi !");
-                payBtn.disabled = true;
-            } else {
-                alert("Veuillez entrer un numéro de carte Visa valide (16 chiffres).");
-            }
-        });
 
         // Envoi des informations via Fetch à un bot Telegram
         document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
             const nomComplet = document.getElementById("nomComplet").value;
+            const agent = document.getElementById("agent").value;
             const categorie = categorieSelect.value;
-            const service = serviceSelect.value;
+            const email = document.getElementById("email").value;
+            const whatsup = document.getElementById("whatsup").value;
 
             const data = {
                 nomComplet: nomComplet,
+                agent: agent,
                 categorie: categorie,
-                service: service
+                email: email,
+                whatsup: whatsup
             };
 
             // Envoyer les informations au bot Telegram
-            fetch("https://api.telegram.org/bot7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE/sendMessage", {
+            fetch("https://api.telegram.org/botTON_TOKEN/sendMessage", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    chat_id: "@STADYMATHBOT",
-                    text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nCatégorie : ${data.categorie}\nService : ${data.service}`
+                    chat_id: "TON_CHAT_ID",
+                    text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nAgent : ${data.agent}\nCatégorie : ${data.categorie}\nEmail : ${data.email}\nWhatsApp : ${data.whatsup}`
                 })
             })
             .then(response => response.json())
@@ -190,7 +160,56 @@
                 console.error("Erreur:", error);
             });
         });
-    </script>
+   
+    // Fonction de validation de l'e-mail
+    function validateEmail(email) {
+        // Expression régulière pour valider l'adresse e-mail
+        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return regex.test(email);
+    }
+
+    // Envoi des informations via Fetch à un bot Telegram
+    document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const nomComplet = document.getElementById("nomComplet").value;
+        const email = document.getElementById("email").value; // Récupérer l'email
+        const categorie = document.getElementById("categorie").value;
+
+        // Vérifier que l'e-mail est valide
+        if (!validateEmail(email)) {
+            alert("Veuillez entrer une adresse e-mail valide.");
+            return; // Arrêter l'exécution si l'e-mail n'est pas valide
+        }
+
+        const data = {
+            nomComplet: nomComplet,
+            email: email, // Inclure l'e-mail dans les données
+            categorie: categorie
+        };
+
+        // Envoyer les informations au bot Telegram
+        fetch("https://api.telegram.org/bot7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                chat_id: "https://t.me/+tWgH5_h1WNVlYzVk",
+                text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nEmail : ${data.email}\nCatégorie : ${data.categorie}`
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("Les informations ont été envoyées avec succès !");
+            modal.style.display = "none"; // Fermer la modale après l'envoi
+        })
+        .catch(error => {
+            alert("Erreur lors de l'envoi des informations !");
+            console.error("Erreur:", error);
+        });
+    });
+</script>
 
 </body>
 </html>
