@@ -64,9 +64,6 @@
 </head>
 <body>
 
-    <h2>Inscription à alamath.com</h2>
-    <button id="openModal">S'inscrire</button>
-
     <!-- La modale -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -99,15 +96,14 @@
 
     <script>
         const modal = document.getElementById("myModal");
-        const openModalBtn = document.getElementById("openModal");
         const closeModal = document.getElementsByClassName("close")[0];
 
-        // Ouvrir la modale
-        openModalBtn.onclick = function() {
+        // Afficher la modale dès que la page est chargée
+        window.onload = function() {
             modal.style.display = "block";
         }
 
-        // Fermer la modale
+        // Fermer la modale en cliquant sur le bouton de fermeture
         closeModal.onclick = function() {
             modal.style.display = "none";
         }
