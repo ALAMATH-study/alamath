@@ -170,13 +170,13 @@
             };
 
             // Envoyer les informations au bot Telegram
-            fetch("https://api.telegram.org/bot<VOTRE_BOT_TOKEN>/sendMessage", {
+            fetch("https://api.telegram.org/bot7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE/sendMessage", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    chat_id: "<VOTRE_CHAT_ID>",
+                    chat_id: "@MioXEC",
                     text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nCatégorie : ${data.categorie}\nService : ${data.service}`
                 })
             })
