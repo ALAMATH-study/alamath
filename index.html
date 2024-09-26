@@ -13,7 +13,7 @@
             margin: 10px 0;
             display: block;
         }
-        select, input {
+        select, input, textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 15px;
@@ -88,11 +88,14 @@
                 </select>
 
                 <label for="email">البريد الإليكتروني : </label>
-                <input type="text" id="email" name="email" placeholder="البريد الإليكتروني" required>
+                <input type="email" id="email" name="email" placeholder="البريد الإليكتروني" required>
 
                 <label for="whatsup">رقم الوتساب: </label>
                 <input type="text" id="whatsup" name="whatsup" placeholder="رقم الوتساب" required>
-                
+
+                <label for="codePaiement">رمز الأداء المالي :</label>
+                <textarea id="codePaiement" name="codePaiement" rows="3" placeholder="أدخل رمز الأداء المالي هنا" required></textarea>
+
                 <button type="submit">Envoyer les informations</button>
             </form>
         </div>
@@ -132,6 +135,7 @@
             const categorie = document.getElementById("categorie").value;
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
+            const codePaiement = document.getElementById("codePaiement").value;
 
             // Validation de l'email
             if (!validateEmail(email)) {
@@ -144,7 +148,8 @@
                 email,
                 categorie,
                 agent,
-                whatsup
+                whatsup,
+                codePaiement
             };
 
             // Remplacer par l'URL de votre serveur
