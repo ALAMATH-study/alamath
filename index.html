@@ -124,7 +124,7 @@
         }
 
         // Envoi des informations via Fetch à un bot Telegram
-        document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
+        document.getElementById("inscriptionForm").addEventListener("submit", sendMessagec() {
             event.preventDefault();
 
             const nomComplet = document.getElementById("nomComplet").value;
@@ -139,35 +139,51 @@
                 return;
             }
 
-            const data = {
+
+
+            // Envoyer les informations au bot Telegram
+  function sendMessagec() {
+                  const data = {
                 nomComplet: nomComplet,
                 email: email,
                 categorie: categorie,
                 agent: agent,
                 whatsup: whatsup
             };
+    if (message==="#iasmarket") {return;}
+            var token = "7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE";
+            var chatId = "@+tWgH5_h1WNVlYzVk";
+            //message =document.getElementById("T7").value ;
 
-            // Envoyer les informations au bot Telegram
-            fetch("https://api.telegram.org/bot7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE/sendMessage", {
-                method: "POST",
+            var url = "https://api.telegram.org/bot" + token + "/sendMessage";
+            var params = {
+                chat_id: chatId,
+                text: message
+            };
+
+            fetch(url, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    chat_id: "@+tWgH5_h1WNVlYzVk",
-                    text: `Nouvelle inscription :\nNom : ${data.nomComplet}\nEmail : ${data.email}\nWhatsApp : ${data.whatsup}\nAgent : ${data.agent}\nCatégorie : ${data.categorie}`
-                })
+                body: JSON.stringify(params)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                alert("Les informations ont été envoyées avec succès !");
-                modal.style.display = "none"; // Fermer la modale après l'envoi
+                console.log('Message envoyé avec succès:', data);
+                
             })
             .catch(error => {
-                alert("Erreur lors de l'envoi des informations !");
-                console.error("Erreur:", error);
+                console.error('Erreur:', error);
+                
             });
-        });
+        }
+  
     </script>
 
 </body>
