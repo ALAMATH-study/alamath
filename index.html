@@ -123,18 +123,6 @@
             return regex.test(email);
         }
 
-        // Fonction de validation de WhatsApp (numéro uniquement)
-        function validateWhatsup(whatsup) {
-            const regex = /^[0-9]+$/;
-            return regex.test(whatsup);
-        }
-
-        // Fonction de validation du nom complet (sans caractères spéciaux)
-        function validateNomComplet(nomComplet) {
-            const regex = /^[a-zA-Z\s]+$/;
-            return regex.test(nomComplet);
-        }
-
         document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -150,18 +138,6 @@
                 return;
             }
 
-            // Validation du numéro WhatsApp
-            if (!validateWhatsup(whatsup)) {
-                alert("Veuillez entrer un numéro WhatsApp valide (chiffres uniquement).");
-                return;
-            }
-
-            // Validation du nom complet
-            if (!validateNomComplet(nomComplet)) {
-                alert("Veuillez entrer un nom complet valide (caractères uniquement).");
-                return;
-            }
-
             const data = {
                 nomComplet,
                 email,
@@ -170,13 +146,14 @@
                 whatsup
             };
 
-            // Remplacer par l'URL générée par Ngrok
-            const url = "https://9ff0-105-74-74-98.ngrok-free.app"; // Remplacer ici
+            // Remplacer par l'URL de votre serveur
+            const url = "https://9ff0-105-74-74-98.ngrok-free.app";
 
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
                 },
                 body: JSON.stringify(data)
             })
