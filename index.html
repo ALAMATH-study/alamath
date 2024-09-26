@@ -72,7 +72,7 @@
                 <label for="nomComplet">الإسم الكامل : </label>
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
-                 <label for="agent">المهمة :</label>
+                <label for="agent">المهمة :</label>
                 <select id="agent" name="agent" required>
                     <option value=""> إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
@@ -124,7 +124,7 @@
         }
 
         // Envoi des informations via Fetch à un bot Telegram
-        document.getElementById("inscriptionForm").addEventListener("submit", sendMessagec() {
+        document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
             const nomComplet = document.getElementById("nomComplet").value;
@@ -139,24 +139,21 @@
                 return;
             }
 
-
+            // Construire le message
+            const message = `
+            Nom Complet: ${nomComplet}
+            Email: ${email}
+            Catégorie: ${categorie}
+            Mission: ${agent}
+            WhatsApp: ${whatsup}
+            `;
 
             // Envoyer les informations au bot Telegram
-  function sendMessagec() {
-                  const data = {
-                nomComplet: nomComplet,
-                email: email,
-                categorie: categorie,
-                agent: agent,
-                whatsup: whatsup
-            };
-    if (message==="#iasmarket") {return;}
-            var token = "7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE";
-            var chatId = "@+tWgH5_h1WNVlYzVk";
-            //message =document.getElementById("T7").value ;
+            const token = "7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE";
+            const chatId = "tWgH5_h1WNVlYzVk"; // Chat ID sans "@"
 
-            var url = "https://api.telegram.org/bot" + token + "/sendMessage";
-            var params = {
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            const params = {
                 chat_id: chatId,
                 text: message
             };
@@ -175,15 +172,14 @@
                 return response.json();
             })
             .then(data => {
-                console.log('Message envoyé avec succès:', data);
-                
+                alert('Message envoyé avec succès!');
+                modal.style.display = "none"; // Fermer la modale après succès
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                
+                alert('Erreur lors de l\'envoi du message.');
             });
-        }
-  
+        });
     </script>
 
 </body>
