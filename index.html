@@ -123,7 +123,18 @@
             return regex.test(email);
         }
 
-        // Envoi des informations via Fetch à un bot Telegram
+        // Fonction de validation de WhatsApp (numéro uniquement)
+        function validateWhatsup(whatsup) {
+            const regex = /^[0-9]+$/;
+            return regex.test(whatsup);
+        }
+
+        // Fonction de validation du nom complet (sans caractères spéciaux)
+        function validateNomComplet(nomComplet) {
+            const regex = /^[a-zA-Z\s]+$/;
+            return regex.test(nomComplet);
+        }
+
         document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -133,51 +144,54 @@
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
 
-            // Vérifier que l'e-mail est valide
+            // Validation de l'email
             if (!validateEmail(email)) {
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
             }
 
-            // Construire le message
-            const message = `
-            Nom Complet: ${nomComplet}
-            Email: ${email}
-            Catégorie: ${categorie}
-            Mission: ${agent}
-            WhatsApp: ${whatsup}
-            `;
+            // Validation du numéro WhatsApp
+            if (!validateWhatsup(whatsup)) {
+                alert("Veuillez entrer un numéro WhatsApp valide (chiffres uniquement).");
+                return;
+            }
 
-            // Envoyer les informations au bot Telegram
-            const token = "7735806510:AAGD1VsxHy7_sNUMRPDmFIefDF7cmelg5lE";
-            const chatId = "@simolif"; // Chat ID sans "@"
+            // Validation du nom complet
+            if (!validateNomComplet(nomComplet)) {
+                alert("Veuillez entrer un nom complet valide (caractères uniquement).");
+                return;
+            }
 
-            const url = `https://api.telegram.org/bot${token}/sendMessage`;
-            const params = {
-                chat_id: chatId,
-                text: message
+            const data = {
+                nomComplet,
+                email,
+                categorie,
+                agent,
+                whatsup
             };
+
+            // Remplacer par l'URL générée par Ngrok
+            const url = "https://9ff0-105-74-74-98.ngrok-free.app"; // Remplacer ici
 
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(params)
+                body: JSON.stringify(data)
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Erreur réseau.');
                 }
                 return response.json();
             })
             .then(data => {
-                alert('Message envoyé avec succès!');
-                modal.style.display = "none"; // Fermer la modale après succès
+                alert('Données envoyées avec succès!');
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('Erreur lors de l\'envoi du message.');
+                alert('Erreur lors de l\'envoi des données.');
             });
         });
     </script>
