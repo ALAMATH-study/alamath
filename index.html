@@ -47,6 +47,7 @@
             border: 1px solid #888;
             width: 80%;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
         .close {
             color: #aaa;
@@ -147,7 +148,7 @@
             };
 
             // Remplacer par l'URL de votre serveur
-            const url = "https://51d0-105-74-74-98.ngrok-free.app";
+            const url = "https://9ff0-105-74-74-98.ngrok-free.app";
 
             fetch(url, {
                 method: 'POST',
@@ -164,7 +165,12 @@
                 return response.json();
             })
             .then(data => {
-                alert('Données envoyées avec succès!');
+                alert('Données envoyées avec succès! Vous allez recevoir un TOKEN de participation.');
+                
+                // Fermer la modale après l'envoi des données et afficher un message
+                setTimeout(function() {
+                    modal.style.display = "none";
+                }, 3000); // Le popup se ferme après 3 secondes
             })
             .catch(error => {
                 console.error('Erreur:', error);
