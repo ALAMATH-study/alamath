@@ -70,17 +70,17 @@
             <span class="close">&times;</span>
             <h2>Formulaire d'inscription</h2>
             <form id="inscriptionForm">
-                <label for="nomComplet">الإسم الكامل : </label>
+                <label for="nomComplet">:الإسم الكامل</label>
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
-                <label for="agent">المهمة :</label>
+                <label for="agent">:الصفة</label>
                 <select id="agent" name="agent" required>
                     <option value=""> إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
                     <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
                 </select>
                 
-                <label for="categorie">نوع الخدمة  :</label>
+                <label for="categorie">:نوع الخدمة  :</label>
                 <select id="categorie" name="categorie" required>
                     <option value="">إختر الخدمة</option>
                     <option value="cat1">الدعم البيداغوجي</option>
@@ -88,9 +88,9 @@
                 </select>
                 </select>
                 
-                <label for="categorie">المستوى :</label>
-                <select id="categorie" name="categorie" required>
-                    <option value="">عين المستوى الدراسي :</option>
+                <label for="categorieN">:المستوى</label>
+                <select id="categorieN" name="categorieN" required>
+                    <option value=""> اختر المستوى الدراسي المناسب :</option>
                     <option value="cat1">الثاني ابتدائي</option>
                     <option value="cat2">الثالث ابتدائي</option>
                     <option value="cat3">الرابع ابتدائي</option>
@@ -99,7 +99,13 @@
                     <option value="cat7">الأولى إعدادي</option>
                     <option value="cat8">الثانية إعدادي</option>
                     <option value="cat9">الثالثة إعدادي</option>
-
+                     <option value="cat10">السادس ابتدائي للتعليم العتيق</option>
+                     <option value="cat11">الثالثة إعدادي للتعليم العتيق</option>
+                     <option value="cat12">الثالثة ثانوي للتعليم العتيق</option>
+                    <option value="cat5">السادس ابتدائي أحرار</option>
+                     <option value="cat9">الثالثة إعدادي أحرار</option>
+                     <option value="cat9">باك حر</option>
+                 
                 </select>
                 <label for="email">البريد الإليكتروني : </label>
                 <input type="email" id="email" name="email" placeholder="البريد الإليكتروني" required>
@@ -147,6 +153,7 @@
             const nomComplet = document.getElementById("nomComplet").value;
             const email = document.getElementById("email").value;
             const categorie = document.getElementById("categorie").value;
+            const classe = document.getElementById("categorieN").value;
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
             const codePaiement = document.getElementById("codePaiement").value;
@@ -161,6 +168,7 @@
                 nomComplet,
                 email,
                 categorie,
+                classe,
                 agent,
                 whatsup,
                 codePaiement
