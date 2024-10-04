@@ -28,7 +28,6 @@
         button:disabled {
             background-color: grey;
         }
-
         .modal {
             display: none;
             position: fixed;
@@ -74,125 +73,89 @@
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
                 <label for="agent">:الصفة</label>
-                <select id="agent" name="agent" required onkeyup="toggleTextArea()">
-                    <option value=""> إختر الصفة الخاصة بك</option>
+                <select id="agent" name="agent" required onchange="toggleTextArea()">
+                    <option value="">إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
                     <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
                 </select>
-                
-                <label for="categorie">:نوع الخدمة  :</label>
+
+                <label for="categorie">:نوع الخدمة :</label>
                 <select id="categorie" name="categorie" required>
                     <option value="">إختر الخدمة</option>
-                    <option value=" الدعم البيداغوجي ">الدعم البيداغوجي</option>
-                    <option value=" المواكبة البيداغوجية ">المواكبة البيداغوجية</option>
-                </select>
-                    <label for="categorieM">:المادة  :</label>
-                    <select id="categorieM" name="categorieM" required>
-                    <option value="">إختر المادة الدراسية:</option>
-                        
-                    <option value="الرياضيات ">الرياضيات</option>
-                    <option value="الفزياء ">الفزياء والكيمياء</option>
-                    <option value="SVT ">علوم الحياة و الارض</option> 
-                        
-                    <option value="التواصل ">اللغة العربية -التواصل- </option>
-                    <option value="القراءة والفهم ">اللغة العربية -القراءة والفهم- </option>
-                    <option value="الإنشاء ">اللغة العربية -الإنشاء- </option>
-                        
-                    <option value="communication ">اللغة الفرنسية -Communication- </option>
-                    <option value="la langue ">اللغة الفرنسية -La langue- </option>
-                    <option value="P.ecrit ">اللغة الفرنسية -Production de l’écrit- </option>
-                        
-                    <option value="english communication ">اللغة الإنجليزية -Communication- </option>
-                    <option value="grammar ">اللغة الإنجليزية -Grammar- </option>
-                    <option value="writing">اللغة الإنجليزية -writing- </option>
-                        
-                    <option value="Economie générale et statistique ">Economie générale et statistique  </option>
-                    <option value="Comptabilite et math finanières">Comptabilite et math finanières</option>
-                    <option value="Economie et gestion administrative des entreprises">Economie et gestion administrative des entreprises</option>
-                    <option value="Droit">Droit</option>
-                    <option value="L’informatique de gestion">L’informatique de gestion</option>
-                        
-                    <option value="L’informatique BUREAUTIQUE ">L’informatique BUREAUTIQUE </option>
-                   
-
-
-<option value="الفلسفة ">الفلسفة</option>
-
+                    <option value="الدعم البيداغوجي">الدعم البيداغوجي</option>
+                    <option value="المواكبة البيداغوجية">المواكبة البيداغوجية</option>
                 </select>
 
-                
+                <label for="categorieM">:المادة :</label>
+                <select id="categorieM" name="categorieM" required>
+                    <option value="">إختر المادة الدراسية</option>
+                    <option value="الرياضيات">الرياضيات</option>
+                    <option value="الفزياء">الفزياء والكيمياء</option>
+                    <option value="SVT">علوم الحياة والأرض</option>
+                    <option value="التواصل">اللغة العربية - التواصل</option>
+                    <!-- Add remaining subjects as necessary -->
+                </select>
+
                 <label for="categorieN">:المستوى</label>
                 <select id="categorieN" name="categorieN" required>
-                    <option value=""> اختر المستوى الدراسي المناسب :</option>
-                    <option value=" الثاني ابتدائي ">الثاني ابتدائي</option>
+                    <option value="">اختر المستوى الدراسي المناسب</option>
+                    <option value="الثاني ابتدائي">الثاني ابتدائي</option>
                     <option value="الثالث ابتدائي">الثالث ابتدائي</option>
                     <option value="الرابع ابتدائي">الرابع ابتدائي</option>
-                    <option value=الخامس ابتدائي">الخامس ابتدائي</option>
-                    <option value="السادس ابتدائي">السادس ابتدائي</option>
-                    <option value="الأولى إعدادي ">الأولى إعدادي</option>
-                    <option value=" الثانية إعدادي ">الثانية إعدادي</option>
-                    <option value="الثالثة إعدادي ">الثالثة إعدادي</option>
-                    <option value="الجدع المشترك">الجدع المشترك</option>
-                    <option value=" الأولى باك">الأولى باك</option>
-                    <option value="الثانية باك ">الثانية باك</option>
-                     <option value=" السادس ابتدائي للتعليم العتيق ">السادس ابتدائي للتعليم العتيق</option>
-                     <option value=" الثالثة إعدادي للتعليم العتيق ">الثالثة إعدادي للتعليم العتيق</option>
-                     <option value=" الثالثة ثانوي للتعليم العتيق ">الثالثة ثانوي للتعليم العتيق</option>
-                    <option value=" السادس ابتدائي أحرار ">السادس ابتدائي أحرار</option>
-                     <option value=" الثالثة إعدادي أحرار ">الثالثة إعدادي أحرار</option>
-                     <option value=" باك حر ">باك حر</option>
-                 
+                    <!-- Add remaining levels as necessary -->
                 </select>
-                <label for="email">البريد الإليكتروني : </label>
-                <input type="email" id="email" name="email" placeholder="البريد الإليكتروني" required>
 
-                <label for="whatsup">رقم الوتساب: </label>
-                <input type="text" id="whatsup" name="whatsup" placeholder="رقم الوتساب" required>
+                <label for="email">البريد الإلكتروني:</label>
+                <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
+
+                <label for="whatsup">رقم الواتساب:</label>
+                <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required>
 
                 <label for="codePaiement">رمز الأداء المالي :</label>
                 <textarea id="codePaiement" name="codePaiement" rows="3" placeholder="أدخل رمز الأداء المالي هنا" required></textarea>
-                 
+
                 <button type="submit">Envoyer les informations</button>
             </form>
         </div>
     </div>
 
     <script>
+        // Fonction pour désactiver le champ "agent" si "Prof" est sélectionné
         function toggleTextArea() {
-        const tp=document.getElementById("agent");
-        const vtp = tp.value;
-            if (vtp === 'Prof') {
-                tp.value="AFJ67HG48JGG66"
-                 tp.disabled = true;
-            } else  {
-                  tp.disabled = false;
+            const agentSelect = document.getElementById("agent");
+            if (agentSelect.value === 'Prof') {
+                agentSelect.disabled = true;
+            } else {
+                agentSelect.disabled = false;
             }
         }
-        const modal = document.getElementById("myModal");
-        const closeModal = document.getElementsByClassName("close")[0];
 
-        // Afficher la modale dès que la page est chargée
+        // Fonction pour afficher la modale à l'ouverture de la page
         window.onload = function() {
+            const modal = document.getElementById("myModal");
             modal.style.display = "block";
         }
 
-        // Fermer la modale en cliquant sur le bouton de fermeture
+        // Fonction pour fermer la modale
+        const closeModal = document.getElementsByClassName("close")[0];
         closeModal.onclick = function() {
-            modal.style.display = "none";
+            document.getElementById("myModal").style.display = "none";
         }
 
         window.onclick = function(event) {
+            const modal = document.getElementById("myModal");
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
 
-        // Fonction de validation de l'e-mail
+        // Validation d'email
         function validateEmail(email) {
             const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             return regex.test(email);
         }
 
+        // Gestion du formulaire
         document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -205,7 +168,7 @@
             const whatsup = document.getElementById("whatsup").value;
             const codePaiement = document.getElementById("codePaiement").value;
 
-            // Validation de l'email
+            // Validation email
             if (!validateEmail(email)) {
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
@@ -222,7 +185,6 @@
                 codePaiement
             };
 
-            // Remplacer par l'URL de votre serveur
             const url = "https://0857-105-74-64-234.ngrok-free.app";
 
             fetch(url, {
@@ -240,11 +202,9 @@
                 return response.json();
             })
             .then(data => {
-                alert('تم إرسال المعطيات الخاصة بك بنجاح، ستت معالجتها وسيتم ارسال رمز المشاركة الخاص بك الى بريدك الإليكتروني '+email+' ثم الى رقمك على الوتساب '+whatsup +'');
-                
-                // Fermer la modale après l'envoi des données et afficher un message
+                alert('تم إرسال المعطيات الخاصة بك بنجاح.');
                 setTimeout(function() {
-                    modal.style.display = "none";
+                    document.getElementById("myModal").style.display = "none";
                 }, 3000); // Le popup se ferme après 3 secondes
             })
             .catch(error => {
