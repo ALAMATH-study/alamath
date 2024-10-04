@@ -86,26 +86,35 @@
                     <option value=" الدعم البيداغوجي ">الدعم البيداغوجي</option>
                     <option value=" المواكبة البيداغوجية ">المواكبة البيداغوجية</option>
                 </select>
-                                <label for="categorieM">:المادة  :</label>
-                <select id="categorieM" name="categorieM" required>
+                    <label for="categorieM">:المادة  :</label>
+                    <select id="categorieM" name="categorieM" required>
                     <option value="">إختر المادة الدراسية:</option>
+                        
                     <option value="الرياضيات ">الرياضيات</option>
-
                     <option value="الفزياء ">الفزياء والكيمياء</option>
+                    <option value="SVT ">علوم الحياة و الارض</option> 
+                        
+                    <option value="التواصل ">اللغة العربية -التواصل- </option>
+                    <option value="القراءة والفهم ">اللغة العربية -القراءة والفهم- </option>
+                    <option value="الإنشاء ">اللغة العربية -الإنشاء- </option>
+                        
+                    <option value="communication ">اللغة الفرنسية -Communication- </option>
+                    <option value="la langue ">اللغة الفرنسية -La langue- </option>
+                    <option value="P.ecrit ">اللغة الفرنسية -Production de l’écrit- </option>
+                        
+                    <option value="english communication ">اللغة الإنجليزية -Communication- </option>
+                    <option value="grammar ">اللغة الإنجليزية -Grammar- </option>
+                    <option value="writing">اللغة الإنجليزية -writing- </option>
+                        
                     <option value="Economie générale et statistique ">Economie générale et statistique  </option>
                     <option value="Comptabilite et math finanières">Comptabilite et math finanières</option>
                     <option value="Economie et gestion administrative des entreprises">Economie et gestion administrative des entreprises</option>
                     <option value="Droit">Droit</option>
                     <option value="L’informatique de gestion">L’informatique de gestion</option>
-<option value="التواصل ">اللغة العربية -التواصل- </option>
-<option value="القراءة والفهم ">اللغة العربية -القراءة والفهم- </option>
-<option value="الإنشاء ">اللغة العربية -الإنشاء- </option>
-<option value="communication ">اللغة الفرنسية -Communication- </option>
- <option value="la langue ">اللغة الفرنسية -La langue- </option>
-<option value="P.ecrit ">اللغة الفرنسية -Production de l’écrit- </option>
-<option value="english communication ">اللغة الإنجليزية -Communication- </option>
-<option value="grammar ">اللغة الإنجليزية -Grammar- </option>
-<option value="writing">اللغة الإنجليزية -writing- </option>
+                        
+                    <option value="L’informatique BUREAUTIQUE ">L’informatique BUREAUTIQUE </option>
+                   
+
 
 <option value="الفلسفة ">الفلسفة</option>
 
@@ -177,6 +186,7 @@
             const nomComplet = document.getElementById("nomComplet").value;
             const email = document.getElementById("email").value;
             const categorie = document.getElementById("categorie").value;
+            const matier = document.getElementById("categorieM").value;
             const classe = document.getElementById("categorieN").value;
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
@@ -192,6 +202,7 @@
                 nomComplet,
                 email,
                 categorie,
+                matier,
                 classe,
                 agent,
                 whatsup,
