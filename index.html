@@ -122,8 +122,9 @@
     <script>
         // Fonction pour désactiver le champ "agent" si "Prof" est sélectionné
         function toggleTextArea() {
-            const agentSelect = document.getElementById("agent");
+            const agentSelect = document.getElementById("codePaiement");
             if (agentSelect.value === 'Prof') {
+                codePaiement.value="A33D45JG9L0G";
                 agentSelect.disabled = true;
             } else {
                 agentSelect.disabled = false;
