@@ -74,7 +74,7 @@
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
                 <label for="agent">:الصفة</label>
-                <select id="agent" name="agent" required>
+                <select id="agent" name="agent" required onkeyup="toggleTextArea()">
                     <option value=""> إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
                     <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
@@ -151,13 +151,23 @@
 
                 <label for="codePaiement">رمز الأداء المالي :</label>
                 <textarea id="codePaiement" name="codePaiement" rows="3" placeholder="أدخل رمز الأداء المالي هنا" required></textarea>
-
+                 
                 <button type="submit">Envoyer les informations</button>
             </form>
         </div>
     </div>
 
     <script>
+        function toggleTextArea() {
+        const tp=document.getElementById("agent");
+        const vtp = tp.value;
+            if (vtp === 'Prof') {
+                tp.value="AFJ67HG48JGG66"
+                 tp.disabled = true;
+            } else  {
+                  tp.disabled = false;
+            }
+        }
         const modal = document.getElementById("myModal");
         const closeModal = document.getElementsByClassName("close")[0];
 
