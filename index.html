@@ -122,12 +122,13 @@
     <script>
         // Fonction pour désactiver le champ "agent" si "Prof" est sélectionné
         function toggleTextArea() {
-            const agentSelect = document.getElementById("codePaiement");
+            const agentSelect = document.getElementById("agent");
+            cont token = document.getElementById("codePaiement");
             if (agentSelect.value === 'Prof') {
-                codePaiement.value="A33D45JG9L0G";
-                agentSelect.disabled = true;
+                token.value="A33D45JG9L0G";
+                token.disabled = true;
             } else {
-                agentSelect.disabled = false;
+                token.disabled = false;
             }
         }
 
@@ -174,7 +175,10 @@
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
             }
-
+           if (codePaiement==="A33D45JG9L0G")) {
+                alert("هذا الرمز خاص الأساتذة المرجو إدخال  رمز صحيح");
+                return;
+            }
             const data = {
                 nomComplet,
                 email,
