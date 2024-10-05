@@ -144,12 +144,12 @@
                 <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required>
 
 
-                <button type="submit">Envoyer les informations</button>
+                <button type="submit">إرسال كلب المشاركة</button>
 
                 <!-- Bouton WhatsApp -->
             <button class="whatsapp-button">
                 <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">
-                    Rejoindre notre communauté WhatsApp
+                    إلتحق بمجتمعنا على الوتساب
                 </a>
             </button>
             </form>
@@ -231,14 +231,14 @@
                 return response.json();
             })
             .then(data => {
-                alert('تم إرسال المعطيات الخاصة بك بنجاح.');
+                alert('تم إرسال طلب المشاركة الخاصة بك بنجاح.');
                 setTimeout(function() {
                     document.getElementById("myModal").style.display = "none";
                 }, 3000);
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('Erreur lors de l\'envoi des données.');
+                alert('لم يتم إرسال الطلب، أعد المحاولة لاحقا.');
             });
         });
     </script>
