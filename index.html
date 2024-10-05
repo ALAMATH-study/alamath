@@ -143,8 +143,6 @@
                 <label for="whatsup">رقم الواتساب:</label>
                 <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required>
 
-                <label for="codePaiement">رمز الأداء المالي :</label>
-                <textarea id="codePaiement" name="codePaiement" rows="3" placeholder="أدخل رمز الأداء المالي هنا" required></textarea>
 
                 <button type="submit">Envoyer les informations</button>
 
@@ -159,18 +157,6 @@
     </div>
 
     <script>
-        // Fonction pour désactiver le champ "codePaiement" si "Prof" est sélectionné
-        function toggleTextArea() {
-            const agentSelect = document.getElementById("agent");
-            const token = document.getElementById("codePaiement");
-            if (agentSelect.value === 'Prof') {
-                token.value = "A33D45JG9L0G";
-                token.disabled = true;
-            } else {
-                token.value = "";
-                token.disabled = false;
-            }
-        }
 
         // Fonction pour afficher la modale à l'ouverture de la page
         window.onload = function() {
@@ -208,18 +194,14 @@
             const classe = document.getElementById("categorieN").value;
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
-            const codePaiement = document.getElementById("codePaiement").value;
+           
 
             // Validation email
             if (!validateEmail(email)) {
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
             }
-            // Validation codePaiement pour les enseignants
-            if (codePaiement === "A33D45JG9L0G" && agent !== "Prof") {
-                alert("هذا الرمز خاص الأساتذة المرجو إدخال رمز صحيح");
-                return;
-            }
+            
 
             const data = {
                 nomComplet,
@@ -229,7 +211,7 @@
                 classe,
                 agent,
                 whatsup,
-                codePaiement
+                
             };
 
             const url = "https://0857-105-74-64-234.ngrok-free.app";
