@@ -93,7 +93,6 @@
                     <option value="الفزياء">الفزياء والكيمياء</option>
                     <option value="SVT">علوم الحياة والأرض</option>
                     <option value="التواصل">اللغة العربية - التواصل</option>
-                    <!-- Add remaining subjects as necessary -->
                 </select>
 
                 <label for="categorieN">:المستوى</label>
@@ -102,7 +101,6 @@
                     <option value="الثاني ابتدائي">الثاني ابتدائي</option>
                     <option value="الثالث ابتدائي">الثالث ابتدائي</option>
                     <option value="الرابع ابتدائي">الرابع ابتدائي</option>
-                    <!-- Add remaining levels as necessary -->
                 </select>
 
                 <label for="email">البريد الإلكتروني:</label>
@@ -120,14 +118,15 @@
     </div>
 
     <script>
-        // Fonction pour désactiver le champ "agent" si "Prof" est sélectionné
+        // Fonction pour désactiver le champ "codePaiement" si "Prof" est sélectionné
         function toggleTextArea() {
             const agentSelect = document.getElementById("agent");
-            cont token = document.getElementById("codePaiement");
+            const token = document.getElementById("codePaiement");
             if (agentSelect.value === 'Prof') {
-                token.value="A33D45JG9L0G";
+                token.value = "A33D45JG9L0G";
                 token.disabled = true;
             } else {
+                token.value = "";
                 token.disabled = false;
             }
         }
@@ -175,10 +174,12 @@
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
             }
-           if (codePaiement==="A33D45JG9L0G")) {
-                alert("هذا الرمز خاص الأساتذة المرجو إدخال  رمز صحيح");
+            // Validation codePaiement pour les enseignants
+            if (codePaiement === "A33D45JG9L0G" && agent !== "Prof") {
+                alert("هذا الرمز خاص الأساتذة المرجو إدخال رمز صحيح");
                 return;
             }
+
             const data = {
                 nomComplet,
                 email,
@@ -210,7 +211,7 @@
                 alert('تم إرسال المعطيات الخاصة بك بنجاح.');
                 setTimeout(function() {
                     document.getElementById("myModal").style.display = "none";
-                }, 3000); // Le popup se ferme après 3 secondes
+                }, 3000);
             })
             .catch(error => {
                 console.error('Erreur:', error);
