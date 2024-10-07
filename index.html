@@ -60,6 +60,24 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Amélioration pour l'accessibilité mobile */
+        @media (max-width: 600px) {
+            .modal-content {
+                width: 90%;
+                padding: 10px;
+            }
+            button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+
+        /* Style du bouton WhatsApp */
+        .whatsapp-button a {
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -70,13 +88,11 @@
             <h2> ALAMATH.COM طلب المشاركة في منصة</h2>
             <form id="inscriptionForm">
 
-                
-                
                 <label for="nomComplet">:الإسم الكامل</label>
                 <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
 
                 <label for="agent">:الصفة</label>
-                <select id="agent" name="agent" required onchange="toggleTextArea()">
+                <select id="agent" name="agent" required>
                     <option value="">إختر الصفة الخاصة بك</option>
                     <option value="Prof">(ة)أستاذ</option>
                     <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
@@ -94,27 +110,15 @@
                     <option value="">إختر المادة الدراسية</option>
                     <option value="الرياضيات ">الرياضيات</option>
                     <option value="الفزياء ">الفزياء والكيمياء</option>
-                    
                     <option value="Economie générale et statistique ">Economie générale et statistique  </option>
                     <option value="Comptabilite et math finanières">Comptabilite et math finanières</option>
                     <option value="Economie et gestion administrative des entreprises">Economie et gestion administrative des entreprises</option>
                     <option value="Droit">Droit</option>
                     <option value="L’informatique de gestion">L’informatique de gestion</option>
-                    
                     <option value="التواصل ">اللغة العربية -التواصل- </option>
-                    <option value="القراءة والفهم ">اللغة العربية -القراءة والفهم- </option>
-                    <option value="الإنشاء ">اللغة العربية -الإنشاء- </option>
-                    
                     <option value="communication ">اللغة الفرنسية -Communication- </option>
-                     <option value="la langue ">اللغة الفرنسية -La langue- </option>
-                    <option value="P.ecrit ">اللغة الفرنسية -Production de l’écrit- </option>
-                    
                     <option value="english communication ">اللغة الإنجليزية -Communication- </option>
-                    <option value="grammar ">اللغة الإنجليزية -Grammar- </option>
-                    <option value="writing">اللغة الإنجليزية -writing- </option>
-
                     <option value="الفلسفة ">الفلسفة</option>
-
                 </select>
 
                 <label for="categorieN">:المستوى</label>
@@ -123,41 +127,33 @@
                     <option value=" الثاني ابتدائي ">الثاني ابتدائي</option>
                     <option value="الثالث ابتدائي">الثالث ابتدائي</option>
                     <option value="الرابع ابتدائي">الرابع ابتدائي</option>
-                    <option value=الخامس ابتدائي">الخامس ابتدائي</option>
+                    <option value="الخامس ابتدائي">الخامس ابتدائي</option>
                     <option value="السادس ابتدائي">السادس ابتدائي</option>
                     <option value="الأولى إعدادي ">الأولى إعدادي</option>
                     <option value=" الثانية إعدادي ">الثانية إعدادي</option>
                     <option value="الثالثة إعدادي ">الثالثة إعدادي</option>
-                     <option value=" السادس ابتدائي للتعليم العتيق ">السادس ابتدائي للتعليم العتيق</option>
-                     <option value=" الثالثة إعدادي للتعليم العتيق ">الثالثة إعدادي للتعليم العتيق</option>
-                     <option value=" الثالثة ثانوي للتعليم العتيق ">الثالثة ثانوي للتعليم العتيق</option>
-                    <option value=" السادس ابتدائي أحرار ">السادس ابتدائي أحرار</option>
-                     <option value=" الثالثة إعدادي أحرار ">الثالثة إعدادي أحرار</option>
-                     <option value=" باك حر ">باك حر</option>
-
+                    <option value=" باك حر ">باك حر</option>
                 </select>
 
                 <label for="email">البريد الإلكتروني:</label>
                 <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
 
                 <label for="whatsup">رقم الواتساب:</label>
-                <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required>
-
+                <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required pattern="[0-9]+" title="Veuillez entrer un numéro valide.">
 
                 <button type="submit">إرسال طلب المشاركة</button>
 
                 <!-- Bouton WhatsApp -->
-            <button class="whatsapp-button">
-                <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">
-                    إلتحق بمجتمعنا على الوتساب
-                </a>
-            </button>
+                <button class="whatsapp-button">
+                    <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">
+                        إلتحق بمجتمعنا على الوتساب
+                    </a>
+                </button>
             </form>
         </div>
     </div>
 
     <script>
-
         // Fonction pour afficher la modale à l'ouverture de la page
         window.onload = function() {
             const modal = document.getElementById("myModal");
@@ -194,14 +190,12 @@
             const classe = document.getElementById("categorieN").value;
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
-           
 
             // Validation email
             if (!validateEmail(email)) {
                 alert("Veuillez entrer une adresse e-mail valide.");
                 return;
             }
-            
 
             const data = {
                 nomComplet,
@@ -211,7 +205,6 @@
                 classe,
                 agent,
                 whatsup,
-                
             };
 
             const url = "https://0857-105-74-64-234.ngrok-free.app";
