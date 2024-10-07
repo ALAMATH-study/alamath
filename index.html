@@ -18,6 +18,9 @@
             padding: 8px;
             margin-bottom: 15px;
         }
+        select[multiple] {
+            height: auto;
+        }
         button {
             padding: 10px 20px;
             background-color: #4CAF50;
@@ -99,15 +102,13 @@
                 </select>
 
                 <label for="categorie">:نوع الخدمة :</label>
-                <select id="categorie" name="categorie" required>
-                    <option value="">إختر الخدمة</option>
+                <select id="categorie" name="categorie" multiple required>
                     <option value="الدعم البيداغوجي">الدعم البيداغوجي</option>
                     <option value="المواكبة البيداغوجية">المواكبة البيداغوجية</option>
                 </select>
 
                 <label for="categorieM">:المادة :</label>
-                <select id="categorieM" name="categorieM" required>
-                    <option value="">إختر المادة الدراسية</option>
+                <select id="categorieM" name="categorieM" multiple required>
                     <option value="الرياضيات ">الرياضيات</option>
                     <option value="الفزياء ">الفزياء والكيمياء</option>
                     <option value="Economie générale et statistique ">Economie générale et statistique  </option>
@@ -122,8 +123,7 @@
                 </select>
 
                 <label for="categorieN">:المستوى</label>
-                <select id="categorieN" name="categorieN" required>
-                    <option value="">اختر المستوى الدراسي المناسب</option>
+                <select id="categorieN" name="categorieN" multiple required>
                     <option value=" الثاني ابتدائي ">الثاني ابتدائي</option>
                     <option value="الثالث ابتدائي">الثالث ابتدائي</option>
                     <option value="الرابع ابتدائي">الرابع ابتدائي</option>
@@ -185,9 +185,9 @@
 
             const nomComplet = document.getElementById("nomComplet").value;
             const email = document.getElementById("email").value;
-            const categorie = document.getElementById("categorie").value;
-            const matier = document.getElementById("categorieM").value;
-            const classe = document.getElementById("categorieN").value;
+            const categorie = Array.from(document.getElementById("categorie").selectedOptions).map(option => option.value);
+            const matier = Array.from(document.getElementById("categorieM").selectedOptions).map(option => option.value);
+            const classe = Array.from(document.getElementById("categorieN").selectedOptions).map(option => option.value);
             const agent = document.getElementById("agent").value;
             const whatsup = document.getElementById("whatsup").value;
 
@@ -207,7 +207,7 @@
                 whatsup,
             };
 
-            const url = "https://33ab-105-74-65-56.ngrok-free.app";
+            const url = "https://0857-105-74-64-234.ngrok-free.app";
 
             fetch(url, {
                 method: 'POST',
@@ -231,10 +231,11 @@
             })
             .catch(error => {
                 console.error('Erreur:', error);
-                alert('لم يتم إرسال الطلب، أعد المحاولة لاحقا.');
+                alert('لم يتم إرسال الطلب، أعد المحاولة من فضلك.');
             });
         });
     </script>
 
 </body>
 </html>
+
