@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="rtl">
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>alamath.com</title>
     <style>
+        /* Styles existants */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f8f8f8;
+            direction: rtl;
+        }
+        h2 {
+            text-align: center;
         }
         label {
             margin: 10px 0;
             display: block;
+            font-weight: bold;
         }
         select, input, textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 15px;
-        }
-        select[multiple] {
-            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         button {
             padding: 10px 20px;
@@ -27,215 +34,295 @@
             color: white;
             border: none;
             cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
         }
         button:disabled {
             background-color: grey;
         }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
+        .form-section {
+            margin-bottom: 20px;
+            background-color: white;
             padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .checkbox-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 0 0 30%;
+        }
+        .category-title {
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #e9ecef;
+            margin: 15px 0;
             font-weight: bold;
         }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            transition: background-color 0.3s, border-color 0.3s;
             cursor: pointer;
+            width: 100%;
         }
-
-        /* Amélioration pour l'accessibilité mobile */
+        .checkbox-container:hover {
+            background-color: #f0f0f0;
+            border-color: #aaa;
+        }
+        .checkbox-container.selected {
+            background-color: #4CAF50;
+            border-color: #388E3C;
+            color: white;
+        }
         @media (max-width: 600px) {
-            .modal-content {
-                width: 90%;
-                padding: 10px;
-            }
             button {
                 width: 100%;
                 padding: 15px;
             }
         }
-
-        /* Style du bouton WhatsApp */
+        .whatsapp-button {
+            text-align: center;
+            margin-top: 20px;
+        }
         .whatsapp-button a {
             color: white;
             text-decoration: none;
         }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+        .whatsapp-button {
+    margin-top: 20px; /* Espace au-dessus du bouton */
+    text-align: center; /* Centrer le bouton */
+}
+
+.whatsapp-button a {
+    display: inline-block; /* Pour que le lien se comporte comme un bouton */
+    background-color: #25D366; /* Couleur de fond WhatsApp */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement autour du texte */
+    border-radius: 5px; /* Coins arrondis */
+    text-decoration: none; /* Supprimer le soulignement du lien */
+    font-size: 16px; /* Taille du texte */
+}
+
+.whatsapp-button a:hover {
+    background-color: #128C7E; /* Couleur au survol */
+}
+
     </style>
 </head>
 <body>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2> ALAMATH.COM طلب المشاركة في منصة</h2>
-            <form id="inscriptionForm">
-
-                <label for="nomComplet">:الإسم الكامل</label>
-                <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required>
-
-                <label for="agent">:الصفة</label>
-                <select id="agent" name="agent" required>
-                    <option value="">إختر الصفة الخاصة بك</option>
-                    <option value="Prof">(ة)أستاذ</option>
-                    <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
-                </select>
-
-                <label for="categorie">:نوع الخدمة :</label>
-                <select id="categorie" name="categorie" multiple required>
-                    <option value="الدعم البيداغوجي">الدعم البيداغوجي</option>
-                    <option value="المواكبة البيداغوجية">المواكبة البيداغوجية</option>
-                </select>
-
-                <label for="categorieM">:المادة :</label>
-                <select id="categorieM" name="categorieM" multiple required>
-                    <option value="الرياضيات ">الرياضيات</option>
-                    <option value="الفزياء ">الفزياء والكيمياء</option>
-                    <option value="Economie générale et statistique ">Economie générale et statistique  </option>
-                    <option value="Comptabilite et math finanières">Comptabilite et math finanières</option>
-                    <option value="Economie et gestion administrative des entreprises">Economie et gestion administrative des entreprises</option>
-                    <option value="Droit">Droit</option>
-                    <option value="L’informatique de gestion">L’informatique de gestion</option>
-                    <option value="التواصل ">اللغة العربية -التواصل- </option>
-                    <option value="communication ">اللغة الفرنسية -Communication- </option>
-                    <option value="english communication ">اللغة الإنجليزية -Communication- </option>
-                    <option value="الفلسفة ">الفلسفة</option>
-                </select>
-
-                <label for="categorieN">:المستوى</label>
-                <select id="categorieN" name="categorieN" multiple required>
-                    <option value=" الثاني ابتدائي ">الثاني ابتدائي</option>
-                    <option value="الثالث ابتدائي">الثالث ابتدائي</option>
-                    <option value="الرابع ابتدائي">الرابع ابتدائي</option>
-                    <option value="الخامس ابتدائي">الخامس ابتدائي</option>
-                    <option value="السادس ابتدائي">السادس ابتدائي</option>
-                    <option value="الأولى إعدادي ">الأولى إعدادي</option>
-                    <option value=" الثانية إعدادي ">الثانية إعدادي</option>
-                    <option value="الثالثة إعدادي ">الثالثة إعدادي</option>
-                    <option value=" باك حر ">باك حر</option>
-                </select>
-
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required>
-
-                <label for="whatsup">رقم الواتساب:</label>
-                <input type="text" id="whatsup" name="whatsup" placeholder="رقم الواتساب" required pattern="[0-9]+" title="Veuillez entrer un numéro valide.">
-
-                <button type="submit">إرسال طلب المشاركة</button>
-
-                <!-- Bouton WhatsApp -->
-                <button class="whatsapp-button">
-                    <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">
-                        إلتحق بمجتمعنا على الوتساب
-                    </a>
-                </button>
-            </form>
+    <h2> ALAMATH.COM - استمارة المشاركة</h2>
+    <form id="inscriptionForm">
+        <div class="form-section">
+            <label for="nomComplet">الإسم الكامل</label>
+            <input type="text" id="nomComplet" name="nomComplet" placeholder="الإسم الكامل" required="">
         </div>
+
+        <div class="form-section">
+            <label for="telephone">رقم الهاتف</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="رقم الهاتف" required="">
+        </div>
+
+        <div class="form-section">
+            <label for="email">البريد الإلكتروني</label>
+            <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required="">
+        </div>
+
+        <div class="form-section">
+            <label for="agent">الصفة</label>
+            <select id="agent" name="agent" required="">
+                <option value="" selected="selected">إختر الصفة الخاصة بك</option>
+                <option value="Prof">(ة)أستاذ</option>
+                <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <div class="category-title">نوع الخدمة</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="service1" name="service" value="الدعم البيداغوجي" style="display: none;">
+                        <label for="service1">الدعم البيداغوجي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="service2" name="service" value="المواكبة البيداغوجية" style="display: none;">
+                        <label for="service2">المواكبة البيداغوجية</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="category-title">المادة</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier1" name="matiere" value="الرياضيات" style="display: none;">
+                        <label for="matier1">الرياضيات</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier2" name="matiere" value="الفزياء والكيمياء" style="display: none;">
+                        <label for="matier2">الفزياء والكيمياء</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier3" name="matiere" value="Economie générale et statistique" style="display: none;">
+                        <label for="matier3">Economie générale et statistique</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier4" name="matiere" value="Comptabilite et math finanières" style="display: none;">
+                        <label for="matier4">Comptabilite et math finanières</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier5" name="matiere" value="Droit" style="display: none;">
+                        <label for="matier5">Droit</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="category-title">المستوى</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level1" name="niveau" value="الثاني ابتدائي" style="display: none;">
+                        <label for="level1">الثاني ابتدائي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level2" name="niveau" value="الثالث ابتدائي" style="display: none;">
+                        <label for="level2">الثالث ابتدائي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level3" name="niveau" value="الرابع ابتدائي" style="display: none;">
+                        <label for="level3">الرابع ابتدائي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level4" name="niveau" value="الخامس ابتدائي" style="display: none;">
+                        <label for="level4">الخامس ابتدائي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level5" name="niveau" value="السادس ابتدائي" style="display: none;">
+                        <label for="level5">السادس ابتدائي</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">أرسل</button>
+        <div class="message" id="responseMessage" style="display:none;"></div>
+    </form>
+
+    <div class="whatsapp-button">
+        <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">انضم إلى مجتمعنا على واتساب</a>
     </div>
 
     <script>
-        // Fonction pour afficher la modale à l'ouverture de la page
-        window.onload = function() {
-            const modal = document.getElementById("myModal");
-            modal.style.display = "block";
+        function toggleCheckbox(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected', checkbox.checked);
         }
 
-        // Fonction pour fermer la modale
-        const closeModal = document.getElementsByClassName("close")[0];
-        closeModal.onclick = function() {
-            document.getElementById("myModal").style.display = "none";
-        }
+        document.getElementById('inscriptionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
 
-        window.onclick = function(event) {
-            const modal = document.getElementById("myModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+            const formData = new FormData(this);
+            const data = {};
+            let valid = true; // Variable to check if form is valid
 
-        // Validation d'email
-        function validateEmail(email) {
-            const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            return regex.test(email);
-        }
-
-        // Gestion du formulaire
-        document.getElementById("inscriptionForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const nomComplet = document.getElementById("nomComplet").value;
-            const email = document.getElementById("email").value;
-            const categorie = Array.from(document.getElementById("categorie").selectedOptions).map(option => option.value);
-            const matier = Array.from(document.getElementById("categorieM").selectedOptions).map(option => option.value);
-            const classe = Array.from(document.getElementById("categorieN").selectedOptions).map(option => option.value);
-            const agent = document.getElementById("agent").value;
-            const whatsup = document.getElementById("whatsup").value;
-
-            // Validation email
-            if (!validateEmail(email)) {
-                alert("Veuillez entrer une adresse e-mail valide.");
-                return;
-            }
-
-            const data = {
-                nomComplet,
-                email,
-                categorie,
-                matier,
-                classe,
-                agent,
-                whatsup,
-            };
-
-            const url = "https://33ab-105-74-65-56.ngrok-free.app";
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau.');
+            // Collecting values from the selected checkboxes and formatting them with "/"
+            for (const [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
                 }
-                return response.json();
-            })
-            .then(data => {
-                alert('تم إرسال طلب المشاركة الخاصة بك بنجاح.');
-                setTimeout(function() {
-                    document.getElementById("myModal").style.display = "none";
-                }, 3000);
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                alert('لم يتم إرسال الطلب، أعد المحاولة من فضلك.');
-            });
+            }
+
+            // Format the data to join multiple selections with "/"
+            for (const key in data) {
+                if (Array.isArray(data[key])) {
+                    data[key] = data[key].join('/'); // Join selections with "/"
+                }
+            }
+
+            // Check if at least one choice is made for each category
+            if (!data.service || !data.matiere || !data.niveau) {
+                alert("Veuillez choisir au moins une option pour chaque catégorie.");
+                valid = false; // Mark the form as invalid
+            }
+
+            // Proceed only if the form is valid
+            if (valid) {
+                fetch('https://bade-105-74-74-152.ngrok-free.app', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح!";
+                       
+                    } else {
+                        document.getElementById('responseMessage').textContent = "حدث خطأ أثناء إرسال المعلومات.";
+                    }
+                    document.getElementById('responseMessage').style.display = 'block';
+                })
+                .catch(error => {
+                    document.getElementById('responseMessage').textContent = "خطأ في الشبكة. يرجى المحاولة لاحقًا.";
+                    document.getElementById('responseMessage').style.display = 'block';
+                });
+            }
         });
     </script>
-
 </body>
 </html>
-
