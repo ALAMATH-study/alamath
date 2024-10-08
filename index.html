@@ -475,7 +475,7 @@
                 .then(response => {
                     if (response.ok) {
                         document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح!";
-                       
+                       alert("تم إرسال المعلومات بنجاح!"); // Message de succès
                     } else {
                         document.getElementById('responseMessage').textContent = "حدث خطأ أثناء إرسال المعلومات.";
                     }
