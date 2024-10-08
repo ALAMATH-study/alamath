@@ -475,7 +475,16 @@
                 .then(response => {
                     if (response.ok) {
                         document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح!";
-                       
+                               alert("تم إرسال المعلومات بنجاح!"); // Message de succès
+
+                            // Attendre 2 secondes avant de fermer la fenêtre
+                            setTimeout(function() {
+                                window.close(); // Ferme la fenêtre
+                            }, 2000); // 2000 millisecondes = 2 secondes
+                        } else {
+                            // Gérer le cas où la réponse n'est pas correcte
+                            document.getElementById('responseMessage').textContent = "خطأ في إرسال المعلومات. يرجى المحاولة مرة أخرى.";
+                        }
                     } else {
                         document.getElementById('responseMessage').textContent = "حدث خطأ أثناء إرسال المعلومات.";
                     }
