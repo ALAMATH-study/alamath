@@ -143,6 +143,15 @@
         </div>
 
         <div class="form-section">
+            <label for="agent">الصفة</label>
+            <select id="agent" name="agent" required="">
+                <option value="" selected="selected">إختر الصفة الخاصة بك</option>
+                <option value="Prof">(ة)أستاذ</option>
+                <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
+            </select>
+        </div>
+        
+        <div class="form-section">
             <label for="telephone">رقم الهاتف</label>
             <input type="tel" id="telephone" name="telephone" placeholder="رقم الهاتف" required="">
         </div>
@@ -152,68 +161,6 @@
             <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required="">
         </div>
 
-        <div class="form-section">
-            <label for="agent">الصفة</label>
-            <select id="agent" name="agent" required="">
-                <option value="" selected="selected">إختر الصفة الخاصة بك</option>
-                <option value="Prof">(ة)أستاذ</option>
-                <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
-            </select>
-        </div>
-
-        <div class="form-section">
-            <div class="category-title">نوع الخدمة</div>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="service1" name="service" value="الدعم البيداغوجي" style="display: none;">
-                        <label for="service1">الدعم البيداغوجي</label>
-                    </div>
-                </div>
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="service2" name="service" value="المواكبة البيداغوجية" style="display: none;">
-                        <label for="service2">المواكبة البيداغوجية</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <div class="category-title">المادة</div>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="matier1" name="matiere" value="الرياضيات" style="display: none;">
-                        <label for="matier1">الرياضيات</label>
-                    </div>
-                </div>
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="matier2" name="matiere" value="الفزياء والكيمياء" style="display: none;">
-                        <label for="matier2">الفزياء والكيمياء</label>
-                    </div>
-                </div>
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="matier3" name="matiere" value="Economie générale et statistique" style="display: none;">
-                        <label for="matier3">Economie générale et statistique</label>
-                    </div>
-                </div>
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="matier4" name="matiere" value="Comptabilite et math finanières" style="display: none;">
-                        <label for="matier4">Comptabilite et math finanières</label>
-                    </div>
-                </div>
-                <div class="checkbox-item">
-                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
-                        <input type="checkbox" id="matier5" name="matiere" value="Droit" style="display: none;">
-                        <label for="matier5">Droit</label>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="form-section">
             <div class="category-title">المستوى</div>
@@ -248,8 +195,225 @@
                         <label for="level5">السادس ابتدائي</label>
                     </div>
                 </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level6" name="niveau" value="الأولى إعدادي" style="display: none;">
+                        <label for="level6">الأولى إعدادي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level7" name="niveau" value="الثانية إعدادي" style="display: none;">
+                        <label for="level7">الثانية إعدادي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level8" name="niveau" value="الثالثة إعدادي" style="display: none;">
+                        <label for="level8">الثالثة إعدادي </label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level9" name="niveau" value="الجدع المشترك" style="display: none;">
+                        <label for="level9">الجدع المشترك</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level10" name="niveau" value="الأولى باك" style="display: none;">
+                        <label for="level10">الأولى باك</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level11" name="niveau" value="الثانية باك" style="display: none;">
+                        <label for="level11">الثانية باك</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level12" name="niveau" value="السادس ابتدائي للتعليم العتيق" style="display: none;">
+                        <label for="level12">السادس ابتدائي للتعليم العتيق</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level13" name="niveau" value="الثالثة إعدادي للتعليم العتيق" style="display: none;">
+                        <label for="level13">الثالثة إعدادي للتعليم العتيق</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level14" name="niveau" value="الثالثة ثانوي للتعليم العتيق" style="display: none;">
+                        <label for="level14">الثالثة ثانوي للتعليم العتيق</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level15" name="niveau" value="السادس ابتدائي أحرار" style="display: none;">
+                        <label for="level15">السادس ابتدائي أحرار</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level16" name="niveau" value="الثالثة إعدادي أحرار" style="display: none;">
+                        <label for="level16">الثالثة إعدادي أحرار</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="level17" name="niveau" value="باك حر" style="display: none;">
+                        <label for="level17">باك حر </label>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="form-section">
+            <div class="category-title">المادة</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier1" name="matiere" value="الرياضيات" style="display: none;">
+                        <label for="matier1">الرياضيات</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier2" name="matiere" value="الفزياء والكيمياء" style="display: none;">
+                        <label for="matier2">الفزياء والكيمياء</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier3" name="matiere" value="علوم الحياة و الارض" style="display: none;">
+                        <label for="matier3">علوم الحياة و الارض</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier4" name="matiere" value="اللغة العربية -التواصل" style="display: none;">
+                        <label for="matier4">اللغة العربية -التواصل</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier5" name="matiere" value="اللغة العربية -القراءة والفهم" style="display: none;">
+                        <label for="matier5">اللغة العربية -القراءة والفهم</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier6" name="matiere" value="اللغة العربية -الإنشاء" style="display: none;">
+                        <label for="matier6">اللغة العربية -الإنشاء</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier7" name="matiere" value="اللغة الفرنسية -Communication-" style="display: none;">
+                        <label for="matier7">اللغة الفرنسية -Communication-</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier8" name="matiere" value="اللغة الفرنسية -La langue-" style="display: none;">
+                        <label for="matier8">اللغة الفرنسية -La langue-</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier9" name="matiere" value="اللغة الفرنسية -Production de l’écrit-" style="display: none;">
+                        <label for="matier9">اللغة الفرنسية -Production de l’écrit-</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier10" name="matiere" value="اللغة الإنجليزية -Communication-" style="display: none;">
+                        <label for="matier10">اللغة الإنجليزية -Communication- </label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier11" name="matiere" value="اللغة الإنجليزية -Grammar-" style="display: none;">
+                        <label for="matier11">اللغة الإنجليزية -Grammar- </label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier12" name="matiere" value="اللغة الإنجليزية -writing-" style="display: none;">
+                        <label for="matier12">اللغة الإنجليزية -writing-</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier13" name="matiere" value="Economie générale" style="display: none;">
+                        <label for="matier13">Economie générale </label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier14" name="matiere" value="Statistique/Math finanières" style="display: none;">
+                        <label for="matier14">Statistique/Math finanières</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier15" name="matiere" value="Comptabilite" style="display: none;">
+                        <label for="matier15">Comptabilite</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier16" name="matiere" value="Gestion administrative des entreprises" style="display: none;">
+                        <label for="matier16">Gestion administrative des entreprises</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier17" name="matiere" value="Droit" style="display: none;">
+                        <label for="matier17">Droit</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier18" name="matiere" value="L’informatique de gestion" style="display: none;">
+                        <label for="matier18">L’informatique de gestion</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="matier19" name="matiere" value="الفلسفة" style="display: none;">
+                        <label for="matier19">الفلسفة</label>
+                    </div>
+                </div>
+            
+            </div>
+        </div>  
+
+        <div class="form-section">
+            <div class="category-title">نوع الخدمة</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="service1" name="service" value="الدعم البيداغوجي" style="display: none;">
+                        <label for="service1">الدعم البيداغوجي</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <div class="checkbox-container" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" id="service2" name="service" value="المواكبة البيداغوجية" style="display: none;">
+                        <label for="service2">المواكبة البيداغوجية</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="category-title">إضافة ملاحظات</div>
+            <textarea id="message" name="message" rows="4" placeholder="إضافة ملاحظات"></textarea>
+        </div>
+    
 
         <button type="submit">أرسل</button>
         <div class="message" id="responseMessage" style="display:none;"></div>
