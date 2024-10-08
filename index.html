@@ -6,6 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>alamath.com</title>
     <style>
+        .btn-flottant {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #ff5722; /* Couleur du bouton */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+}
+
+.btn-flottant:hover {
+    background-color: #e64a19; /* Changement de couleur au survol */
+}
+
         /* Styles existants */
         body {
             font-family: Arial, sans-serif;
@@ -134,7 +152,7 @@
     </style>
 </head>
 <body>
-
+    <a href="https://alamath.com" class="btn-flottant">الرئيسية</a>
     <h2> ALAMATH.COM - استمارة المشاركة</h2>
     <form id="inscriptionForm">
         <div class="form-section">
@@ -474,7 +492,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح! سيتم التواصل معكم في أقرب وقت للتحقق من طلبكم. ";
+                        document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح!";
                        alert("تم إرسال المعلومات بنجاح!"); // Message de succès
                        document.getElementById('inscriptionForm').reset(); // 'myForm' est l'ID de votre formulaire
 
