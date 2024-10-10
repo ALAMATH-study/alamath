@@ -492,12 +492,12 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        document.getElementById('responseMessage').textContent = "تم إرسال المعلومات بنجاح!";
+                        document.getElementById('responseMessage').textContent = "تم إرسال معلوماتكم بنجاح! سيتواصل معكم فريقنا قريباً لمناقشة طلبكم بالتفصيل.";
                        alert("تم إرسال المعلومات بنجاح!"); // Message de succès
                        document.getElementById('inscriptionForm').reset(); // 'myForm' est l'ID de votre formulaire
 
                     } else {
-                        document.getElementById('responseMessage').textContent = "حدث خطأ أثناء إرسال المعلومات.";
+                        document.getElementById('responseMessage').textContent = "حدث خطأ أثناء إرسال المعلومات.أعد المحازلاة لاحقا";
                     }
                     document.getElementById('responseMessage').style.display = 'block';
                 })
