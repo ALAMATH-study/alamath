@@ -520,7 +520,7 @@
             }
 
             // Format the data to join multiple selections with "/"
-            for (const key in data) {
+            for (const key in data) { 
                 if (Array.isArray(data[key])) {
                     data[key] = data[key].join('/'); // Join selections with "/"
                 }
