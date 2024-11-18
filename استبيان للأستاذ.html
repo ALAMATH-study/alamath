@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استبيان حصة الدعم البيداغوجي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 20px;
+        }
+        h1, p {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            font-weight: bold;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>استبيان حصة الدعم البيداغوجي</h1>
+    <p>نرجو تعبئة الاستبيان أدناه لتقييم حصة اليوم. شكراً لتعاونكم!</p>
+    <form id="feedback-form">
+        <!-- Nom de l'élève -->
+        <div class="question">
+            <label for="name">اسم الأستاذ 
+            <input type="text" id="name" name="name" placeholder="الاسم الشخصي" required>
+        </div>
+
+        <!-- Classe -->
+        <div class="question">
+            <label for="classe">المادة:</label>
+            <input type="text" id="classe" name="classe" placeholder="المادة" required>
+        </div>
+
+        <!-- Première question -->
+        <div class="question">
+            <label>1. هل كانت الحصة مفهومة ومناسبة لمستوى المتعلمين ؟</label>
+            <div class="options">
+                <label><input type="radio" name="q1" value="جيد" required> جيد</label>
+                <label><input type="radio" name="q1" value="لابأس به"> لابأس به</label>
+                <label><input type="radio" name="q1" value="سيء"> سيء</label>
+            </div>
+        </div>
+
+        <!-- Deuxième question -->
+        <div class="question">
+            <label>2. هل تفاعلوا مع الأنشطة بشكل إيجابي؟</label>
+            <div class="options">
+                <label><input type="radio" name="q2" value="جيد" required> جيد</label>
+                <label><input type="radio" name="q2" value="لابأس به"> لابأس به</label>
+                <label><input type="radio" name="q2" value="سيء"> سيء</label>
+            </div>
+        </div>
+
+        <!-- Troisième question -->
+        <div class="question">
+            <label>3. ما مدى رضاكم عن طريقة التدريس عن بعد الذي تعتمده  المنصة؟</label>
+            <div class="options">
+                <label><input type="radio" name="q3" value="جيد" required> جيد</label>
+                <label><input type="radio" name="q3" value="لابأس به"> لابأس به</label>
+                <label><input type="radio" name="q3" value="سيء"> سيء</label>
+            </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="question">
+            <label for="suggestions">4. هل هناك اقتراحات لتحسين الخدمة أو أي ملاحظات إضافية؟</label>
+            <textarea id="suggestions" name="suggestions" rows="4" placeholder="اكتب اقتراحاتك هنا..."></textarea>
+        </div>
+
+        <!-- Bouton d'envoi -->
+        <button type="submit">إرسال التقييم</button>
+    </form>
+
+    <script>
+        const botToken = "8178912603:AAHfjTw09ZICR6dKfwAL0I2e4G6_yZP9Rjw"; // Remplacez avec votre token Telegram
+        const chatId = "@alamathy"; // Remplacez par votre ID ou nom d'utilisateur Telegram
+
+        document.getElementById('feedback-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Récupérer les données du formulaire
+            const name = document.getElementById('name').value;
+            const classe = document.getElementById('classe').value;
+            const q1 = document.querySelector('input[name="q1"]:checked').value;
+            const q2 = document.querySelector('input[name="q2"]:checked').value;
+            const q3 = document.querySelector('input[name="q3"]:checked').value;
+            const suggestions = document.getElementById('suggestions').value || "لا يوجد";
+
+            // Créer le message à envoyer
+            const message = `
+اسم الأستاذ: ${name}
+المادة: ${classe}
+1. تقييم الحصة: ${q1}
+2. تفاعل التلميذ: ${q2}
+3. شرح المعلم: ${q3}
+4. اقتراحات إضافية: ${suggestions}
+            `;
+
+            // Envoyer les données via l'API Telegram
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert("تم إرسال التقييم بنجاح!");
+                    document.getElementById('feedback-form').reset();
+                } else {
+                    alert("حدث خطأ أثناء إرسال التقييم. الرجاء المحاولة لاحقاً.");
+                    console.error("Telegram Error:", data);
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                alert("تعذر إرسال التقييم. تحقق من الاتصال بالإنترنت.");
+            });
+        });
+    </script>
+</body>
+</html>
