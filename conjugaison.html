@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice de Conjugaison au Présent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 80%;
+            margin-top: 20px;
+        }
+        .question-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: 120px;
+            padding: 5px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .error {
+            background-color: #f8d7da;
+        }
+        .correct {
+            background-color: #d4edda;
+        }
+        .correction {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Exercice de Conjugaison au Présent</h1>
+
+    <div class="container">
+        <label for="group-select">Choisir le groupe de verbes :</label>
+        <select id="group-select">
+            <option value="1">1er groupe</option>
+            <option value="2">2e groupe</option>
+            <option value="3">3e groupe</option>
+        </select>
+        <button onclick="generateQuestions()">Générer les questions</button>
+    </div>
+
+    <div class="grid-container" id="questionsGrid">
+        <!-- Les questions seront générées ici -->
+    </div>
+
+    <button onclick="checkAnswers()">Vérifier les réponses</button>
+    <button onclick="generateQuestions()">Réessayer</button>
+
+    <div id="result"></div>
+
+    <!-- Stockage des conjugaisons pour chaque groupe de verbes -->
+    <script>
+        const conjugations ={
+    "1": {
+        "aimer": ["aime", "aimes", "aime", "aimons", "aimez", "aiment"],
+        "chanter": ["chante", "chantes", "chante", "chantons", "chantez", "chantent"],
+        "parler": ["parle", "parles", "parle", "parlons", "parlez", "parlent"],
+        "travailler": ["travaille", "travailles", "travaille", "travaillons", "travaillez", "travaillent"],
+        "marcher": ["marche", "marches", "marche", "marchons", "marchez", "marchent"],
+        "regarder": ["regarde", "regardes", "regarde", "regardons", "regardez", "regardent"],
+        "penser": ["pense", "penses", "pense", "pensons", "pensez", "pensent"],
+        "écouter": ["écoute", "écoutes", "écoute", "écoutons", "écoutez", "écoutent"],
+        "jouer": ["joue", "joues", "joue", "jouons", "jouez", "jouent"],
+        "danser": ["danse", "danses", "danse", "dansons", "dansez", "dansent"],
+        "porter": ["porte", "portes", "porte", "portons", "portez", "portent"],
+        "appeler": ["appelle", "appelles", "appelle", "appelons", "appelez", "appellent"],
+        "arriver": ["arrive", "arrives", "arrive", "arrivons", "arrivez", "arrivent"],
+        "demander": ["demande", "demandes", "demande", "demandons", "demandez", "demandent"],
+        "chercher": ["cherche", "cherches", "cherche", "cherchons", "cherchez", "cherchent"],
+        "trouver": ["trouve", "trouves", "trouve", "trouvons", "trouvez", "trouvent"],
+        "gagner": ["gagne", "gagnes", "gagne", "gagnons", "gagnez", "gagnent"],
+        "donner": ["donne", "donnes", "donne", "donnons", "donnez", "donnent"],
+        "passer": ["passe", "passes", "passe", "passons", "passez", "passent"],
+        "toucher": ["touche", "touches", "touche", "touchons", "touchez", "touchent"],
+        "compter": ["compte", "comptes", "compte", "comptons", "comptez", "comptent"],
+        "fermer": ["ferme", "fermes", "ferme", "fermons", "fermez", "ferment"],
+        "changer": ["change", "changes", "change", "changeons", "changez", "changent"],
+        "continuer": ["continue", "continues", "continue", "continuons", "continuez", "continuent"],
+        "rester": ["reste", "restes", "reste", "restons", "restez", "restent"],
+        "oublier": ["oublie", "oublies", "oublie", "oublions", "oubliez", "oublient"],
+        "rêver": ["rêve", "rêves", "rêve", "rêvons", "rêvez", "rêvent"],
+        "étudier": ["étudie", "étudies", "étudie", "étudions", "étudiez", "étudient"],
+        "réparer": ["répare", "répares", "répare", "réparons", "réparez", "réparent"],
+        "préparer": ["prépare", "prépares", "prépare", "préparons", "préparez", "préparent"],
+        // Ajouter d'autres verbes du 1er groupe jusqu'à atteindre 100
+    },
+    "2": {
+        "finir": ["finis", "finis", "finit", "finissons", "finissez", "finissent"],
+        "choisir": ["choisis", "choisis", "choisit", "choisissons", "choisissez", "choisissent"],
+        "grandir": ["grandis", "grandis", "grandit", "grandissons", "grandissez", "grandissent"],
+        "réfléchir": ["réfléchis", "réfléchis", "réfléchit", "réfléchissons", "réfléchissez", "réfléchissent"],
+        "réussir": ["réussis", "réussis", "réussit", "réussissons", "réussissez", "réussissent"],
+        "applaudir": ["applaudis", "applaudis", "applaudit", "applaudissons", "applaudissez", "applaudissent"],
+        "maigrir": ["maigris", "maigris", "maigrit", "maigrissons", "maigrissez", "maigrissent"],
+        "rougir": ["rougis", "rougis", "rougit", "rougissons", "rougissez", "rougissent"],
+        "agir": ["agis", "agis", "agit", "agissons", "agissez", "agissent"],
+        "rôtir": ["rôtis", "rôtis", "rôtit", "rôtissons", "rôtissez", "rôtissent"],
+        "unir": ["unis", "unis", "unit", "unissons", "unissez", "unissent"],
+        "fleurir": ["fleuris", "fleuris", "fleurit", "fleurissons", "fleurissez", "fleurissent"],
+        "nourrir": ["nourris", "nourris", "nourrit", "nourrissons", "nourrissez", "nourrissent"],
+        // Ajouter d'autres verbes du 2e groupe jusqu'à atteindre 100
+    },
+    "3": {
+        "prendre": ["prends", "prends", "prend", "prenons", "prenez", "prennent"],
+        "voir": ["vois", "vois", "voit", "voyons", "voyez", "voient"],
+        "pouvoir": ["peux", "peux", "peut", "pouvons", "pouvez", "peuvent"],
+        "vouloir": ["veux", "veux", "veut", "voulons", "voulez", "veulent"],
+        "savoir": ["sais", "sais", "sait", "savons", "savez", "savent"],
+        "mettre": ["mets", "mets", "met", "mettons", "mettez", "mettent"],
+        "boire": ["bois", "bois", "boit", "buvons", "buvez", "boivent"],
+        "dire": ["dis", "dis", "dit", "disons", "dites", "disent"],
+        "faire": ["fais", "fais", "fait", "faisons", "faites", "font"],
+        "aller": ["vais", "vas", "va", "allons", "allez", "vont"],
+        "venir": ["viens", "viens", "vient", "venons", "venez", "viennent"],
+        "tenir": ["tiens", "tiens", "tient", "tenons", "tenez", "tiennent"],
+        "mourir": ["meurs", "meurs", "meurt", "mourons", "mourez", "meurent"],
+        "naître": ["nais", "nais", "naît", "naissons", "naissez", "naissent"],
+        "vivre": ["vis", "vis", "vit", "vivons", "vivez", "vivent"],
+        // Ajouter d'autres verbes du 3e groupe jusqu'à atteindre 100
+    }
+};
+
+        const pronouns = ["je", "tu", "il/elle", "nous", "vous", "ils/elles"];
+
+        function generateQuestions() {
+            const selectedGroup = document.getElementById("group-select").value;
+            const gridContainer = document.getElementById("questionsGrid");
+            gridContainer.innerHTML = "";
+
+            const verbList = Object.keys(conjugations[selectedGroup]);
+            for (let i = 0; i < 10; i++) {
+                const verb = verbList[Math.floor(Math.random() * verbList.length)];
+                const pronounIndex = Math.floor(Math.random() * pronouns.length);
+                const pronoun = pronouns[pronounIndex];
+                const correctAnswer = conjugations[selectedGroup][verb][pronounIndex];
+
+                const questionBox = document.createElement("div");
+                questionBox.className = "question-box";
+                questionBox.innerHTML = `
+                    Conjuguez le verbe "${verb}" au présent pour "${pronoun}":
+                    <input type="text" class="answer" data-correct="${correctAnswer}">
+                    <div class="correction" style="display: none;">Correction : ${correctAnswer}</div>
+                `;
+                gridContainer.appendChild(questionBox);
+            }
+            document.getElementById("result").innerText = "";
+        }
+
+        function checkAnswers() {
+            const answers = document.querySelectorAll(".answer");
+            let correctCount = 0;
+            answers.forEach(input => {
+                const correctAnswer = input.dataset.correct;
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctionDisplay = input.nextElementSibling;
+                
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                    input.classList.add("correct");
+                    input.classList.remove("error");
+                    correctionDisplay.style.display = "none";
+                } else {
+                    input.classList.add("error");
+                    input.classList.remove("correct");
+                    correctionDisplay.style.display = "block";
+                }
+            });
+            const totalQuestions = answers.length;
+            document.getElementById("result").innerText = `Résultat : ${correctCount} sur ${totalQuestions}`;
+        }
+
+        window.onload = generateQuestions;
+    </script>
+</body>
+</html>
