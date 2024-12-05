@@ -107,57 +107,54 @@
         <button type="submit">إرسال التقييم</button>
     </form>
 
-    <script>
-        const botToken = "8178912603:AAHfjTw09ZICR6dKfwAL0I2e4G6_yZP9Rjw"; // Remplacez avec votre token Telegram
-        const chatId = "@alamathy"; // Remplacez par votre ID ou nom d'utilisateur Telegram
+  <script>
+    document.getElementById('feedback-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        document.getElementById('feedback-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Récupérer les données du formulaire
+        const name = document.getElementById('name').value;
+        const classe = document.getElementById('classe').value;
+        const q1 = document.querySelector('input[name="q1"]:checked').value;
+        const q2 = document.querySelector('input[name="q2"]:checked').value;
+        const q3 = document.querySelector('input[name="q3"]:checked').value;
+        const suggestions = document.getElementById('suggestions').value || "لا يوجد";
 
-            // Récupérer les données du formulaire
-            const name = document.getElementById('name').value;
-            const classe = document.getElementById('classe').value;
-            const q1 = document.querySelector('input[name="q1"]:checked').value;
-            const q2 = document.querySelector('input[name="q2"]:checked').value;
-            const q3 = document.querySelector('input[name="q3"]:checked').value;
-            const suggestions = document.getElementById('suggestions').value || "لا يوجد";
+        // Créer l'objet JSON à envoyer
+        const data = {
+            name: name,
+            classe: classe,
+            q1: q1,
+            q2: q2,
+            q3: q3,
+            suggestions: suggestions
+        };
 
-            // Créer le message à envoyer
-            const message = `
-اسم الأستاذ: ${name}
-المادة: ${classe}
-1. تقييم الحصة: ${q1}
-2. تفاعل التلميذ: ${q2}
-3. شرح المعلم: ${q3}
-4. اقتراحات إضافية: ${suggestions}
-            `;
-
-            // Envoyer les données via l'API Telegram
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    alert("تم إرسال التقييم بنجاح!");
-                    document.getElementById('feedback-form').reset();
-                } else {
-                    alert("حدث خطأ أثناء إرسال التقييم. الرجاء المحاولة لاحقاً.");
-                    console.error("Telegram Error:", data);
-                }
-            })
-            .catch(error => {
-                console.error("Fetch Error:", error);
-                alert("تعذر إرسال التقييم. تحقق من الاتصال بالإنترنت.");
-            });
+        // Envoyer les données à votre serveur Ngrok
+        fetch('https://racer-prime-absolutely.ngrok-free.app', { // Remplacez par votre URL Ngrok
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Parse la réponse si c'est du JSON
+            } else {
+                throw new Error('Erreur lors de l’envoi des données.');
+            }
+        })
+        .then(responseData => {
+            console.log("Réponse du serveur:", responseData);
+            alert("تم إرسال التقييم بنجاح!");
+            document.getElementById('feedback-form').reset();
+        })
+        .catch(error => {
+            console.error("Erreur:", error);
+            alert("تعذر إرسال التقييم. تحقق من الاتصال بالإنترنت.");
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
