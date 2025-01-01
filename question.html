@@ -29,6 +29,11 @@
         button:hover {
             background-color: #45a049;
         }
+        #responseMessage {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +85,8 @@
     <button type="button" onclick="submitAnswers()">Envoyer</button>
 </form>
 
+<div id="responseMessage"></div>
+
 <script>
     function submitAnswers() {
         const form = document.getElementById('quizForm');
@@ -90,22 +97,38 @@
             answers[key] = value;
         });
 
-        fetch('https://racer-prime-absolutely.ngrok-free.app', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(answers),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Vos réponses ont été envoyées avec succès !');
-            console.log(data);
-        })
-        .catch(error => {
-            alert('Une erreur est survenue lors de l'envoi des réponses.');
-            console.error(error);
-        });
+        // Validation de formulaire
+        let valid = true;
+        for (let i = 1; i <= 6; i++) {
+            if (!answers[`q${i}`]) {
+                valid = false;
+                alert(`Veuillez répondre à la question ${i}.`);
+                break;
+            }
+        }
+
+        // Procéder uniquement si le formulaire est valide
+        if (valid) {
+            fetch('https://racer-prime-absolutely.ngrok-free.app', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('responseMessage').textContent = "تم إرسال معلوماتكم بنجاح! سيتواصل معكم فريقنا قريباً لمناقشة طلبكم بالتفصيل.";
+                    document.getElementById('quizForm').reset();
+                } else {
+                    document.getElementById('responseMessage').textContent = "Une erreur est survenue lors de l'envoi des réponses.";
+                }
+            })
+            .catch(error => {
+                document.getElementById('responseMessage').textContent = "Une erreur est survenue lors de l'envoi des réponses.";
+                console.error(error);
+            });
+        }
     }
 </script>
 
