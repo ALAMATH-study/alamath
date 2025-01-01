@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions interactives</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h3 {
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Questions interactives</h1>
+<form id="quizForm">
+    <div class="question">
+        <h3>A - Que signifie « un rite immuable » ?</h3>
+        <label><input type="radio" name="q1" value="1"> Une musique gaie</label><br>
+        <label><input type="radio" name="q1" value="2"> Une sonnerie de cloche</label><br>
+        <label><input type="radio" name="q1" value="3"> Une habitude qui ne change pas</label>
+    </div>
+
+    <div class="question">
+        <h3>B - À quelle heure les enfants sortent-ils de l'école ?</h3>
+        <label><input type="radio" name="q2" value="1"> À quinze heures ou quinze heures trente</label><br>
+        <label><input type="radio" name="q2" value="2"> À seize heures ou seize heures trente</label><br>
+        <label><input type="radio" name="q2" value="3"> À treize heures ou treize heures trente</label>
+    </div>
+
+    <div class="question">
+        <h3>C - « Le trottoir est noir de monde » signifie que</h3>
+        <label><input type="radio" name="q3" value="1"> Le trottoir est très sale</label><br>
+        <label><input type="radio" name="q3" value="2"> Il y a des gens noirs sur le trottoir</label><br>
+        <label><input type="radio" name="q3" value="3"> Il y a beaucoup de gens sur le trottoir</label>
+    </div>
+
+    <div class="question">
+        <h3>D - La sonnerie de l'école</h3>
+        <label><input type="radio" name="q4" value="1"> Est une cloche</label><br>
+        <label><input type="radio" name="q4" value="2"> Est une sonnerie électrique</label><br>
+        <label><input type="radio" name="q4" value="3"> On ne sait pas</label>
+    </div>
+
+    <div class="question">
+        <h3>E - Les enfants sortent de l'école sans surveillance</h3>
+        <label><input type="radio" name="q5" value="1"> Vrai</label><br>
+        <label><input type="radio" name="q5" value="2"> Faux</label><br>
+        <label><input type="radio" name="q5" value="3"> On ne sait pas</label>
+    </div>
+
+    <div class="question">
+        <h3>F - Un synonyme de « collation »</h3>
+        <label><input type="radio" name="q6" value="1"> Collection</label><br>
+        <label><input type="radio" name="q6" value="2"> Plaisir</label><br>
+        <label><input type="radio" name="q6" value="3"> Snack</label>
+    </div>
+
+    <button type="button" onclick="submitAnswers()">Envoyer</button>
+</form>
+
+<script>
+    function submitAnswers() {
+        const form = document.getElementById('quizForm');
+        const formData = new FormData(form);
+        const answers = {};
+
+        formData.forEach((value, key) => {
+            answers[key] = value;
+        });
+
+        fetch('https://racer-prime-absolutely.ngrok-free.app', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(answers),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Vos réponses ont été envoyées avec succès !');
+            console.log(data);
+        })
+        .catch(error => {
+            alert('Une erreur est survenue lors de l'envoi des réponses.');
+            console.error(error);
+        });
+    }
+</script>
+
+</body>
+</html>
