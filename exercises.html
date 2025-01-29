@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices de Français</title>
+    <script>
+        function verifierMotDePasse(exercice) {
+            let motsDePasse = {
+                'ex1': 'motdepasse1',
+                'ex2': 'motdepasse2',
+                'ex3': 'motdepasse3',
+                'ex4': 'motdepasse4'
+            };
+            let corrections = {
+                'ex1': ['sont', 'son', 'son', 'sont', 'sont', 'se', 'Ce', 'se', 'Ce', 'se'],
+                'ex2': ['la', 'là', 'l\'a', 'la', 'l\'a', 'la', 'l\'as', 'où', 'ou', 'ou', 'où'],
+                'ex3': ['soucieuse', 'malheureuse', 'sportive', 'naïve', 'blanche', 'fraîche', 'rousse', 'douce', 'épaisse', 'superficielle'],
+                'ex4': ['journaux', 'hiboux', 'trous', 'arbres', 'bijoux', 'émaux', 'rubis', 'neveux', 'bleus', 'genoux', 'jeux']
+            };
+            let mdp = prompt("Entrez le mot de passe pour voir la correction :");
+            
+            if (mdp === motsDePasse[exercice]) {
+                let inputs = document.querySelectorAll(`#${exercice} input`);
+                
+                if (inputs.length === corrections[exercice].length) {
+                    inputs.forEach((input, index) => {
+                        input.value = corrections[exercice][index];
+                        input.style.color = 'red';
+                    });
+                } else {
+                    console.error(`Erreur : Nombre d'inputs incorrect pour ${exercice}`);
+                }
+            } else {
+                alert("Mot de passe incorrect !");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Exercices de Français</h1>
+    
+    <div id="ex1">
+        <h2>Exercice 1 : Complète par son ou sont / se ou ce</h2>
+        <p>Alors que tous les invités <input type="text"> à table, Nadine lit <input type="text"> livre.</p>
+        <p>M. Quesnoy est satisfait ; les arbres de <input type="text"> jardin <input type="text"> en fleurs.</p>
+        <p>Hier, mes parents <input type="text"> allés au cinéma sans moi !</p>
+        <p>Nicolas <input type="text"> protège la tête.</p>
+        <p><input type="text"> garçon n'aime pas <input type="text"> brosser les dents.</p>
+        <p><input type="text"> convive a eu du mal à <input type="text"> lever.</p>
+        <button onclick="verifierMotDePasse('ex1')">Voir la correction</button>
+    </div>
+    
+    <div id="ex2">
+        <h2>Exercice 2 : Complète avec la, là, l'a ou l'as / ou, où</h2>
+        <p>Cette veste-<input type="text"> était déchirée, <input type="text"> mamie de Florence <input type="text"> recousue.</p>
+        <p>Le menuisier a scié <input type="text"> planche et <input type="text"> rabotée.</p>
+        <p>Cette chanson-<input type="text"> est formidable, tu <input type="text"> chantée souvent l'été dernier.</p>
+        <p>Je ne comprends pas <input type="text"> il se cache.</p>
+        <p>Veux-tu un croissant <input type="text"> du pain ?</p>
+        <p>Il va chercher sa sœur <input type="text"> sa cousine, je ne sais pas plus.</p>
+        <p>Nous chanterons <input type="text"> tu voudras.</p>
+        <button onclick="verifierMotDePasse('ex2')">Voir la correction</button>
+    </div>
+    
+    <div id="ex3">
+        <h2>Exercice 3 : Accorde l'adjectif</h2>
+        <p>Cette mère est (soucieux) <input type="text"> : elle ne veut pas que sa fille soit (malheureux) <input type="text"></p>
+        <p>Cette fille (sportif) <input type="text"> est (naïf) <input type="text"></p>
+        <p>Cette viande (blanc) <input type="text"> n'est pas (frais) <input type="text"></p>
+        <p>Sa chevelure (roux) <input type="text"> semble (doux) <input type="text"> et (épais) <input type="text"></p>
+        <p>Elle n'aime pas la mode qu'elle trouve (superficiel) <input type="text"> !</p>
+        <button onclick="verifierMotDePasse('ex3')">Voir la correction</button>
+    </div>
+    
+    <div id="ex4">
+        <h2>Exercice 4 : Mets au pluriel les noms</h2>
+        <p>Le facteur distribue les (journal) <input type="text"> tous les jours.</p>
+        <p>Les (hibou) <input type="text"> nichent dans des (trou) <input type="text"> creusés dans les (arbre) <input type="text"></p>
+        <p>Ma tante porte des (bijou) <input type="text"> avec des (émail) <input type="text"> et des (rubis) <input type="text"></p>
+        <p>Mes (neveu) <input type="text"> ont toujours des (bleu) <input type="text"> sur les (genou) <input type="text"> à cause de leurs (jeu) <input type="text"> dans le jardin.</p>
+        <button onclick="verifierMotDePasse('ex4')">Voir la correction</button>
+    </div>
+    
+</body>
+</html>
