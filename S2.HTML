@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أسئلة الفهم مع أزرار التصحيح</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .answer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>أسئلة الفهم</h1>
+
+    <div class="question">
+        <p>1. ماذا وجدت وردة في غرفة أبيها؟</p>
+        <button onclick="showAnswer(1)">إظهار الإجابة</button>
+        <div class="answer" id="answer-1">وجدت مفتاح الكوخ الذي نسيه والدها فوق المنضدة.</div>
+    </div>
+
+    <div class="question">
+        <p>2. لماذا ترددت وردة في فتح الكوخ؟</p>
+        <button onclick="showAnswer(2)">إظهار الإجابة</button>
+        <div class="answer" id="answer-2">تذكرت تحذير والدها بعدم الفضول، وكادت تعود دون فتحه.</div>
+    </div>
+
+    <div class="question">
+        <p>3. ما الذي دفع وردة إلى فتح الكوخ؟</p>
+        <button onclick="showAnswer(3)">إظهار الإجابة</button>
+        <div class="answer" id="answer-3">الفضول فقد سمعت صوتًا ضعيفًا يغني من الداخل يطلب منها فتح الباب.</div>
+    </div>
+
+    <div class="question">
+        <p>4. من كانت صاحبة الصوت داخل الكوخ؟</p>
+        <button onclick="showAnswer(4)">إظهار الإجابة</button>
+        <div class="answer" id="answer-4">الجنية المكروهة، والتي ادعت أنها أسيرة.</div>
+    </div>
+
+    <div class="question">
+        <p>5. ماذا حدث بعد أن فتحت وردة الباب؟</p>
+        <button onclick="showAnswer(5)">إظهار الإجابة</button>
+        <div class="answer" id="answer-5">الجنية ضحكت وقالت إن وردة وقعت في الفخ، وأنها أصبحت وأسرتها في قبضتها.</div>
+    </div>
+
+    <div class="question">
+        <p>6. ماذا رأت وردة داخل الكوخ؟</p>
+        <button onclick="showAnswer(6)">إظهار الإجابة</button>
+        <div class="answer" id="answer-6">رأت عينين صغيرتين براقَتَين تنظران إليها بمكر وخبث.</div>
+    </div>
+
+    <div class="question">
+        <p>7. ماذا حدث للكوخ بعد إطلاق الجنية؟</p>
+        <button onclick="showAnswer(7)">إظهار الإجابة</button>
+        <div class="answer" id="answer-7">اختفى الكوخ بالكامل، وبقي المفتاح في يد وردة.</div>
+    </div>
+
+    <div class="question">
+        <p>8. كيف كانت الفأرة تتصرف بعد ذلك؟</p>
+        <button onclick="showAnswer(8)">إظهار الإجابة</button>
+        <div class="answer" id="answer-8">كانت تضحك وتسخر من وردة أثناء مطاردتها لها.</div>
+    </div>
+    <div class="question">
+        <p>9. لماذا استخدمت الجنية نبرة الاستعطاف بدلاً من التهديد لإقناع وردة بفتح الباب؟</p>
+        <button onclick="showAnswer(11)">إظهار الإجابة</button>
+        <div class="answer" id="answer-11">لأنها أدركت أن وردة فتاة طيبة القلب وحساسة، فاختارت التأثير العاطفي بدلاً من القوة.</div>
+    </div>
+
+    <div class="question">
+        <p>10. كيف أثر قرار وردة بفتح الكوخ على حياتها وعلاقتها بوالدها؟</p>
+        <button onclick="showAnswer(13)">إظهار الإجابة</button>
+        <div class="answer" id="answer-13">أدى إلى كشف سر خطير، مما قد يدمر الثقة بينهما ويجعلها تواجه خطرًا حقيقيًا.</div>
+    </div>
+
+    <div class="question">
+        <p>11. ما الفكرة الأساسية التي تعبر عنها الجنية عند كشف حقيقتها؟</p>
+        <button onclick="showAnswer(14)">إظهار الإجابة</button>
+        <div class="answer" id="answer-14">تعبر عن انتصار الخداع على البراءة، وأن الفضول قد يكون بابًا للندم.</div>
+    </div>
+    <div class="question">
+        <p>12. ما المغزى الأخلاقي الذي يمكن استخلاصه من القصة؟</p>
+        <button onclick="showAnswer(18)">إظهار الإجابة</button>
+        <div class="answer" id="answer-18">ضرورة التوازن بين الفضول والطاعة، وأهمية التفكير في العواقب قبل اتخاذ القرارات.</div>
+    </div>
+    <script>
+        function showAnswer(id) {
+            const secret = prompt("يرجى إدخال الرمز السري:");
+            const correctSecret = "12634"; // الرمز السري الذي تحدده
+
+            if (secret === correctSecret) {
+                const answerDiv = document.getElementById(`answer-${id}`);
+                answerDiv.style.display = "block";
+            } else {
+                alert("رمز غير صحيح! حاول مرة أخرى.");
+            }
+        }
+    </script>
+</body>
+</html>
