@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تمرين التوصيل</title>
+    <style>
+        body { font-family: Arial, sans-serif; direction: rtl; text-align: center; }
+        .container { max-width: 600px; margin: auto; }
+        select { margin: 5px; }
+        button { margin-top: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>قم بتوصيل كل كلمة بمرادفها وضدها</h2>
+        <div id="exercise"></div>
+        <button onclick="checkAnswers()">إظهار النتيجة</button>
+        <button onclick="showCorrectAnswers()">إظهار الإجابات الصحيحة</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const words = [
+
+            { word: "أَرْمَل", synonym: "فَاقدُ الزَّوجة", antonym: "مُتَزَوِّج" },
+            { word: "نَشَأَتْ", synonym: "كَبِرَتْ", antonym: "اِنْدَثَرَتْ" },
+            { word: "اِزْدَانَ", synonym: "تَزَيَّنَ", antonym: "تَشَوَّهَ" },
+            { word: "طَاعَة", synonym: "اِمْتِثَال", antonym: "عِصْيَان" },
+            { word: "رَذِيلَة", synonym: "سَيِّئَة", antonym: "فَضِيلَة" },
+            { word: "الفُضُول", synonym: "حُبُّ الاِسْتِطْلَاع", antonym: "اللَّامُبَالَاة" },
+            { word: "حَدِيقَة", synonym: "بُسْتَان", antonym: "صَحْرَاء" },
+            { word: "مُحَاطَة", synonym: "مُغْلَقَة", antonym: "مَكْشُوفَة" },
+            { word: "خَدَم", synonym: "عَبِيد", antonym: "أَسْيَاد" },
+            { word: "كُوخ", synonym: "بَيْتٌ صَغِير", antonym: "قَصْر" },
+            { word: "مُغْلَقُ", synonym: "مُوصَد", antonym: "مَفْتُوح" },
+            { word: "رَشَّاشَة", synonym: "مِرَشّ مَاء", antonym: "مُجَفِّفَة" },
+            { word: "مُضْطَرِب", synonym: "قَلِق", antonym: "هَادِئ" },
+            { word: "العَرَق", synonym: "تَعَرُّق", antonym: "جَفَاف" },
+            { word: "الهَلَع", synonym: "الخَوْف", antonym: "الطُّمَأْنِينَة" },
+            { word: "بَهْجَة", synonym: "سُرُور", antonym: "حُزْن" },
+            { word: "مُبَالَاة", synonym: "اِهْتِمَام", antonym: "إِهْمَال" },
+            { word: "اِرْتِيَاع", synonym: "فَزَع", antonym: "سَكِينَة" },
+            { word: "خِدَاع", synonym: "مَكْر", antonym: "صِدْق" },
+            { word: "المُحَاط", synonym: "مُغْلَق", antonym: "مَفْتُوح" },
+            { word: "الخَلاص", synonym: "النَّجَاة", antonym: "الهَلَاك" },
+            { word: "مُقَدَّر", synonym: "مَحْتُوم", antonym: "مَجْهُول" },
+            { word: "الشَّجَاعَة", synonym: "الجُرْأَة", antonym: "الجُبْن" },
+            { word: "الاِخْتِيَار", synonym: "اِنْتِقَاء", antonym: "إِجْبَار" },
+            { word: "المُفَاجَأَة", synonym: "حَدَثٌ غَيْرُ مُتَوَقَّع", antonym: "المُتَوَقَّع" },
+            { word: "الأَمَان", synonym: "الاِطْمِئْنَان", antonym: "الخَطَر" },
+            { word: "الوَحِيدَة", synonym: "المُتَفَرِّدَة", antonym: "المُرَافِقَة" },
+            { word: "النَّدَم", synonym: "التَّحَسُّر", antonym: "الرِّضَا" },
+            { word: "التَّحَرُّر", synonym: "الاِنْعِتَاق", antonym: "العُبُودِيَّة" },
+            { word: "الشَّقَاء", synonym: "التَّعَب", antonym: "الرَّاحَة" },
+            { word: "الأَسْر", synonym: "السِّجْن", antonym: "الحُرِّيَّة" },
+            { word: "العَتَبَة", synonym: "بَابُ الدَّار", antonym: "دَاخِلُ المَنْزِل" },
+            { word: "سَاحِرَة", synonym: "مَشْعُوذَة", antonym: "إِنْسَانَةٌ عَادِيَّة" },
+            { word: "الدُّمُوع", synonym: "البُكَاء", antonym: "الاِبْتِسَام" },
+            { word: "الأَلَم", synonym: "الوَجَع", antonym: "الرَّاحَة" },
+            { word: "القُوَّة", synonym: "الصَّلَابَة", antonym: "الضَّعْف" },
+            { word: "الخِيَانَة", synonym: "الغَدْر", antonym: "الوَفَاء" },
+            { word: "الاِخْتِبَاء", synonym: "التَّخَفِّي", antonym: "الظُّهُور" },
+            { word: "الخَوْف", synonym: "الرُّعْب", antonym: "الشَّجَاعَة" },
+            { word: "النِّدَاء", synonym: "الصِّيَاح", antonym: "الصَّمْت" },
+            { word: "الفِرَار", synonym: "الهُرُوب", antonym: "البَقَاء" },
+            { word: "الاِرْتِجَاف", synonym: "الاِرْتِعَاش", antonym: "الثَّبَات" },
+            { word: "المَصِير", synonym: "القَدَر", antonym: "الاِخْتِيَار" },
+            { word: "الصِّرَاع", synonym: "النِّزَاع", antonym: "السَّلَام" },
+            { word: "السَّعَادَة", synonym: "الفَرَح", antonym: "التَّعَاسَة" }
+        ]; // يمكن إضافة المزيد من الكلمات
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        const synonyms = shuffle(words.map(w => w.synonym));
+        const antonyms = shuffle(words.map(w => w.antonym));
+
+        const exerciseDiv = document.getElementById("exercise");
+        words.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <p>${item.word}</p>
+                <label>اختر المرادف:</label>
+                <select id="synonym${index}">
+                    <option value="">--اختر--</option>
+                    ${synonyms.map(s => `<option value="${s}">${s}</option>`).join('')}
+                </select>
+                <label>اختر الضد:</label>
+                <select id="antonym${index}">
+                    <option value="">--اختر--</option>
+                    ${antonyms.map(a => `<option value="${a}">${a}</option>`).join('')}
+                </select>
+            `;
+            exerciseDiv.appendChild(div);
+        });
+
+        function checkAnswers() {
+            let score = 0;
+            words.forEach((item, index) => {
+                const synonym = document.getElementById(`synonym${index}`).value;
+                const antonym = document.getElementById(`antonym${index}`).value;
+                if (synonym === item.synonym) score++;
+                if (antonym === item.antonym) score++;
+            });
+            document.getElementById("result").innerText = `درجتك: ${score} من ${words.length * 2}`;
+        }
+
+        function showCorrectAnswers() {
+    words.forEach((item, index) => {
+        const synonymSelect = document.getElementById(`synonym${index}`);
+        const antonymSelect = document.getElementById(`antonym${index}`);
+
+        // إضافة الإجابة الصحيحة بجانب القائمة المنسدلة
+        if (!document.getElementById(`correctSynonym${index}`)) {
+            const correctSynonym = document.createElement("span");
+            correctSynonym.id = `correctSynonym${index}`;
+            correctSynonym.style.color = "blue";
+            correctSynonym.style.marginRight = "10px";
+            correctSynonym.innerText = `✓ ${item.synonym}`;
+            synonymSelect.parentNode.appendChild(correctSynonym);
+        }
+
+        if (!document.getElementById(`correctAntonym${index}`)) {
+            const correctAntonym = document.createElement("span");
+            correctAntonym.id = `correctAntonym${index}`;
+            correctAntonym.style.color = "blue";
+            correctAntonym.style.marginRight = "10px";
+            correctAntonym.innerText = `✓ ${item.antonym}`;
+            antonymSelect.parentNode.appendChild(correctAntonym);
+        }
+    });
+}
+
+    </script>
+</body>
+</html>
