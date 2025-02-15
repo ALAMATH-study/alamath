@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice Interactif</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; text-align: center; }
+        .container { background: white; padding: 20px; border-radius: 10px; width: 60%; margin: auto; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); }
+        .question { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        select { padding: 5px; margin-left: 10px; border-radius: 5px; }
+        button { padding: 10px 15px; margin-top: 15px; border: none; border-radius: 5px; cursor: pointer; }
+        .correct { background-color: green; color: white; }
+        .incorrect { background-color: red; color: white; }
+        .btn-container { margin-top: 20px; }
+        #resultat, #corrections { margin-top: 20px; font-weight: bold; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Associez chaque métier à sa définition et à son exécutant</h2>
+        <div id="quiz"></div>
+        <div class="btn-container">
+            <button onclick="verifier()" class="correct">Vérifier</button>
+            <button onclick="afficherCorrections()" class="incorrect">Afficher les corrections</button>
+        </div>
+        <p id="resultat"></p>
+        <div id="corrections"></div>
+    </div>
+
+    <script>
+        const questions = [
+        { metier: "Médecine", definition: "Science qui soigne les maladies et aide les patients à rester en bonne santé.", reponse: "Médecin" },
+  { metier: "Enseignement", definition: "Transmission des connaissances aux élèves dans différentes matières.", reponse: "Enseignant / Professeur" },
+  { metier: "Boulangerie", definition: "Fabrication du pain, des viennoiseries et des pâtisseries.", reponse: "Boulanger" },
+  { metier: "Policerie", definition: "Maintien de l’ordre et protection des citoyens.", reponse: "Policier" },
+  { metier: "Pompiers", definition: "Extinction des incendies et secours aux personnes en danger.", reponse: "Pompier" },
+  { metier: "Journalisme", definition: "Recherche et diffusion d’informations à travers différents médias.", reponse: "Journaliste" },
+  { metier: "Architecture", definition: "Conception et planification de bâtiments et d’infrastructures.", reponse: "Architecte" },
+  { metier: "Ingénierie", definition: "Conception et réalisation de projets techniques et scientifiques.", reponse: "Ingénieur" },
+  { metier: "Agriculture", definition: "Culture de plantes et élevage d’animaux pour la consommation.", reponse: "Agriculteur" },
+  { metier: "Dentisterie", definition: "Soins et traitement des dents et des gencives.", reponse: "Dentiste" },
+  { metier: "Pharmacie", definition: "Préparation et distribution des médicaments aux patients.", reponse: "Pharmacien" },
+  { metier: "Mécanique", definition: "Réparation et entretien des machines et des véhicules.", reponse: "Mécanicien" },
+  { metier: "Électricité", definition: "Installation et réparation des systèmes électriques.", reponse: "Électricien" },
+  { metier: "Menuiserie", definition: "Fabrication et réparation d’objets en bois.", reponse: "Menuisier" },
+  { metier: "Cuisine", definition: "Préparation des plats et des repas dans les restaurants.", reponse: "Cuisinier / Chef cuisinier" },
+  { metier: "Chirurgie", definition: "Opérations médicales pour soigner les maladies et blessures.", reponse: "Chirurgien" },
+  { metier: "Traduction", definition: "Conversion d’un texte ou d’un discours d’une langue à une autre.", reponse: "Traducteur / Interprète" },
+  { metier: "Droit", definition: "Défense des droits des individus et des entreprises.", reponse: "Avocat" },
+  { metier: "Psychologie", definition: "Étude du comportement humain et accompagnement des patients en souffrance.", reponse: "Psychologue" },
+  { metier: "Astronomie", definition: "Étude des étoiles, des planètes et de l’univers.", reponse: "Astronome" }
+];
+
+        function melangerArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        const definitionsMelangees = melangerArray([...questions.map(q => q.definition)]);
+        const reponsesMelangees = melangerArray([...questions.map(q => q.reponse)]);
+
+        const quizContainer = document.getElementById("quiz");
+
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+            div.innerHTML = `<label>${q.metier}</label>
+                <select id='def${index}'>
+                    <option value="">Choisir la définition...</option>
+                    ${definitionsMelangees.map(def => `<option value="${def}">${def}</option>`).join('')}
+                </select>
+                <select id='rep${index}'>
+                    <option value="">Choisir l'exécutant...</option>
+                    ${reponsesMelangees.map(rep => `<option value="${rep}">${rep}</option>`).join('')}
+                </select>`;
+            quizContainer.appendChild(div);
+        });
+
+        function verifier() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const reponseUtilisateur = document.getElementById(`rep${index}`).value;
+                const definitionUtilisateur = document.getElementById(`def${index}`).value;
+                if (reponseUtilisateur === q.reponse && definitionUtilisateur === q.definition) {
+                    score++;
+                }
+            });
+            document.getElementById("resultat").innerText = `Votre score est de ${score} / ${questions.length}`;
+        }
+
+        function afficherCorrections() {
+            let correctionsHtml = `<table>
+                <tr>
+                    <th>Métier</th>
+                    <th>Définition</th>
+                    <th>Exécutant</th>
+                </tr>`;
+            questions.forEach((q) => {
+                correctionsHtml += `<tr>
+                    <td>${q.metier}</td>
+                    <td>${q.definition}</td>
+                    <td>${q.reponse}</td>
+                </tr>`;
+            });
+            correctionsHtml += `</table>`;
+            document.getElementById("corrections").innerHTML = correctionsHtml;
+        }
+    </script>
+</body>
+</html>
