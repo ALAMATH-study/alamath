@@ -86,7 +86,19 @@
         <p id="score-ex2" class="score"></p>
         <p id="message-ex2" class="score"></p>
     </div>
-    
+    <h1>Exercice 3 : Types de phrases</h1>
+<p>Classez chaque phrase dans le bon type : déclarative, interrogative, impérative ou exclamative :</p>
+<table>
+    <tr>
+        <th>Phrase</th>
+        <th>Type de phrase</th>
+        <th>Correction</th>
+    </tr>
+    <tbody id="table-body-ex3"></tbody>
+</table>
+<button class="btn" onclick="corrigerExercice3()">Vérifier</button>
+<p id="score-ex3" class="score"></p>
+<p id="message-ex3" class="score"></p>
     <script>
         const phrasesEx1 = [
             {text: "Hier, j’ai vu un magnifique arc-en-ciel.", temps: "passé"},
@@ -225,6 +237,81 @@
             generateTable();
             generateTableEx2();
         };
+        const phrasesEx3 = [
+        { text: "Il fait très beau aujourd’hui.", type: "déclarative" },
+        { text: "Où habites-tu ?", type: "interrogative" },
+        { text: "Ferme la porte, s’il te plaît.", type: "impérative" },
+        { text: "Comme ce gâteau est délicieux !", type: "exclamative" },
+        { text: "Nous allons à l’école tous les matins.", type: "déclarative" },
+        { text: "Peux-tu m’aider à faire mes devoirs ?", type: "interrogative" },
+        { text: "Faites attention en traversant la route !", type: "impérative" },
+        { text: "Ce film est vraiment passionnant !", type: "exclamative" },
+        { text: "Pourquoi es-tu en retard ?", type: "interrogative" },
+        { text: "Les enfants jouent dans le jardin.", type: "déclarative" },
+        { text: "Ne parle pas si fort !", type: "impérative" },
+        { text: "Quelle belle surprise !", type: "exclamative" },
+        { text: "Avez-vous terminé votre exercice ?", type: "interrogative" },
+        { text: "Les oiseaux chantent au lever du soleil.", type: "déclarative" },
+        { text: "Regardez ce magnifique paysage !", type: "exclamative" },
+        { text: "À quelle heure commence la réunion ?", type: "interrogative" },
+        { text: "Ce livre est très intéressant.", type: "déclarative" },
+        { text: "Ne cours pas dans le couloir !", type: "impérative" },
+        { text: "Ils partent en vacances demain.", type: "déclarative" },
+        { text: "Comme elle est gentille !", type: "exclamative" }
+    ];
+
+    function generateTableEx3() {
+        let tableBodyEx3 = document.getElementById("table-body-ex3");
+        phrasesEx3.forEach((phrase, index) => {
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${phrase.text}</td>
+                <td>
+                    <select id="ex3${index}">
+                        <option value="">Choisissez</option>
+                        <option value="déclarative">Déclarative</option>
+                        <option value="interrogative">Interrogative</option>
+                        <option value="impérative">Impérative</option>
+                        <option value="exclamative">Exclamative</option>
+                    </select>
+                </td>
+                <td class="correction" id="corr3${index}">${phrase.type}</td>
+            `;
+            tableBodyEx3.appendChild(row);
+        });
+    }
+
+    function corrigerExercice3() {
+        let score = 0;
+        phrasesEx3.forEach((phrase, index) => {
+            let userAnswer = document.getElementById(`ex3${index}`).value;
+            let correction = document.getElementById(`corr3${index}`);
+            correction.style.display = "block";
+            if (userAnswer === phrase.type) {
+                score++;
+            }
+        });
+        document.getElementById("score-ex3").innerText = `Votre score : ${score}/20`;
+        let message = "";
+        if (score === 20) {
+            message = "Excellent ! Vous êtes un expert des types de phrases ! 🏆";
+        } else if (score >= 15) {
+            message = "Très bien ! Vous avez une bonne compréhension des types de phrases. 👍";
+        } else if (score >= 10) {
+            message = "Pas mal ! Encore un petit effort ! 💪";
+        } else {
+            message = "Continuez à vous entraîner, vous allez progresser ! 📚";
+        }
+        document.getElementById("message-ex3").innerText = message;
+    }
+
+    // Appel de la fonction pour générer les tables lors du chargement de la page
+    window.onload = function() {
+        generateTable();
+        generateTableEx2();
+        generateTableEx3();
+    };
+    
     </script>
 </body>
 </html>
