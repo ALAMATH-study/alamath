@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice : Classement des Temps</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+        .correction {
+            display: none;
+            color: blue;
+            margin-top: 5px;
+        }
+        .score {
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Classement des phrases selon le temps</h1>
+        <p>Classez ces phrases en "Passé", "Présent" ou "Futur" :</p>
+        <table>
+            <tr>
+                <th>Phrase</th>
+                <th>Temps</th>
+                <th>Correction</th>
+            </tr>
+            <tbody id="table-body"></tbody>
+        </table>
+        <button class="btn" onclick="corriger()">Vérifier</button>
+        <p id="score" class="score"></p>
+        <p id="message" class="score"></p>
+    </div>
+    
+    <script>
+        const phrases = [
+            {text: "Hier, j’ai vu un magnifique arc-en-ciel.", temps: "passé"},
+            {text: "Demain, nous irons au parc.", temps: "futur"},
+            {text: "Chaque matin, je bois un verre de jus d’orange.", temps: "présent"},
+            {text: "L’année dernière, nous avons voyagé en Espagne.", temps: "passé"},
+            {text: "La semaine prochaine, tu commenceras un nouveau sport.", temps: "futur"},
+            {text: "En ce moment, elle lit un livre passionnant.", temps: "présent"},
+            {text: "Avant, il habitait à la campagne.", temps: "passé"},
+            {text: "Dans quelques heures, nous prendrons le train.", temps: "futur"},
+            {text: "Ils ont déjà fini leurs devoirs.", temps: "passé"},
+            {text: "Tout à l’heure, je vais appeler ma grand-mère.", temps: "futur"},
+            {text: "Quand j’étais petit, je jouais souvent dehors.", temps: "passé"},
+            {text: "Maintenant, je fais mes exercices de français.", temps: "présent"},
+            {text: "Il y a deux jours, nous avons rencontré un artiste célèbre.", temps: "passé"},
+            {text: "Ce soir, nous regarderons un film ensemble.", temps: "futur"},
+            {text: "Autrefois, les gens écrivaient des lettres.", temps: "passé"},
+            {text: "Actuellement, tu étudies pour ton examen.", temps: "présent"},
+            {text: "Plus tard, vous serez de grands scientifiques.", temps: "futur"},
+            {text: "L’hiver dernier, nous avons fait du ski.", temps: "passé"},
+            {text: "Dans dix ans, la technologie sera encore plus avancée.", temps: "futur"}
+        ];
+        
+        function generateTable() {
+            let tableBody = document.getElementById("table-body");
+            phrases.forEach((phrase, index) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${phrase.text}</td>
+                    <td>
+                        <select id="ex${index}">
+                            <option value="">Choisissez</option>
+                            <option value="passé">Passé</option>
+                            <option value="présent">Présent</option>
+                            <option value="futur">Futur</option>
+                        </select>
+                    </td>
+                    <td class="correction" id="corr${index}">${phrase.temps}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function corriger() {
+            let score = 0;
+            phrases.forEach((phrase, index) => {
+                let userAnswer = document.getElementById(`ex${index}`).value;
+                let correction = document.getElementById(`corr${index}`);
+                correction.style.display = "block";
+                if (userAnswer === phrase.temps) {
+                    score++;
+                }
+            });
+            document.getElementById("score").innerText = `Votre score : ${score}/20`;
+            let message = "";
+            if (score === 20) {
+                message = "Excellent ! Vous êtes un expert des temps verbaux ! 🏆";
+            } else if (score >= 15) {
+                message = "Très bien ! Vous avez une bonne compréhension des temps. 👍";
+            } else if (score >= 10) {
+                message = "Pas mal ! Encore un petit effort ! 💪";
+            } else {
+                message = "Continuez à vous entraîner, vous allez progresser ! 📚";
+            }
+            document.getElementById("message").innerText = message;
+        }
+        
+        window.onload = generateTable;
+    </script>
+</body>
+</html>
