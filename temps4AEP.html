@@ -95,8 +95,19 @@
             {text: "L’hiver dernier, nous avons fait du ski.", temps: "passé"},
             {text: "Dans dix ans, la technologie sera encore plus avancée.", temps: "futur"}
         ];
-        
+    
+        // Fonction pour mélanger le tableau
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    
         function generateTable() {
+            // Mélange des phrases
+            shuffle(phrases);
+    
             let tableBody = document.getElementById("table-body");
             phrases.forEach((phrase, index) => {
                 let row = document.createElement("tr");
@@ -115,7 +126,7 @@
                 tableBody.appendChild(row);
             });
         }
-        
+    
         function corriger() {
             let score = 0;
             phrases.forEach((phrase, index) => {
@@ -139,7 +150,7 @@
             }
             document.getElementById("message").innerText = message;
         }
-        
+    
         window.onload = generateTable;
     </script>
 </body>
