@@ -58,7 +58,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Classement des phrases selon le temps</h1>
+        <h1>Exercice 1 : Classement des phrases selon le temps</h1>
         <p>Classez ces phrases en "Passé", "Présent" ou "Futur" :</p>
         <table>
             <tr>
@@ -68,13 +68,27 @@
             </tr>
             <tbody id="table-body"></tbody>
         </table>
-        <button class="btn" onclick="corriger()">Vérifier</button>
+        <button class="btn" onclick="corrigerExercice1()">Vérifier</button>
         <p id="score" class="score"></p>
         <p id="message" class="score"></p>
+
+        <h1>Exercice 2 : COD ou COI</h1>
+        <p>Indiquez si le complément souligné est un COD ou un COI :</p>
+        <table>
+            <tr>
+                <th>Phrase</th>
+                <th>Type de complément</th>
+                <th>Correction</th>
+            </tr>
+            <tbody id="table-body-ex2"></tbody>
+        </table>
+        <button class="btn" onclick="corrigerExercice2()">Vérifier</button>
+        <p id="score-ex2" class="score"></p>
+        <p id="message-ex2" class="score"></p>
     </div>
     
     <script>
-        const phrases = [
+        const phrasesEx1 = [
             {text: "Hier, j’ai vu un magnifique arc-en-ciel.", temps: "passé"},
             {text: "Demain, nous irons au parc.", temps: "futur"},
             {text: "Chaque matin, je bois un verre de jus d’orange.", temps: "présent"},
@@ -95,21 +109,33 @@
             {text: "L’hiver dernier, nous avons fait du ski.", temps: "passé"},
             {text: "Dans dix ans, la technologie sera encore plus avancée.", temps: "futur"}
         ];
-    
-        // Fonction pour mélanger le tableau
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-    
+
+        const phrasesEx2 = [
+            {text: "Je regarde **le film**.", type: "COD"},
+            {text: "Il parle **à son frère**.", type: "COI"},
+            {text: "Nous avons acheté **une voiture**.", type: "COD"},
+            {text: "Elle téléphone **à sa mère**.", type: "COI"},
+            {text: "J’écoute **la musique**.", type: "COD"},
+            {text: "Il écrit **une lettre**.", type: "COD"},
+            {text: "Vous donnez **un cadeau** **à votre ami**.", type: "COD / COI"},
+            {text: "Elle pense **à son avenir**.", type: "COI"},
+            {text: "Nous aidons **notre voisine**.", type: "COD"},
+            {text: "Ils envoient **un message** **à leur professeur**.", type: "COD / COI"},
+            {text: "Elle cherche **un livre**.", type: "COD"},
+            {text: "Nous parlons **de nos projets**.", type: "COI"},
+            {text: "Je lis **un article**.", type: "COD"},
+            {text: "Il répond **à la question**.", type: "COI"},
+            {text: "Vous regardez **la télévision**.", type: "COD"},
+            {text: "Elles se souviennent **de leurs vacances**.", type: "COI"},
+            {text: "Tu prends **une photo**.", type: "COD"},
+            {text: "Nous pensons **à nos amis**.", type: "COI"},
+            {text: "Il vend **sa voiture**.", type: "COD"},
+            {text: "Elles expliquent **le problème** **à leur professeur**.", type: "COD / COI"}
+        ];
+        
         function generateTable() {
-            // Mélange des phrases
-            shuffle(phrases);
-    
             let tableBody = document.getElementById("table-body");
-            phrases.forEach((phrase, index) => {
+            phrasesEx1.forEach((phrase, index) => {
                 let row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${phrase.text}</td>
@@ -126,10 +152,30 @@
                 tableBody.appendChild(row);
             });
         }
-    
-        function corriger() {
+
+        function generateTableEx2() {
+            let tableBodyEx2 = document.getElementById("table-body-ex2");
+            phrasesEx2.forEach((phrase, index) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${phrase.text}</td>
+                    <td>
+                        <select id="ex2${index}">
+                            <option value="">Choisissez</option>
+                            <option value="COD">COD</option>
+                            <option value="COI">COI</option>
+                            <option value="COD / COI">COD / COI</option>
+                        </select>
+                    </td>
+                    <td class="correction" id="corr2${index}">${phrase.type}</td>
+                `;
+                tableBodyEx2.appendChild(row);
+            });
+        }
+        
+        function corrigerExercice1() {
             let score = 0;
-            phrases.forEach((phrase, index) => {
+            phrasesEx1.forEach((phrase, index) => {
                 let userAnswer = document.getElementById(`ex${index}`).value;
                 let correction = document.getElementById(`corr${index}`);
                 correction.style.display = "block";
@@ -150,8 +196,35 @@
             }
             document.getElementById("message").innerText = message;
         }
-    
-        window.onload = generateTable;
+
+        function corrigerExercice2() {
+            let score = 0;
+            phrasesEx2.forEach((phrase, index) => {
+                let userAnswer = document.getElementById(`ex2${index}`).value;
+                let correction = document.getElementById(`corr2${index}`);
+                correction.style.display = "block";
+                if (userAnswer === phrase.type) {
+                    score++;
+                }
+            });
+            document.getElementById("score-ex2").innerText = `Votre score : ${score}/20`;
+            let message = "";
+            if (score === 20) {
+                message = "Excellent ! Vous êtes un expert des compléments ! 🏆";
+            } else if (score >= 15) {
+                message = "Très bien ! Vous avez une bonne compréhension des COD et COI. 👍";
+            } else if (score >= 10) {
+                message = "Pas mal ! Encore un petit effort ! 💪";
+            } else {
+                message = "Continuez à vous entraîner, vous allez progresser ! 📚";
+            }
+            document.getElementById("message-ex2").innerText = message;
+        }
+        
+        window.onload = function() {
+            generateTable();
+            generateTableEx2();
+        };
     </script>
 </body>
 </html>
