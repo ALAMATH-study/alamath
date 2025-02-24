@@ -53,9 +53,10 @@
     
     <br>
     <button onclick="checkAnswers()">تقييم</button>
-    <button onclick="showAnswers()">إظهار الإجابات</button>
+    <button onclick="askPassword()">إظهار الإجابات</button>
     
     <script>
+        
         const verbs = [
                 { base: "دعــا", correct: "دعا" },
                 { base: "مستشفى", correct: "مستشفى" },
@@ -241,7 +242,16 @@
             validateAnswers(femininePlural, "femininePluralTable", "femininePluralScore");
             validateAnswers(presentVerbs, "presentVerbsTable", "presentVerbsScore");
         }
+        const password = "1234"; // mot de passe pour la correction
         
+        function askPassword() {
+            let userInput = prompt("الرجاء إدخال كلمة المرور لإظهار الإجابات:");
+            if (userInput === password) {
+                showAnswers();
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
         function showAnswers() {
             function fillAnswers(data, tableId) {
                 data.forEach((item, index) => {
