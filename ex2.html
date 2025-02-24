@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تمارين اللغة العربية</title>
+    <style>
+        body { font-family: Arial, sans-serif; direction: rtl; text-align: center; background-color: #f9f9f9; }
+        table { margin: auto; border-collapse: collapse; width: 60%; background: white; box-shadow: 0px 0px 10px gray; border-radius: 10px; }
+        th, td { border: 1px solid #000; padding: 10px; }
+        input { width: 80%; text-align: center; }
+        .correct { background-color: lightgreen; }
+        .wrong { background-color: lightcoral; }
+        button { margin: 10px; padding: 10px; font-size: 16px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h2>تمرين الألف اللينة في الأسماء والأفعال: أكتب الألف اللينة بشكل صحيح</h2>
+    <table>
+        <tr><th>الفعل/الإسم</th><th>الإجابة</th></tr>
+        <tbody id="verbsTable"></tbody>
+    </table>
+    <p id="verbsScore"></p>
+    
+    <h2>تمرين المفعول فيه: حدد المفعول فيه في الجملة محددا نوعه</h2>
+    <table>
+        <tr><th>الجملة</th><th>المفعول فيه/ظرف زمان أو مكان</th></tr>
+        <tbody id="nounsTable"></tbody>
+    </table>
+    <p id="nounsScore"></p>
+    
+    <h2>تمرين تحديد الحال في الجمل</h2>
+    <table>
+        <tr><th>الجملة</th><th>الحال</th></tr>
+        <tbody id="adverbsTable"></tbody>
+    </table>
+    <p id="adverbsScore"></p>
+    
+    <h2>تمرين تحديد الجمع ونوعه</h2>
+    <table>
+        <tr><th>الجملة</th><th>الجمع/نوعه</th></tr>
+        <tbody id="femininePluralTable"></tbody>
+    </table>
+    <p id="femininePluralScore"></p>
+    
+    <h2>تمرين استخراج الفعل المضارع من الجملة</h2>
+    <table>
+        <tr><th>الجملة</th><th>الفعل المضارع</th></tr>
+        <tbody id="presentVerbsTable"></tbody>
+    </table>
+    <p id="presentVerbsScore"></p>
+    
+    <br>
+    <button onclick="checkAnswers()">تقييم</button>
+    <button onclick="showAnswers()">إظهار الإجابات</button>
+    
+    <script>
+        const verbs = [
+                { base: "دعــا", correct: "دعا" },
+                { base: "مستشفى", correct: "مستشفى" },
+                { base: "مشــى", correct: "مشى" },
+                { base: "مجتــبى", correct: "مجتبى" },
+                { base: "مرمــى", correct: "مرمى" },
+                { base: "مرتجــى", correct: "مرتجى" },
+                { base: "جــرى", correct: "جرى" },
+                { base: "نــســي", correct: "نسي" },
+                { base: "بنى", correct: "بنى" },
+                { base: "ملتــقى", correct: "ملتقى" },
+                { base: "غــلــا", correct: "غلا" },
+                { base: "علا", correct: "علا" },
+                { base: "مأوى", correct: "مأوى" },
+                { base: "رنــا", correct: "رنا" },
+                { base: "زهــى", correct: "زها" },
+                { base: "بشرى", correct: "بشرى" },
+                { base: "سعــى", correct: "سعى" },
+                { base: "تــلــا", correct: "تلا" },
+                { base: "رضــي", correct: "رضي" },
+                { base: "حنــا", correct: "حنا" },
+                { base: "سلوى", correct: "سلوى" },
+                { base: "بدــا", correct: "بدا" },
+                { base: "أفتــى", correct: "أفتى" },
+                { base: "ارتقــى", correct: "ارتقى" },
+                { base: "ألقــى", correct: "ألقى" },
+                { base: "جفــا", correct: "جفا" },
+                { base: "أســى", correct: "أسى" },
+                { base: "سما", correct: "سما" },
+                { base: "فتــى", correct: "فتى" },
+                { base: "مصطفــى", correct: "مصطفى" },
+                { base: "هدى", correct: "هدى" },
+                { base: "رضــا", correct: "رضا" },
+                { base: "دنيــا", correct: "دنيا" },
+                { base: "منى", correct: "منى" },
+                { base: "ذكرى", correct: "ذكرى" },
+                { base: "ألفــا", correct: "ألفا" },
+                { base: "عصــا", correct: "عصا" },
+                { base: "خطــا", correct: "خطا" },
+                { base: "نجــوى", correct: "نجوى" },
+                { base: "رؤى", correct: "رؤى" },
+                
+                
+        ];
+        
+        const nouns = [
+                { sentence: "ذهبت إلى المدرسة صباحًا", correct: "صباحًا / ظرف زمان" },
+                { sentence: "جلس الطفل تحت الشجرة", correct: "تحت  / ظرف مكان" },
+                { sentence: "وصل القطار ليلًا", correct: "ليلًا / ظرف زمان" },
+                { sentence: "استلقيت فوق السرير", correct: "فوق  / ظرف مكان" },
+                { sentence: "سافرنا فجرًا", correct: "فجرًا / ظرف زمان" },
+                { sentence: "نام الطفل عند الغروب", correct: "عند  / ظرف زمان" },
+                { sentence: "وقف الطلاب أمام المعلم", correct: "أمام  / ظرف مكان" },
+                { sentence: "التقينا بعد الظهر", correct: "بعد الظهر / ظرف زمان" },
+                { sentence: "تمشى الرجل وسط الحديقة", correct: "وسط / ظرف مكان" },
+                { sentence: "استراح العامل ظهرًا", correct: "ظهرًا / ظرف زمان" },
+                { sentence: "جلست قرب صديقي", correct: "قرب / ظرف مكان" },
+                { sentence: "استيقظت مبكرًا", correct: "مبكرًا / ظرف زمان" },
+                { sentence: "توقف السائق عند الإشارة", correct: "عند  / ظرف مكان" },
+                { sentence: "درست الدرس مساءً", correct: "مساءً / ظرف زمان" },
+                { sentence: "وقف الجندي خلف القائد", correct: "خلف / ظرف مكان" },
+                
+                { sentence: "وضعت الحقيبة تحت الطاولة", correct: "تحت / ظرف مكان" },
+                { sentence: "سأعود قريبًا", correct: "قريبًا / ظرف زمان" },
+                { sentence: "تمشى الطفل بين الأشجار", correct: "بين / ظرف مكان" },
+                { sentence: "جلس التلاميذ حول المعلم", correct: "حول / ظرف مكان" },
+                { sentence: "أديت الصلاة عصرًا", correct: "عصرًا / ظرف زمان" },
+                { sentence: "وقفت السيارة أمام المنزل", correct: "أمام / ظرف مكان" },
+                { sentence: "وصل البريد صباحًا", correct: "صباحًا / ظرف زمان" },
+                { sentence: "نام الطفل فوق السرير", correct: "فوق / ظرف مكان" },
+                { sentence: "انطلق القطار مساءً", correct: "مساءً / ظرف زمان" },
+                { sentence: "تمشى السائح داخل المدينة", correct: "داخل / ظرف مكان" },
+                { sentence: "سافرت العائلة شتاءً", correct: "شتاءً / ظرف زمان" },
+                
+                { sentence: "ركض اللاعب خارج الملعب", correct: "خارج / ظرف مكان" },
+                { sentence: "ذهبنا إلى البحر صيفًا", correct: "صيفًا / ظرف زمان" }
+        ];
+        
+        const adverbs = [
+                { sentence: "جاء الطالب نشيطًا", correct: "نشيطًا" },
+            { sentence: "رجع المسافر متعبًا", correct: "متعبًا" },
+            { sentence: "تحدث الخطيب بصوتٍ عالٍ", correct: "بصوتٍ عالٍ" },
+            { sentence: "سافر الرجل وحيدًا", correct: "وحيدًا" },
+            { sentence: "عاد الجنود منتصرين", correct: "منتصرين" },
+            { sentence: "شرب الطفل الماء عطشانَ", correct: "عطشانَ" },
+            { sentence: "دخلت الفتاة مبتسمةً", correct: "مبتسمةً" },
+            { sentence: "نام الطفل هادئًا", correct: "هادئًا" },
+            { sentence: "جلس المعلم متأملًا", correct: "متأملًا" },
+            { sentence: "ركض العداء سريعًا", correct: "سريعًا" },
+            { sentence: "خرج التلميذ مسرورًا", correct: "مسرورًا" },
+            { sentence: "وقفت الفتاة خائفةً", correct: "خائفةً" },
+            { sentence: "وصل البريد مستعجلًا", correct: "مستعجلًا" },
+            { sentence: "عاد الطفل باكيًا", correct: "باكيًا" },
+            { sentence: "سار الرجل مطمئنًا", correct: "مطمئنًا" },
+            { sentence: "استقبل المدير الضيوف مبتسمًا", correct: "مبتسمًا" },
+            { sentence: "ظهر القمر مشرقًا", correct: "مشرقًا" },
+            { sentence: "غادر الحجاج متلهفين", correct: "متلهفين" },
+            { sentence: "استيقظت الأم باكرًا", correct: "باكرًا" },
+            { sentence: "عاد الرياضيون منتشين", correct: "منتشين" }
+        ];
+        
+        const femininePlural = [
+        { sentence: "نجحت الطالبات في الامتحان", correct: "الطالبات / جمع مؤنث سالم" },
+    { sentence: "كرمت المعلم المجتهدين", correct: "المجتهدين / جمع مذكر سالم" },
+    { sentence: "زار المهندسون الورشة", correct: "المهندسون / جمع مذكر سالم" },
+    { sentence: "شاركت المعلمات في المؤتمر", correct: "المعلمات / جمع مؤنث سالم" },
+    { sentence: "أكرم المدير الموظفين المخلصين", correct: "الموظفين / جمع مذكر سالم" },
+    { sentence: "تفوقت الفائزات في المسابقة", correct: "الفائزات / جمع مؤنث سالم" },
+    { sentence: "ساعد الأطباء المرضى", correct: "الأطباء / جمع مذكر سالم" },
+    { sentence: "كافأ المدير العاملات المثابرات", correct: "العاملات / جمع مؤنث سالم" },
+    { sentence: "وصل اللاعبون إلى الملعب", correct: "اللاعبون / جمع مذكر سالم" },
+    { sentence: "شكرت المدرسة الطالبات المجتهدات", correct: "الطالبات / جمع مؤنث سالم" },
+    { sentence: "حضر المعلمون إلى الاجتماع", correct: "المعلمون / جمع مذكر سالم" },
+    { sentence: "استقبل الحاضرون الضيوف بحفاوة", correct: "الحاضرون / جمع مذكر سالم" },
+    { sentence: "أرسلت الطبيبات تقاريرهن إلى المستشفى", correct: "الطبيبات / جمع مؤنث سالم" },
+    { sentence: "كرم المدير الفائزين في المسابقة", correct: "الفائزين / جمع مذكر سالم" },
+    { sentence: "قابلنا المسؤولات في الوزارة", correct: "المسؤولات / جمع مؤنث سالم" },
+    { sentence: "تنافس اللاعبون في البطولة", correct: "اللاعبون / جمع مذكر سالم" },
+    { sentence: "استمعت القاضيات إلى الشهادات", correct: "القاضيات / جمع مؤنث سالم" },
+    { sentence: "ساعد المتطوعون المحتاجين", correct: "المتطوعون / جمع مذكر سالم" },
+    { sentence: "احترمت الفتيات المعلمات في المدرسة", correct: "المعلمات / جمع مؤنث سالم" },
+    { sentence: "زار السائحون المتحف الوطني", correct: "السائحون / جمع مذكر سالم" },
+    { sentence: "كرمت المديرة الموظفات المتميزات", correct: "الموظفات / جمع مؤنث سالم" },
+    { sentence: "استضاف الفندق السائحين القادمين من الخارج", correct: "السائحين / جمع مذكر سالم" },
+    { sentence: "شاركت الكاتبات في الندوة الأدبية", correct: "الكاتبات / جمع مؤنث سالم" },
+    { sentence: "اهتم المعلمون بتطوير أساليب التدريس", correct: "المعلمون / جمع مذكر سالم" },
+    { sentence: "تفوقت الطبيبات في عملهن", correct: "الطبيبات / جمع مؤنث سالم" },
+    { sentence: "كرمت الدولة المبدعين في مجالاتهم", correct: "المبدعين / جمع مذكر سالم" },
+    { sentence: "حصلت الباحثات على جوائز علمية", correct: "الباحثات / جمع مؤنث سالم" },
+    { sentence: "تنافس المشاركون في المسابقة النهائية", correct: "المشاركون / جمع مذكر سالم" },
+    { sentence: "حضرت الأديبات المؤتمر الثقافي", correct: "الأديبات / جمع مؤنث سالم" },
+    { sentence: "استمع القضاة إلى الشهود في المحكمة", correct: "القضاة / جمع مذكر سالم" },
+    { sentence: "ساهمت الطالبات في المشروع البيئي", correct: "الطالبات / جمع مؤنث سالم" },
+    { sentence: "احتفل المواطنون بالعيد الوطني", correct: "المواطنون / جمع مذكر سالم" },
+    { sentence: "أبدعت الفنانات في رسم اللوحات", correct: "الفنانات / جمع مؤنث سالم" },
+    { sentence: "ساعد المهندسون في بناء الجسر", correct: "المهندسون / جمع مذكر سالم" },
+    { sentence: "تفوقت الشاعرات في المسابقة الأدبية", correct: "الشاعرات / جمع مؤنث سالم" },
+    { sentence: "ناقش المفكرون القضايا المهمة", correct: "المفكرون / جمع مذكر سالم" },
+    { sentence: "نظمت المدربات دورة في تطوير الذات", correct: "المدربات / جمع مؤنث سالم" },
+    { sentence: "استقبل الحكام الفرق المتنافسة", correct: "الحكام / جمع مذكر سالم" },
+    { sentence: "شاركت الممرضات في الحملة الصحية", correct: "الممرضات / جمع مؤنث سالم" }
+        ];
+        
+        const presentVerbs = [
+            { sentence: "  ", correct: "" },
+            { sentence: "   ", correct: "" }
+        ];
+        
+        function populateTable(tableId, data) {
+            const table = document.getElementById(tableId);
+            data.forEach((item, index) => {
+                let row = table.insertRow();
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                cell1.innerText = item.sentence || item.base;
+                cell2.innerHTML = `<input type="text" id="${tableId}Input${index}">`;
+            });
+        }
+        
+        function checkAnswers() {
+            let scores = { verbs: 0, nouns: 0, adverbs: 0, femininePlural: 0, presentVerbs: 0 };
+            
+            function validateAnswers(data, tableId, scoreId) {
+                let correctCount = 0;
+                data.forEach((item, index) => {
+                    let input = document.getElementById(`${tableId}Input${index}`);
+                    if (input.value.trim() === item.correct) {
+                        input.classList.add("correct");
+                        input.classList.remove("wrong");
+                        correctCount++;
+                    } else {
+                        input.classList.add("wrong");
+                        input.classList.remove("correct");
+                    }
+                });
+                scores[tableId] = correctCount;
+                document.getElementById(scoreId).innerText = `نتيجتك: ${correctCount} / ${data.length}`;
+            }
+            
+            validateAnswers(verbs, "verbsTable", "verbsScore");
+            validateAnswers(nouns, "nounsTable", "nounsScore");
+            validateAnswers(adverbs, "adverbsTable", "adverbsScore");
+            validateAnswers(femininePlural, "femininePluralTable", "femininePluralScore");
+            validateAnswers(presentVerbs, "presentVerbsTable", "presentVerbsScore");
+        }
+        
+        function showAnswers() {
+            function fillAnswers(data, tableId) {
+                data.forEach((item, index) => {
+                    document.getElementById(`${tableId}Input${index}`).value = item.correct;
+                });
+            }
+            
+            fillAnswers(verbs, "verbsTable");
+            fillAnswers(nouns, "nounsTable");
+            fillAnswers(adverbs, "adverbsTable");
+            fillAnswers(femininePlural, "femininePluralTable");
+            fillAnswers(presentVerbs, "presentVerbsTable");
+        }
+        
+        populateTable("verbsTable", verbs);
+        populateTable("nounsTable", nouns);
+        populateTable("adverbsTable", adverbs);
+        populateTable("femininePluralTable", femininePlural);
+        populateTable("presentVerbsTable", presentVerbs);
+    </script>
+</body>
+</html>
