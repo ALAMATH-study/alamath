@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histoire Scientifique Rigolote</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #story {
+            max-width: 600px;
+            margin: auto;
+            text-align: justify;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>L'Incroyable Machine à Grandir</h1>
+    <p id="story">
+        Léo était un petit garçon très curieux. Il adorait les inventions et rêvait de devenir un grand scientifique.
+        Un jour, il trouva un vieux cahier appartenant à son grand-père, qui était inventeur. À l’intérieur, il y avait
+        des plans pour une "Machine à Grandir" !
+        <br><br>
+        "C’est génial !" s’écria Léo. "Si elle fonctionne, je pourrai être aussi grand que mon frère Paul et enfin attraper
+        les biscuits sur l’étagère !"
+        <br><br>
+        Avec l’aide de son chat Einstein, Léo construisit la machine. Mais au moment de tester, au lieu de grandir, son chat
+        devint énorme !
+        <br><br>
+        "Miaaaou ?" fit Einstein, qui faisait maintenant la taille d’un éléphant.
+        <br><br>
+        Léo paniqua et appuya sur tous les boutons... mais cette fois, sa petite sœur Emma devint minuscule !
+        <br><br>
+        Après quelques réglages, tout redevint normal. Mais la nuit suivante, Einstein appuya sur le bouton en cachette...
+        <br><br>
+        Le lendemain matin, son chat était aussi grand qu’un immeuble et dormait enroulé autour de la maison !
+        <br><br>
+        Moralité : La science, c’est génial, mais toujours avec précaution !
+    </p>
+    <button onclick="speakText()">📢 Lire l'histoire</button>
+    
+    <script>
+        function speakText() {
+            const text = document.getElementById("story").innerText;
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "fr-FR";
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>
