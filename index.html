@@ -6,252 +6,215 @@
     <title>AlaMath.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Global styles */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        header {
-            background: linear-gradient(135deg, #e7e7eb, #110e76);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            opacity: 0.85;
-        }
-
-        .translation {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .translation button {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            background-color: white;
-            color: #4a47a3;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .translation button:hover {
-            background-color: #6c63ff;
-            color: white;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 1rem;
-        }
-
-        /* Button styles */
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            margin: 0.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            background-color: #6c63ff;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        section {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        section h2 {
-            font-size: 1.8rem;
-            color: #4a47a3;
-            margin-bottom: 1rem;
-        }
-
-        /* Grid layout for levels, subjects, and groups */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.2rem;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .card h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: #4a47a3;
-        }
-
-        .card p {
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0.5rem 0 1rem;
-        }
-
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-        }
-
-        .translation {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .logos {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin: 15px 0;
-        }
-
-        .separator {
-            font-size: 30px; /* Taille de l'icône */
-            font-weight: bold;
-            color: #010306; /* Bleu éducatif */
-            animation: bounce 1.5s infinite; /* Animation */
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
+    /* Global styles */
+            body {
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #eef2f7; /* Couleur de fond douce et moderne */
+                color: #333;
             }
-            50% {
+            
+            header {
+                background: linear-gradient(135deg, #3f4c6b, #110e76); /* Dégradé de bleu et violet */
+                color: white;
+                padding: 2rem;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
+                position: relative;
+            }
+            
+            header h1 {
+                margin: 0;
+                font-size: 2.5rem;
+                font-weight: 700;
+            }
+            
+            header p {
+                font-size: 1.2rem;
+                margin-top: 0.5rem;
+                opacity: 0.85;
+            }
+            
+            .translation button {
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                background-color: #ffffff;
+                color: #4a47a3;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.2s ease, color 0.2s ease;
+            }
+            
+            .translation button:hover {
+                background-color: #6c63ff; /* Couleur au survol plus vive */
+                color: white;
+            }
+            
+            .container {
+                max-width: 1100px;
+                margin: 2rem auto;
+                padding: 1rem;
+            }
+            
+            /* Button styles */
+            .btn {
+                display: inline-block;
+                padding: 0.8rem 1.5rem;
+                margin: 0.5rem;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+                background-color: #6c63ff; /* Violet moderne */
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+            }
+            
+            .hidden {
+                display: none;
+            }
+            
+            section {
+                margin-top: 2rem;
+                text-align: center;
+            }
+            
+            section h2 {
+                font-size: 1.8rem;
+                color: #4a47a3; /* Bleu-violet pour la hiérarchie des titres */
+                margin-bottom: 1rem;
+            }
+            
+            /* Grid layout for levels, subjects, and groups */
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonne plus large pour une meilleure présentation */
+                gap: 1.5rem;
+            }
+            
+            .card {
+                background: white;
+                border-radius: 10px;
+                padding: 1.2rem;
+                text-align: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .card:hover {
                 transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
             }
-        }
-
-        .logo, .logo-societe-mere {
-            max-width: 150px; /* Ajuste la taille des logos */
-            height: auto;
-        }
-
-        .header-text {
-            margin-top: 10px;
-        }
-        .header-title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-        .introduction {
-            background-color: #f8f9fa;
-            padding: 30px;
-            text-align: center;
-            border-top: 3px solid #007bff;
-        }
-
-        .introduction h2 {
-            color: #007bff;
-            font-size: 26px;
-            margin-bottom: 15px;
-        }
-
-        .introduction h3 {
-            color: #333;
-            font-size: 22px;
-            margin-top: 20px;
-        }
-
-        .introduction p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 15px;
-        }
-
-        .introduction ul {
-            list-style-type: none;
-            padding: 0;
-            font-size: 18px;
-            text-align: left;
-            display: inline-block;
-        }
-
-        .introduction li {
-            background: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .call-to-action {
-            font-weight: bold;
-            font-size: 20px;
-            color: #007bff;
-            margin-top: 20px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #4a47a3;
-            color: white;
-            margin-top: 2rem;
-        }
-
-        footer p {
-            margin: 0;
-        }
+            
+            .card h3 {
+                margin: 0;
+                font-size: 1.2rem;
+                color: #4a47a3;
+            }
+            
+            .card p {
+                font-size: 0.9rem;
+                color: #666;
+                margin: 0.5rem 0 1rem;
+            }
+            
+            .separator {
+                font-size: 30px;
+                font-weight: bold;
+                color: #ff7a59; /* Orange vif pour attirer l'attention */
+                animation: bounce 1.5s infinite;
+            }
+            
+            @keyframes bounce {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-5px);
+                }
+            }
+            
+            .logo, .logo-societe-mere {
+                max-width: 150px;
+                height: auto;
+            }
+            
+            .header-text {
+                margin-top: 10px;
+            }
+            
+            .introduction {
+                background-color: #ffffff;
+                padding: 30px;
+                text-align: center;
+                border-top: 3px solid #007bff; /* Bordure bleue pour séparer la section */
+            }
+            
+            .introduction h2 {
+                color: #007bff;
+                font-size: 26px;
+                margin-bottom: 15px;
+            }
+            
+            .introduction h3 {
+                color: #333;
+                font-size: 22px;
+                margin-top: 20px;
+            }
+            
+            .introduction p {
+                font-size: 18px;
+                line-height: 1.6;
+                color: #555;
+                margin-bottom: 15px;
+            }
+            
+            .introduction ul {
+                list-style-type: none;
+                padding: 0;
+                font-size: 18px;
+                text-align: left;
+                display: inline-block;
+            }
+            
+            .introduction li {
+                background: #fff;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .call-to-action {
+                font-weight: bold;
+                font-size: 20px;
+                color: #007bff;
+                margin-top: 20px;
+            }
+            
+            footer {
+                text-align: center;
+                padding: 1rem;
+                background: linear-gradient(135deg, #3f4c6b, #110e76); /* Dégradé pour le pied de page */
+                color: white;
+                margin-top: 2rem;
+            }
+            
+            footer p {
+                margin: 0;
+            }
+        
     </style>
 </head>
 <body>
@@ -269,27 +232,28 @@
                 
             </div>
             <div class="separator">
-                <h>propse la plateforme éducative:</h>
-                📚🏫📐🎓🖥️📱 <!-- Icône livre, tu peux aussi utiliser une image -->
+                <h>PROPOSE:</h>
+                🖥️📱 <!-- Icône livre, tu peux aussi utiliser une image -->
             </div>
             <div class="logos">
                 <img src="logo.png" alt="Logo" class="logo">
                 <h1 id="page-title">AlaMath.com</h1>
             </div>
             <div class="header-text">
-                <p id="page-descriptions"> 🎉✨  تهنئة خاصة بمناسبةعيد الفطر ✨🎉
 
-                    بمناسبة عيد الفطر المبارك، نتقدم بأحر التهاني وأطيب الأماني لكم ولعائلاتكم. 🌙💫
-                    
-                    نسأل الله أن يعيده عليكم بالصحة والعافية، وأن يكون عيدًا مليئًا بالفرح والبركات. 🌸🐑
-                    
-                    كل عام وأنتم بخير! 🎊🎁
-               </p>
                 <p id="page-description"> AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences.
                     Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux.
                     Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et
                     dans d'autres matières scientifiques tout en développant leur esprit logique et analytique.
                </p>
+               <p id="page-descriptions"> 🎉✨  تهنئة خاصة بمناسبةعيد الفطر ✨🎉
+
+                بمناسبة عيد الفطر المبارك، نتقدم بأحر التهاني وأطيب الأماني لكم ولعائلاتكم. 🌙💫
+                
+                نسأل الله أن يعيده عليكم بالصحة والعافية، وأن يكون عيدًا مليئًا بالفرح والبركات. 🌸🐑
+                
+                كل عام وأنتم بخير! 🎊🎁
+           </p>
             </div>
         </div>
     </header>
@@ -379,12 +343,12 @@
                 title: "AlaMath.com",
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
-                chooseCycle: "اختر دورة",
+                chooseCycle: "اختر السلك",
                 primary: "الابتدائي",
                 collegial: "الإعدادي",
                 highschool: "الثانوي",
-                chooseLevel: "اختر مستوى",
-                chooseSubject: "اختر مادة",
+                chooseLevel: "اختر المستوى",
+                chooseSubject: "اختر المادة",
                 groupSection: "المجموعات الدراسية",
                 joinButton: "انضم",
                 "group1": "اشتراك بريميوم",
@@ -479,7 +443,7 @@
         }
         let selectedmatier ="";
         function showGroups(matiere) {
-            selectedmatier=matiere;
+            selectedmatier = matiere;
             document.getElementById("groups").classList.remove("hidden");
             document.getElementById("groupOptions").innerHTML = "";
 
@@ -490,16 +454,28 @@
                 card.innerHTML = `
                     <h3>${group.name}</h3>
                     <p>${group.description}</p>
-                    <button class="btn">${translations["fr"].joinButton}</button>
                 `;
+
+                // Ajouter un événement "click" à la carte pour ouvrir le lien Zoom
+                card.addEventListener("click", () => {
+                    showlist(group.id);
+                });
+
                 document.getElementById("groupOptions").appendChild(card);
             });
         }
         let selectedgroup ="";
         function showlist(group) {
-            selectedgroup=selectedCycle+selectedlevel+selectedmatier+group;
+            if (typeof selectedCycle !== "undefined" && typeof selectedlevel !== "undefined") {
+                selectedgroup = selectedCycle + selectedlevel + selectedmatier + group;
+                console.log("Selected group:", selectedgroup);
 
-        }
+                // Ouvrir le lien Zoom dans un nouvel onglet
+                window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
+            } else {
+                console.error("selectedCycle ou selectedlevel n'est pas défini !");
+            }
+}
 
         
     </script>
