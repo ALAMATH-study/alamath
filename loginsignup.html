@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion & Inscription - Alamath</title>
+    <title>Système de Connexion Sécurisé</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="js/qr-scanner.min.js"></script> <!-- Assurez-vous que ce fichier existe dans le répertoire 'js/' -->
     <style>
         /* Styles généraux */
         body {
@@ -77,50 +79,62 @@
             color: #666;
             margin-top: 10px;
         }
+
         .logo {
             display: block;
             margin: 20px auto;
             width: 120px; /* Ajuste la taille selon tes besoins */
         }
 
+        /* Centrage du QR code */
+        #qrcode {
+            display: inline-block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Logo -->
     <img src="logo.png" alt="Alamath" class="logo">
+
     <div class="container">
-        <h2>Connexion</h2>
-        <label>ID :</label>
-        <input type="text" id="loginId" placeholder="Votre ID">
-        <label>Mot de passe :</label>
-        <input type="password" id="loginPassword" placeholder="Votre mot de passe">
-        <button onclick="login()">Se Connecter</button>
-        <button onclick="toggleSection('registerSection')">Inscription / Récupération</button>
-    </div>
+        <h2>Système de Connexion Sécurisé</h2>
 
-    <div id="registerSection" class="container hidden">
-        <h2>Inscription / Récupération</h2>
-        <label>Choisir un ID :</label>
-        <input type="text" id="registerId" placeholder="Votre ID">
-        <label>Numéro de téléphone :</label>
-        <input type="text" id="phone" placeholder="Votre téléphone">
-        <label>Clé secrète (7 mots) :</label>
-        <input type="text" id="keyWords" placeholder="Entrez 7 mots ou cliquez sur 'Générer'">
-        <button onclick="generateKey()">Générer Clé</button>
-        <button onclick="register()">Recevoir les données de connexion</button>
+        <!-- Section Inscription/Récupération -->
+        <div class="section" id="signup">
+            <h3>Inscription / Récupération</h3>
+            <input type="text" id="userId" placeholder="Choisissez un ID">
+            <input type="text" id="phoneNumber" placeholder="Numéro de téléphone">
+            <input type="text" id="keyWords" placeholder="Clé de récupération (7 mots)">
+            <button onclick="generateKeyWords()">Générer 7 mots aléatoires</button>
+            <button onclick="registerUser()">Recevoir les données de connexion</button>
 
-        <h3>Vos données :</h3>
-        <p id="output"></p>
-        <p class="info">⚠️ Notez bien ces informations pour récupérer votre compte.</p>
+            <h3>Vos Informations</h3>
+            <p id="displayInfo"></p>
+            <div id="qrcode"></div>
+        </div>
+
+        <!-- Section Connexion -->
+        <div class="section" id="login">
+            <h3>Connexion</h3>
+            <input type="text" id="loginUserId" placeholder="Entrez votre ID">
+            <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
+            <button onclick="loginUser()">Se connecter</button>
+            <p id="loginInfo"></p>
+        </div>
     </div>
 
     <script>
-        function generateKey() {
+        function generateKeyWords() {
             const words = [];
-            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
             for (let i = 0; i < 7; i++) {
                 let word = "";
                 for (let j = 0; j < 5; j++) {
-                    word += alphabet[Math.floor(Math.random() * alphabet.length)];
+                    word += characters.charAt(Math.floor(Math.random() * characters.length));
                 }
                 words.push(word);
             }
@@ -128,46 +142,60 @@
         }
 
         function generatePassword(id, phone, keyWords) {
-            const secretKey = "MaSuperCléSecrète";
-            const data = id + phone + keyWords;
-            const keyBytes = new TextEncoder().encode(secretKey);
-            const dataBytes = new TextEncoder().encode(data);
+            const secretKey = "MaSuperCléSecrète"; 
+            const inputString = id + phone + keyWords + secretKey;
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(inputString);
 
-            return crypto.subtle.importKey("raw", keyBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"])
-                .then(key => crypto.subtle.sign("HMAC", key, dataBytes))
-                .then(signature => {
-                    const hashArray = Array.from(new Uint8Array(signature));
-                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-                    return hashHex.replace(/\D/g, '').slice(0, 12);
-                });
+            return crypto.subtle.digest("SHA-256", data).then(buffer => {
+                const hashArray = Array.from(new Uint8Array(buffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+                return hashHex.substring(0, 12);
+            });
         }
 
-        function register() {
-            const id = document.getElementById("registerId").value;
-            const phone = document.getElementById("phone").value;
+        function registerUser() {
+            const id = document.getElementById("userId").value;
+            const phone = document.getElementById("phoneNumber").value;
             const keyWords = document.getElementById("keyWords").value;
 
             if (!id || !phone || !keyWords) {
-                document.getElementById("output").textContent = "Veuillez remplir tous les champs.";
+                alert("Veuillez remplir tous les champs.");
                 return;
             }
 
             generatePassword(id, phone, keyWords).then(password => {
-                document.getElementById("output").innerHTML = `
-                    <strong>ID :</strong> ${id}<br>
-                    <strong>Numéro :</strong> ${phone}<br>
-                    <strong>Clé secrète :</strong> ${keyWords}<br>
-                    <strong>Mot de passe :</strong> ${password}<br>
-                `;
+                const userData = `${phone}/${keyWords}/${password}`;
+                document.getElementById("displayInfo").textContent = `ID: ${id}\nTéléphone: ${phone}\nClé: ${keyWords}\nMot de passe: ${password}`;
+
+                // Générer QR Code
+                document.getElementById("qrcode").innerHTML = "";
+                new QRCode(document.getElementById("qrcode"), {
+                    text: userData,
+                    width: 150,
+                    height: 150
+                });
+
+                alert("Conservez bien ces informations pour la récupération de votre mot de passe !");
             });
         }
 
-        function login() {
-            alert("Vérification des identifiants... (À implémenter côté serveur)");
-        }
+        function loginUser() {
+            const inputId = document.getElementById("loginUserId").value;
+            const inputPassword = document.getElementById("loginPassword").value;
 
-        function toggleSection(sectionId) {
-            document.getElementById(sectionId).classList.toggle("hidden");
+            // Ici, vous pouvez intégrer une logique de vérification avec la base de données ou autre.
+            // Pour simplifier, je vais vérifier si le mot de passe correspond à une valeur définie.
+            const correctPassword = "password123"; // Remplacer par une logique réelle de vérification.
+
+            if (inputPassword === correctPassword) {
+                document.getElementById("loginInfo").textContent = "✅ Connexion réussie ! Redirection...";
+                // Redirection après une connexion réussie
+                window.location.href = "https://votre-site.com"; // Remplacer par l'URL de la page à rediriger
+            } else {
+                document.getElementById("loginInfo").textContent = "❌ Mot de passe incorrect.";
+            }
         }
     </script>
 
