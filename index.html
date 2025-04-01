@@ -35,7 +35,29 @@
                 margin-top: 0.5rem;
                 opacity: 0.85;
             }
-            
+            /* Style pour le bouton d'inscription */
+.btn-inscription {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #ff7a59; /* Couleur dynamique */
+    border: none;
+    border-radius: 25px; /* Bords arrondis */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-inscription:hover {
+    background-color: #ff5722; /* Couleur d'accentuation au survol */
+    transform: translateY(-3px);
+}
+
+
             .translation button {
                 padding: 0.5rem 1rem;
                 border: none;
@@ -221,6 +243,8 @@
 
     <header>
         <div class="header-content">
+                <!-- Bouton d'inscription -->
+    <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
             <div class="translation">
                 <button onclick="translatePage('fr')">FR</button>
                 <button onclick="translatePage('en')">EN</button>
