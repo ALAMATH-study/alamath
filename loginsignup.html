@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion & Inscription - Alamath</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #004aad;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #004aad;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #003080;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #output {
+            background: #e7f4ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Connexion</h2>
+        <label>ID :</label>
+        <input type="text" id="loginId" placeholder="Votre ID">
+        <label>Mot de passe :</label>
+        <input type="password" id="loginPassword" placeholder="Votre mot de passe">
+        <button onclick="login()">Se Connecter</button>
+        <button onclick="toggleSection('registerSection')">Inscription / Récupération</button>
+    </div>
+
+    <div id="registerSection" class="container hidden">
+        <h2>Inscription / Récupération</h2>
+        <label>Choisir un ID :</label>
+        <input type="text" id="registerId" placeholder="Votre ID">
+        <label>Numéro de téléphone :</label>
+        <input type="text" id="phone" placeholder="Votre téléphone">
+        <label>Clé secrète (7 mots) :</label>
+        <input type="text" id="keyWords" placeholder="Entrez 7 mots ou cliquez sur 'Générer'">
+        <button onclick="generateKey()">Générer Clé</button>
+        <button onclick="register()">Recevoir les données de connexion</button>
+
+        <h3>Vos données :</h3>
+        <p id="output"></p>
+        <p class="info">⚠️ Notez bien ces informations pour récupérer votre compte.</p>
+    </div>
+
+    <script>
+        function generateKey() {
+            const words = [];
+            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            for (let i = 0; i < 7; i++) {
+                let word = "";
+                for (let j = 0; j < 5; j++) {
+                    word += alphabet[Math.floor(Math.random() * alphabet.length)];
+                }
+                words.push(word);
+            }
+            document.getElementById("keyWords").value = words.join(" ");
+        }
+
+        function generatePassword(id, phone, keyWords) {
+            const secretKey = "MaSuperCléSecrète";
+            const data = id + phone + keyWords;
+            const keyBytes = new TextEncoder().encode(secretKey);
+            const dataBytes = new TextEncoder().encode(data);
+
+            return crypto.subtle.importKey("raw", keyBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"])
+                .then(key => crypto.subtle.sign("HMAC", key, dataBytes))
+                .then(signature => {
+                    const hashArray = Array.from(new Uint8Array(signature));
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+                    return hashHex.replace(/\D/g, '').slice(0, 12);
+                });
+        }
+
+        function register() {
+            const id = document.getElementById("registerId").value;
+            const phone = document.getElementById("phone").value;
+            const keyWords = document.getElementById("keyWords").value;
+
+            if (!id || !phone || !keyWords) {
+                document.getElementById("output").textContent = "Veuillez remplir tous les champs.";
+                return;
+            }
+
+            generatePassword(id, phone, keyWords).then(password => {
+                document.getElementById("output").innerHTML = `
+                    <strong>ID :</strong> ${id}<br>
+                    <strong>Numéro :</strong> ${phone}<br>
+                    <strong>Clé secrète :</strong> ${keyWords}<br>
+                    <strong>Mot de passe :</strong> ${password}<br>
+                `;
+            });
+        }
+
+        function login() {
+            alert("Vérification des identifiants... (À implémenter côté serveur)");
+        }
+
+        function toggleSection(sectionId) {
+            document.getElementById(sectionId).classList.toggle("hidden");
+        }
+    </script>
+
+</body>
+</html>
