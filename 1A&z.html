@@ -1,155 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr" dir="rtl">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>alamath.com</title>
-    <style>
-        .btn-flottant {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background-color: #ff5722; /* Couleur du bouton */
-    color: white;
-    padding: 15px 20px;
-    border-radius: 50px;
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    font-size: 16px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscription - alamath.com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/qr-scanner.min.js"></script>
+  <style>
+    body {
+      font-family: 'Almarai', sans-serif;
+      margin: 0;
+      background: linear-gradient(145deg, #e3f2fd, #fbe9e7);
+      color: #333;
+      direction: rtl;
+    }
 
-.btn-flottant:hover {
-    background-color: #e64a19; /* Changement de couleur au survol */
-}
+    header {
+      background-color: #004d40;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
-        /* Styles existants */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #9b9797;
-            direction: rtl;
-        }
-        h2 {
-            text-align: center;
-        }
-        label {
-            margin: 10px 0;
-            display: block;
-            font-weight: bold;
-        }
-        select, input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #272727;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #043906;
-            color: rgb(202, 158, 249);
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #528cea;
-        }
-        button:disabled {
-            background-color: rgb(71, 70, 70);
-        }
-        .form-section {
-            margin-bottom: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        .checkbox-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 0 0 30%;
-        }
-        .category-title {
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            background-color: #e9ecef;
-            margin: 15px 0;
-            font-weight: bold;
-        }
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            transition: background-color 0.3s, border-color 0.3s;
-            cursor: pointer;
-            width: 100%;
-        }
-        .checkbox-container:hover {
-            background-color: #f0f0f0;
-            border-color: #aaa;
-        }
-        .checkbox-container.selected {
-            background-color: #4CAF50;
-            border-color: #388E3C;
-            color: white;
-        }
-        @media (max-width: 600px) {
-            button {
-                width: 100%;
-                padding: 15px;
-            }
-        }
-        .whatsapp-button {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .whatsapp-button a {
-            color: white;
-            text-decoration: none;
-        }
-        .message {
-            text-align: center;
-            margin-top: 20px;
-            color: green;
-            font-weight: bold;
-        }
-        .whatsapp-button {
-    margin-top: 20px; /* Espace au-dessus du bouton */
-    text-align: center; /* Centrer le bouton */
-}
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-.whatsapp-button a {
-    display: inline-block; /* Pour que le lien se comporte comme un bouton */
-    background-color: #25D366; /* Couleur de fond WhatsApp */
-    color: white; /* Couleur du texte */
-    padding: 10px 20px; /* Espacement autour du texte */
-    border-radius: 5px; /* Coins arrondis */
-    text-decoration: none; /* Supprimer le soulignement du lien */
-    font-size: 16px; /* Taille du texte */
-}
+    h2 {
+      text-align: center;
+      color: #00695c;
+    }
 
-.whatsapp-button a:hover {
-    background-color: #128C7E; /* Couleur au survol */
-}
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 700;
+    }
 
-    </style>
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #bdbdbd;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      padding: 15px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
+    .form-section {
+      margin-top: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .checkbox-container {
+      flex: 1 1 30%;
+      background: #f1f8e9;
+      border: 1px solid #c5e1a5;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .checkbox-container:hover,
+    .checkbox-container.selected {
+      background-color: #81c784;
+      color: white;
+      border-color: #388e3c;
+    }
+
+    .category-title {
+      margin: 25px 0 10px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #004d40;
+      background-color: #e0f2f1;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .message {
+      text-align: center;
+      color: #2e7d32;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .whatsapp-button {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .whatsapp-button a {
+      background-color: #25D366;
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+      transition: background 0.3s;
+    }
+
+    .whatsapp-button a:hover {
+      background-color: #128C7E;
+    }
+
+    .btn-flottant {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: #ff5722;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 50px;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 16px;
+      z-index: 1000;
+    }
+
+    .btn-flottant:hover {
+      background-color: #e64a19;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+
+    @media (max-width: 600px) {
+      .checkbox-container {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
 </head>
 <body>
     <a href="https://alamath.com" class="btn-flottant">الرئيسية</a>
@@ -172,7 +191,10 @@
                 <option value="etudiant">تلميذ(ة)/طالب(ة)</option>
             </select>
         </div>
-        
+        <div class="form-section">
+            <label for="ville">المدينة</label>
+            <input type="ville" id="ville" name="ville" placeholder="المدينة" required="">
+        </div>
         <div class="form-section">
             <label for="telephone">رقم الهاتف</label>
             <input type="tel" id="telephone" name="telephone" placeholder="رقم الهاتف" required="">
@@ -182,6 +204,8 @@
             <label for="email">البريد الإلكتروني</label>
             <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required="">
         </div>
+
+    
 
         <div class="form-section">
             <div class="category-title">السلك/الشعبة</div>
@@ -447,16 +471,87 @@
             <textarea id="message" name="message" rows="4" placeholder="إضافة ملاحظات"></textarea>
         </div>
     
+        <div class="container">
+            <h2>Système de Connexion Sécurisé</h2>
+    
+            <!-- Section Inscription/Récupération -->
+            <div class="section" id="signup">
+                <h3>Inscription / Récupération</h3>
+
+                <input type="text" id="keyWords" placeholder="Clé de récupération (7 mots)">
+                
+                <button onclick="registerUser()">Recevoir les données de connexion</button>
+    
+                <h3>Vos Informations</h3>
+                <p id="displayInfo"></p>
+                <div id="qrcode"></div>
+            </div>
 
         <button type="submit">أرسل</button>
         <div class="message" id="responseMessage" style="display:none;"></div>
     </form>
 
     <div class="whatsapp-button">
-        <a href="https://chat.whatsapp.com/GQXVecuTc4PCEzDsxZmkkt" target="_blank">انضم إلى مجتمعنا على واتساب</a>
+        <a href="https://wa.me/+212666094815" target="_blank">أرسل صورة الرمز QR المحصل عليه عبر الوتساب</a>
     </div>
 
     <script>
+        function generateKeyWords() {
+            const words = [];
+            const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            for (let i = 0; i < 12; i++) {
+                let word = "";
+                for (let j = 0; j < 7; j++) {
+                    word += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                words.push(word);
+            }
+            document.getElementById("keyWords").value = words.join(" ");
+        }
+
+        function generatePassword(id, phone, keyWords) {
+            const secretKey = "MaSuperCléSecrète"; 
+            const inputString = id + phone + keyWords + secretKey;
+            
+            const encoder = new TextEncoder();
+            const data = encoder.encode(inputString);
+
+            return crypto.subtle.digest("SHA-256", data).then(buffer => {
+                const hashArray = Array.from(new Uint8Array(buffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+                return hashHex.substring(0, 12);
+            });
+        }
+
+        function registerUser() {
+            generateKeyWords();
+            const id = document.getElementById("agent").value+'-'+document.getElementById("nomComplet").value;
+            const phone = document.getElementById("telephone").value;
+            const keyWords = document.getElementById("keyWords").value;
+
+            if (!id || !phone || !keyWords) {
+                alert("Veuillez remplir tous les champs.");
+                return;
+            }
+
+            generatePassword(id, phone, keyWords).then(password => {
+                const userData = `${phone}/${keyWords}/${password}`;
+                document.getElementById("displayInfo").textContent = `ID: ${id}\nTéléphone: ${phone}\nClé: ${keyWords}\nMot de passe: ${password}`;
+
+                // Générer QR Code
+                document.getElementById("qrcode").innerHTML = "";
+                new QRCode(document.getElementById("qrcode"), {
+                    text: userData,
+                    width: 150,
+                    height: 150
+                });
+
+                alert("Conservez bien ces informations pour la récupération de votre mot de passe !");
+            });
+        }
+
+
+
         function toggleCheckbox(element) {
             const checkbox = element.querySelector('input[type="checkbox"]');
             checkbox.checked = !checkbox.checked;
