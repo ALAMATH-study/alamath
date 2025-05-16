@@ -14,7 +14,7 @@
             background: url('bkg.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
-            transition: all 0.3s;
+            transition: all 0.3s ease-in-out;
         }
 
         body::before {
@@ -64,6 +64,13 @@
 
         .btn-inscription:hover {
             background: rgba(76, 174, 76, 0.9);
+        }
+
+        .translation {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
         }
 
         .translation button {
@@ -155,6 +162,66 @@
         footer p {
             margin: 0;
         }
+
+        /* Médias queries pour l'affichage mobile */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem; /* Réduit la taille du titre */
+            }
+
+            header p {
+                font-size: 1rem; /* Réduit la taille du texte */
+            }
+
+            .btn-inscription {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.6rem 1rem; /* Ajuste la taille des boutons */
+                font-size: 0.9rem;
+            }
+
+            .translation button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr; /* Empile les éléments verticalement */
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            footer {
+                font-size: 0.9rem; /* Réduit la taille du texte du pied de page */
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-inscription {
+                font-size: 0.8rem; /* Réduit encore la taille pour les très petits écrans */
+                padding: 0.5rem 0.8rem;
+            }
+
+            header h1 {
+                font-size: 1.5rem; /* Réduit davantage la taille du titre */
+            }
+
+            header p {
+                font-size: 0.9rem;
+            }
+
+            .translation {
+                flex-direction: column; /* Empile les boutons de traduction verticalement */
+                gap: 0.3rem;
+            }
+
+            footer {
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -170,7 +237,7 @@
             <img src="logo1.png" alt="Logo Société Mère">
         </div>
         <h1 id="page-title">AlaMath.com</h1>
-        <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
+        <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences.</p>
     </header>
 
     <!-- Contenu principal -->
