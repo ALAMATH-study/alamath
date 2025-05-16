@@ -222,6 +222,11 @@
                 font-size: 0.8rem;
             }
         }
+
+        /* Style pour le focus */
+        .card:focus {
+            outline: 2px solid #007bff; /* Couleur d'outline personnalisée */
+        }
     </style>
 </head>
 <body>
@@ -279,6 +284,13 @@
     </footer>
 
     <script>
+
+        // Fonction pour déplacer le focus vers une section spécifique
+        function navigateToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.classList.remove("hidden"); // Affiche la section si elle est cachée
+            section.scrollIntoView({ behavior: "smooth" }); // Déplace le focus avec animation
+        }
         // Translation data
         const translations = {
             fr: {
@@ -397,6 +409,7 @@
             data[cycle].niveaux.forEach(niveau => {
                 const card = document.createElement("div");
                 card.className = "card";
+                card.tabIndex = 0; // Make the card focusable
                 card.innerHTML = `<h3>${niveau}</h3>`;
                 card.onclick = () => selectLevel(niveau);
                 document.getElementById("levelOptions").appendChild(card);
@@ -404,6 +417,12 @@
 
             document.getElementById("subjects").classList.add("hidden");
             document.getElementById("groups").classList.add("hidden");
+
+            // Set focus to the first level option
+            const levelOptions = document.querySelectorAll('#levelOptions .card');
+            if (levelOptions.length > 0) {
+                levelOptions[0].focus();
+            }
         }
 
         // Function to select a level
@@ -414,12 +433,19 @@
             data[selectedCycle].matieres.forEach(matiere => {
                 const card = document.createElement("div");
                 card.className = "card";
+                 card.tabIndex = 0; // Make the card focusable
                 card.innerHTML = `<h3>${matiere}</h3>`;
                 card.onclick = () => showGroups(matiere);
                 document.getElementById("subjectOptions").appendChild(card);
             });
 
             document.getElementById("groups").classList.add("hidden");
+
+              // Set focus to the first subject option
+            const subjectOptions = document.querySelectorAll('#subjectOptions .card');
+            if (subjectOptions.length > 0) {
+                subjectOptions[0].focus();
+            }
         }
 
         // Function to show work groups
@@ -430,6 +456,7 @@
             groups.forEach(group => {
                 const card = document.createElement("div");
                 card.className = "card group-card";
+                 card.tabIndex = 0; // Make the card focusable
                 card.setAttribute("data-group-id", group.id);
                 card.innerHTML = `
                     <h3>${group.name}</h3>
@@ -438,6 +465,12 @@
                 `;
                 document.getElementById("groupOptions").appendChild(card);
             });
+
+             // Set focus to the first group option
+            const groupOptions = document.querySelectorAll('#groupOptions .card');
+            if (groupOptions.length > 0) {
+                groupOptions[0].focus();
+            }
         }
 
         //Function to showlist
