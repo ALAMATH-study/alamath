@@ -2,482 +2,209 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AlaMath.com</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>AlaMath.com : Accès par pays</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        /* Styles généraux */
         body {
-            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: url('bkg.png') no-repeat center center fixed;
+            min-height: 100vh;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #222b45;
+            /* Utilisation d'une image locale comme arrière-plan */
+            background: 
+                linear-gradient(120deg, rgba(224, 233, 246, 0.147) 0%, rgba(245, 252, 255, 0) 100%),
+                url('pays.png') no-repeat center center fixed;
             background-size: cover;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
+        .navbar {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
-
-        /* En-tête */
-        header {
-            text-align: center;
-            background: rgba(74, 111, 163, 0.6);
-            padding: 2rem;
-            color: white;
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn-inscription {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
-            padding: 0.8rem 1.5rem;
-            background: rgba(92, 184, 92, 0.8);
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-inscription:hover {
-            background: rgba(76, 174, 76, 0.9);
-        }
-
-        .translation {
+            background: #ffffffb2;
+            box-shadow: 0 2px 10px rgba(5, 105, 245, 0.452);
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            height: 70px;
+            box-sizing: border-box;
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-right: 16px;
+            box-shadow: 0 1px 4px #e3eaf7;
+            background: #f9fafd;
+        }
+        .societe {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2775e7;
+            letter-spacing: 1px;
+        }
+        .platform-logo-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .platform-logo {
+            height: 44px;
+            width: 44px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-left: 16px;
+            box-shadow: 0 1px 4px #e3eaf7;
+            background: #f9fafd;
+            display: block;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 48px;
+        }
+        .titre {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(60,110,180,0.07);
+        }
+        .country-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
             justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            max-width: 950px;
         }
-
-        .translation button {
-            margin: 0.2rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.7);
-            color: #4a6fa3;
+        .country-card {
+            background: #ffffffa8;
+            border-radius: 20px;
+            box-shadow: 0 4px 18px rgba(131, 176, 243, 0.484);
+            padding: 32px 36px 22px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            min-width: 180px;
+            transition: box-shadow 0.18s, transform 0.18s;
+            border: 2.5px solid transparent;
         }
-
-        .translation button:hover {
-            background: rgba(94, 123, 182, 0.9);
-            color: white;
+        .country-card:hover, .country-card:focus {
+            box-shadow: 0 10px 36px rgba(39,117,231,0.17);
+            border: 2.5px solid #2775e7;
+            transform: translateY(-5px) scale(1.035);
         }
-
-        .logos img {
-            max-width: 150px;
+        .flag {
+            width: 62px;
+            height: 42px;
+            object-fit: contain;
+            margin-bottom: 18px;
+            border-radius: 7px;
+            box-shadow: 0 1.5px 6px #e3eaf7;
         }
-
-        /* Contenu principal */
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        .country-name {
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-bottom: 2px;
         }
-
-        section {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        section h2 {
-            font-size: 1.8rem;
-            color: #fff;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 1.2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            margin: 0.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: white;
-            background: rgba(94, 123, 182, 0.7);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(94, 123, 182, 0.3);
-        }
-
-        /* Pied de page */
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(74, 111, 163, 0.6);
-            color: white;
-            margin-top: 2rem;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Médias queries pour l'affichage mobile */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem; /* Réduit la taille du titre */
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .country-list {
+                gap: 18px;
+                max-width: 100vw;
+                padding: 0 10px;
             }
-
-            header p {
-                font-size: 1rem; /* Réduit la taille du texte */
+            .country-card {
+                padding: 22px 10px 14px 10px;
+                min-width: 140px;
             }
-
-            .btn-inscription {
-                top: 1rem;
-                right: 1rem;
-                padding: 0.6rem 1rem; /* Ajuste la taille des boutons */
-                font-size: 0.9rem;
-            }
-
-            .translation button {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.9rem;
-            }
-
-            .grid {
-                grid-template-columns: 1fr; /* Empile les éléments verticalement */
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            footer {
-                font-size: 0.9rem; /* Réduit la taille du texte du pied de page */
-                padding: 1rem;
+            main {
+                margin-top: 30px;
             }
         }
-
-        @media (max-width: 480px) {
-            .btn-inscription {
-                font-size: 0.8rem; /* Réduit encore la taille pour les très petits écrans */
-                padding: 0.5rem 0.8rem;
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+                padding: 10px 8px;
             }
-
-            header h1 {
-                font-size: 1.5rem; /* Réduit davantage la taille du titre */
+            .navbar-left {
+                margin-bottom: 8px;
             }
-
-            header p {
-                font-size: 0.9rem;
+            .logo {
+                height: 38px;
+                width: 38px;
+                margin-right: 10px;
             }
-
-            .translation {
-                flex-direction: column; /* Empile les boutons de traduction verticalement */
-                gap: 0.3rem;
+            .societe {
+                font-size: 1.1rem;
             }
-
-            footer {
-                font-size: 0.8rem;
+            .platform-logo-container {
+                width: 100%;
+                justify-content: flex-end;
             }
-        }
-
-        /* Style pour le focus */
-        .card:focus {
-            outline: 2px solid #007bff; /* Couleur d'outline personnalisée */
+            .platform-logo {
+                height: 36px;
+                width: 36px;
+                margin-left: 0;
+            }
+            .titre {
+                font-size: 1.15rem;
+            }
+            .country-list {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+                padding: 0 2vw;
+            }
+            .country-card {
+                padding: 14px 4vw;
+                min-width: unset;
+                width: 100%;
+                max-width: 340px;
+            }
+            main {
+                margin-top: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- En-tête -->
-    <header>
-        <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
-
-        <div class="translation">
-            <button onclick="translatePage('fr')">FR</button>
-            <button onclick="translatePage('en')">EN</button>
-            <button onclick="translatePage('ar')">AR</button>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img class="logo" src="logo.png" alt="Logo Société">
+            <span class="societe">AlaMath.com</span>
         </div>
-        <div class="logos">
-            <img src="logo.png" alt="Logo platforme">
+        <div class="platform-logo-container">
+            <span class="societe">By</span>
+            <img class="platform-logo" src="logo1.png" alt="Logo Plateforme">
         </div>
-        <h1 id="page-title">AlaMath.com</h1>
-        <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
-    </header>
-
-    <!-- Contenu principal -->
-    <div class="container">
-        <!-- Cycles -->
-        <section>
-            <h2 id="choose-cycle">Choisissez un cycle</h2>
-            <div>
-                <button class="btn" id="btn-primaire" onclick="selectCycle('Primaire')">Primaire</button>
-                <button class="btn" id="btn-collegial" onclick="selectCycle('Collégial')">Collégial</button>
-                <button class="btn" id="btn-lycee" onclick="selectCycle('Lycée')">Lycée</button>
-            </div>
-        </section>
-
-        <!-- Niveaux -->
-        <section id="levels" class="hidden">
-            <h2 id="choose-level">Choisissez un niveau</h2>
-            <div id="levelOptions" class="grid"></div>
-        </section>
-
-        <!-- Matières -->
-        <section id="subjects" class="hidden">
-            <h2 id="choose-subject">Choisissez une matière</h2>
-            <div id="subjectOptions" class="grid"></div>
-        </section>
-
-        <!-- Groupes -->
-        <section id="groups" class="hidden">
-            <h2 id="group-section">Groupes de travail</h2>
-            <div id="groupOptions" class="grid"></div>
-        </section>
-    </div>
-
-    <!-- Pied de page -->
-    <footer>
-     
-        <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
-    </footer>
-
-    <script>
-
-        // Fonction pour déplacer le focus vers une section spécifique
-        function navigateToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            section.classList.remove("hidden"); // Affiche la section si elle est cachée
-            section.scrollIntoView({ behavior: "smooth" }); // Déplace le focus avec animation
-        }
-        // Translation data
-        const translations = {
-            fr: {
-                title: "AlaMath.com",
-                description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.",
-                footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
-                chooseCycle: "Choisissez un cycle",
-                primary: "Primaire",
-                collegial: "Collégial",
-                highschool: "Lycée",
-                chooseLevel: "Choisissez un niveau",
-                chooseSubject: "Choisissez une matière",
-                groupSection: "Groupes de travail",
-                joinButton: "Rejoindre",
-                group1: "Abonnement premium",
-                group2: "Abonnement mensuel Classique ",
-                group3: "Abonnement mensuel Pack réussite d or ",
-                group1Description: "Individuel 120 DH/1h TTC",
-                group2Description: "240 DH/16h TTC de travail dans des petits groupes de 20 élèves.",
-                group3Description: "360 DH/24H TTC de travail dans  petits groupes de 20 élèves."
-            },
-            en: {
-                title: "AlaMath.com",
-                description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
-                footer: "SARL IaSmarKet Services - All rights reserved - 2025",
-                chooseCycle: "Choose a cycle",
-                primary: "Primary",
-                collegial: "Middle School",
-                highschool: "High School",
-                chooseLevel: "Choose a level",
-                chooseSubject: "Choose a subject",
-                groupSection: "Work Groups",
-                joinButton: "Join",
-                "group1": "Premium Subscription",
-                "group2": "Classic Monthly Subscription",
-                "group3": "Golden Success Pack Monthly Subscription",
-                "group1Description": "Individual 120 DH/1h TTC",
-                "group2Description": "240 DH/16h TTC of work in small groups of 20 students.",
-                "group3Description": "360 DH/24h TTC of work in small groups of 20 students."
-
-            },
-            ar: {
-                title: "AlaMath.com",
-                description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
-                footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
-                chooseCycle: "اختر السلك",
-                primary: "الابتدائي",
-                collegial: "الإعدادي",
-                highschool: "الثانوي",
-                chooseLevel: "اختر المستوى",
-                chooseSubject: "اختر المادة",
-                groupSection: "المجموعات الدراسية",
-                joinButton: "انضم",
-                "group1": "اشتراك بريميوم",
-                "group2": "اشتراك شهري كلاسيكي",
-                "group3": "اشتراك شهري باقة النجاح الذهبية",
-                "group1Description": " TTC فردي 120 درهم / 1 ساعة",
-                "group2Description": "240 TTC درهم / 16 ساعة من العمل في مجموعات صغيرة من 20 طالبًا.",
-                "group3Description": "360 TTC درهم / 24 ساعة من العمل في مجموعات صغيرة من 20 طالبًا."
-            }
-        };
-
-        // Function to translate the page
-        function translatePage(lang) {
-            document.querySelector("header h1").innerText = translations[lang].title;
-            document.querySelector("header p").innerText = translations[lang].description;
-            document.querySelector("footer p").innerText = translations[lang].footer;
-            document.getElementById("choose-cycle").innerText = translations[lang].chooseCycle;
-            document.getElementById("btn-primaire").innerText = translations[lang].primary;
-            document.getElementById("btn-collegial").innerText = translations[lang].collegial;
-            document.getElementById("btn-lycee").innerText = translations[lang].highschool;
-            document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
-            document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
-            document.getElementById("group-section").innerText = translations[lang].groupSection;
-
-            const groupCards = document.querySelectorAll(".group-card");
-            groupCards.forEach(card => {
-                const groupId = card.getAttribute("data-group-id");
-                card.querySelector("h3").innerText = translations[lang][`group${groupId}`];
-                card.querySelector("p").innerText = translations[lang][`group${groupId}Description`];
-            });
-        }
-
-        // Data for cycles, levels, and subjects
-        const data = {
-            "Primaire": {
-                niveaux: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème année"],
-                matieres: ["Mathématiques", "Français", "Arabe", "Sciences"]
-            },
-            "Collégial": {
-                niveaux: ["1ère année", "2ème année", "3ème année"],
-                matieres: ["Mathématiques", "Physique", "SVT", "Français", "Anglais"]
-            },
-            "Lycée": {
-                niveaux: ["1ère année", "2ème année", "Terminale"],
-                matieres: ["Mathématiques", "Physique-Chimie", "Philosophie", "SVT", "Histoire-Géo"]
-            }
-        };
-
-        // Data for work groups
-        const groups = [
-            { id: 1, name: "Abonnement premium", description: "Individual 120 DH/1h TTC ." },
-            { id: 2, name: "Abonnement mensuel Classique", description: "240 DH/16h TTC de travail dans des petits groupes de 20 élèves." },
-            { id: 3, name: "Abonnement mensuel Pack réussite d or", description: "360 DH/24H TTC de travail dans  petits groupes de 20 élèves." }
-        ];
-
-        // Variable to store the selected cycle
-        let selectedCycle = "";
-
-        // Function to select a cycle
-        function selectCycle(cycle) {
-            selectedCycle = cycle;
-            document.getElementById("levels").classList.remove("hidden");
-            document.getElementById("levelOptions").innerHTML = "";
-
-            data[cycle].niveaux.forEach(niveau => {
-                const card = document.createElement("div");
-                card.className = "card";
-                card.tabIndex = 0; // Make the card focusable
-                card.innerHTML = `<h3>${niveau}</h3>`;
-                card.onclick = () => selectLevel(niveau);
-                document.getElementById("levelOptions").appendChild(card);
-            });
-
-            document.getElementById("subjects").classList.add("hidden");
-            document.getElementById("groups").classList.add("hidden");
-
-            // Set focus to the first level option
-            const levelOptions = document.querySelectorAll('#levelOptions .card');
-            if (levelOptions.length > 0) {
-                levelOptions[0].focus();
-            }
-        }
-
-        // Function to select a level
-        function selectLevel(niveau) {
-            document.getElementById("subjects").classList.remove("hidden");
-            document.getElementById("subjectOptions").innerHTML = "";
-
-            data[selectedCycle].matieres.forEach(matiere => {
-                const card = document.createElement("div");
-                card.className = "card";
-                 card.tabIndex = 0; // Make the card focusable
-                card.innerHTML = `<h3>${matiere}</h3>`;
-                card.onclick = () => showGroups(matiere);
-                document.getElementById("subjectOptions").appendChild(card);
-            });
-
-            document.getElementById("groups").classList.add("hidden");
-
-              // Set focus to the first subject option
-            const subjectOptions = document.querySelectorAll('#subjectOptions .card');
-            if (subjectOptions.length > 0) {
-                subjectOptions[0].focus();
-            }
-        }
-
-        // Function to show work groups
-        function showGroups(matiere) {
-            document.getElementById("groups").classList.remove("hidden");
-            document.getElementById("groupOptions").innerHTML = "";
-
-            groups.forEach(group => {
-                const card = document.createElement("div");
-                card.className = "card group-card";
-                 card.tabIndex = 0; // Make the card focusable
-                card.setAttribute("data-group-id", group.id);
-                card.innerHTML = `
-                    <h3>${group.name}</h3>
-                    <p>${group.description}</p>
-                    <button class="btn" onclick="showlist(${group.id})">Rejoindre</button>
-                `;
-                document.getElementById("groupOptions").appendChild(card);
-            });
-
-             // Set focus to the first group option
-            const groupOptions = document.querySelectorAll('#groupOptions .card');
-            if (groupOptions.length > 0) {
-                groupOptions[0].focus();
-            }
-        }
-
-        //Function to showlist
-        function showlist(group) {
-
-            window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
-        }
-    </script>
+    </nav>
+    <main>
+        <div class="titre">Sélectionnez votre pays d’accès</div>
+        <div class="country-list">
+            <a class="country-card" href="https://www.alamath.com/Fr">
+                <img class="flag" src="https://flagcdn.com/fr.svg" alt="France">
+                <span class="country-name">France</span>
+            </a>
+            <a class="country-card" href="https://www.alamath.com/ma">
+                <img class="flag" src="https://flagcdn.com/ma.svg" alt="Maroc">
+                <span class="country-name">Maroc</span>
+            </a>
+            <a class="country-card" href="https://www.alamath.com/Fr">
+                <img class="flag" src="https://flagcdn.com/ca.svg" alt="Canada">
+                <span class="country-name">Canada</span>
+            </a>
+            <!-- Ajoutez d'autres pays ici -->
+        </div>
+    </main>
 </body>
 </html>
