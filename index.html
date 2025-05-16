@@ -6,284 +6,176 @@
     <title>AlaMath.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-    /* Global styles */
-            body {
-                font-family: 'Poppins', sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #eef2f7; /* Couleur de fond douce et moderne */
-                color: #333;
-            }
-            
-            header {
-                background: linear-gradient(135deg, #3f4c6b, #110e76); /* Dégradé de bleu et violet */
-                color: white;
-                padding: 2rem;
-                text-align: center;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
-                position: relative;
-            }
-            
-            header h1 {
-                margin: 0;
-                font-size: 2.5rem;
-                font-weight: 700;
-            }
-            
-            header p {
-                font-size: 1.2rem;
-                margin-top: 0.5rem;
-                opacity: 0.85;
-            }
-            /* Style pour le bouton d'inscription */
-.btn-inscription {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background-color: #ff7a59; /* Couleur dynamique */
-    border: none;
-    border-radius: 25px; /* Bords arrondis */
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
+        /* Styles généraux */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('bkg.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            transition: all 0.3s;
+        }
 
-.btn-inscription:hover {
-    background-color: #ff5722; /* Couleur d'accentuation au survol */
-    transform: translateY(-3px);
-}
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
 
+        /* En-tête */
+        header {
+            text-align: center;
+            background: rgba(74, 111, 163, 0.6);
+            padding: 2rem;
+            color: white;
+            position: relative;
+        }
 
-            .translation button {
-                padding: 0.5rem 1rem;
-                border: none;
-                border-radius: 5px;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                background-color: #ffffff;
-                color: #4a47a3;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                transition: background-color 0.2s ease, color 0.2s ease;
-            }
-            
-            .translation button:hover {
-                background-color: #6c63ff; /* Couleur au survol plus vive */
-                color: white;
-            }
-            
-            .container {
-                max-width: 1100px;
-                margin: 2rem auto;
-                padding: 1rem;
-            }
-            
-            /* Button styles */
-            .btn {
-                display: inline-block;
-                padding: 0.8rem 1.5rem;
-                margin: 0.5rem;
-                border: none;
-                border-radius: 8px;
-                font-size: 1rem;
-                font-weight: 600;
-                color: white;
-                background-color: #6c63ff; /* Violet moderne */
-                cursor: pointer;
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
-            }
-            
-            .btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
-            }
-            
-            .hidden {
-                display: none;
-            }
-            
-            section {
-                margin-top: 2rem;
-                text-align: center;
-            }
-            
-            section h2 {
-                font-size: 1.8rem;
-                color: #4a47a3; /* Bleu-violet pour la hiérarchie des titres */
-                margin-bottom: 1rem;
-            }
-            
-            /* Grid layout for levels, subjects, and groups */
-            .grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonne plus large pour une meilleure présentation */
-                gap: 1.5rem;
-            }
-            
-            .card {
-                background: white;
-                border-radius: 10px;
-                padding: 1.2rem;
-                text-align: center;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                cursor: pointer;
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-            
-            .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            }
-            
-            .card h3 {
-                margin: 0;
-                font-size: 1.2rem;
-                color: #4a47a3;
-            }
-            
-            .card p {
-                font-size: 0.9rem;
-                color: #666;
-                margin: 0.5rem 0 1rem;
-            }
-            
-            .separator {
-                font-size: 30px;
-                font-weight: bold;
-                color: #ff7a59; /* Orange vif pour attirer l'attention */
-                animation: bounce 1.5s infinite;
-            }
-            
-            @keyframes bounce {
-                0%, 100% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-5px);
-                }
-            }
-            
-            .logo, .logo-societe-mere {
-                max-width: 150px;
-                height: auto;
-            }
-            
-            .header-text {
-                margin-top: 10px;
-            }
-            
-            .introduction {
-                background-color: #ffffff;
-                padding: 30px;
-                text-align: center;
-                border-top: 3px solid #007bff; /* Bordure bleue pour séparer la section */
-            }
-            
-            .introduction h2 {
-                color: #007bff;
-                font-size: 26px;
-                margin-bottom: 15px;
-            }
-            
-            .introduction h3 {
-                color: #333;
-                font-size: 22px;
-                margin-top: 20px;
-            }
-            
-            .introduction p {
-                font-size: 18px;
-                line-height: 1.6;
-                color: #555;
-                margin-bottom: 15px;
-            }
-            
-            .introduction ul {
-                list-style-type: none;
-                padding: 0;
-                font-size: 18px;
-                text-align: left;
-                display: inline-block;
-            }
-            
-            .introduction li {
-                background: #fff;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-radius: 5px;
-                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            .call-to-action {
-                font-weight: bold;
-                font-size: 20px;
-                color: #007bff;
-                margin-top: 20px;
-            }
-            
-            footer {
-                text-align: center;
-                padding: 1rem;
-                background: linear-gradient(135deg, #3f4c6b, #110e76); /* Dégradé pour le pied de page */
-                color: white;
-                margin-top: 2rem;
-            }
-            
-            footer p {
-                margin: 0;
-            }
-        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-inscription {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(92, 184, 92, 0.8);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-inscription:hover {
+            background: rgba(76, 174, 76, 0.9);
+        }
+
+        .translation button {
+            margin: 0.2rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            color: #4a6fa3;
+        }
+
+        .translation button:hover {
+            background: rgba(94, 123, 182, 0.9);
+            color: white;
+        }
+
+        .logos img {
+            max-width: 150px;
+        }
+
+        /* Contenu principal */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        section {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: rgba(94, 123, 182, 0.7);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(94, 123, 182, 0.3);
+        }
+
+        /* Pied de page */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(74, 111, 163, 0.6);
+            color: white;
+            margin-top: 2rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-
+    <!-- En-tête -->
     <header>
-        <div class="header-content">
-                <!-- Bouton d'inscription -->
-    <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
-            <div class="translation">
-                <button onclick="translatePage('fr')">FR</button>
-                <button onclick="translatePage('en')">EN</button>
-                <button onclick="translatePage('ar')">AR</button>
-            </div>
-            <div class="logos">
-                <img src="logo1.png" alt="Logo Société Mère" class="logo-societe-mere">
-                
-                
-            </div>
-            <div class="separator">
-                <h>PROPOSE:</h>
-                🖥️📱 <!-- Icône livre, tu peux aussi utiliser une image -->
-            </div>
-            <div class="logos">
-                <img src="logo.png" alt="Logo" class="logo">
-                <h1 id="page-title">AlaMath.com</h1>
-            </div>
-            <div class="header-text">
-
-                <p id="page-description"> AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences.
-                    Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux.
-                    Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et
-                    dans d'autres matières scientifiques tout en développant leur esprit logique et analytique.
-               </p>
-               <p id="page-descriptions"> 🎉✨  تهنئة خاصة بمناسبةعيد الفطر ✨🎉
-
-                بمناسبة عيد الفطر المبارك، نتقدم بأحر التهاني وأطيب الأماني لكم ولعائلاتكم. 🌙💫
-                
-                نسأل الله أن يعيده عليكم بالصحة والعافية، وأن يكون عيدًا مليئًا بالفرح والبركات. 🌸🐑
-                
-                كل عام وأنتم بخير! 🎊🎁
-           </p>
-            </div>
+        <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
+        <div class="translation">
+            <button onclick="translatePage('fr')">FR</button>
+            <button onclick="translatePage('en')">EN</button>
+            <button onclick="translatePage('ar')">AR</button>
         </div>
+        <div class="logos">
+            <img src="logo1.png" alt="Logo Société Mère">
+        </div>
+        <h1 id="page-title">AlaMath.com</h1>
+        <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
     </header>
 
+    <!-- Contenu principal -->
     <div class="container">
-        <!-- Section pour les cycles -->
+        <!-- Cycles -->
         <section>
             <h2 id="choose-cycle">Choisissez un cycle</h2>
             <div>
@@ -293,41 +185,37 @@
             </div>
         </section>
 
-        <!-- Section pour les niveaux -->
+        <!-- Niveaux -->
         <section id="levels" class="hidden">
             <h2 id="choose-level">Choisissez un niveau</h2>
             <div id="levelOptions" class="grid"></div>
         </section>
 
-        <!-- Section pour les matières -->
+        <!-- Matières -->
         <section id="subjects" class="hidden">
             <h2 id="choose-subject">Choisissez une matière</h2>
             <div id="subjectOptions" class="grid"></div>
         </section>
 
-        <!-- Section pour les groupes de travail -->
+        <!-- Groupes -->
         <section id="groups" class="hidden">
             <h2 id="group-section">Groupes de travail</h2>
             <div id="groupOptions" class="grid"></div>
         </section>
-
     </div>
 
-    
+    <!-- Pied de page -->
     <footer>
-        
-
-        <p id="footer-text"> SARL IaSmarKet Services -Tous droits réservés- 2025 .</p>&copy;
-        
+        <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
-</body>
 
     <script>
+        // Translation data
         const translations = {
             fr: {
                 title: "AlaMath.com",
                 description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.",
-                footer: "SARL IaSmarKet Services -Tous droits réservés-2025",
+                footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
                 primary: "Primaire",
                 collegial: "Collégial",
@@ -381,11 +269,10 @@
                 "group1Description": " TTC فردي 120 درهم / 1 ساعة",
                 "group2Description": "240 TTC درهم / 16 ساعة من العمل في مجموعات صغيرة من 20 طالبًا.",
                 "group3Description": "360 TTC درهم / 24 ساعة من العمل في مجموعات صغيرة من 20 طالبًا."
-
             }
-
         };
 
+        // Function to translate the page
         function translatePage(lang) {
             document.querySelector("header h1").innerText = translations[lang].title;
             document.querySelector("header p").innerText = translations[lang].description;
@@ -403,10 +290,10 @@
                 const groupId = card.getAttribute("data-group-id");
                 card.querySelector("h3").innerText = translations[lang][`group${groupId}`];
                 card.querySelector("p").innerText = translations[lang][`group${groupId}Description`];
-                card.querySelector("button").innerText = translations[lang].joinButton;
             });
         }
 
+        // Data for cycles, levels, and subjects
         const data = {
             "Primaire": {
                 niveaux: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème année"],
@@ -419,20 +306,20 @@
             "Lycée": {
                 niveaux: ["1ère année", "2ème année", "Terminale"],
                 matieres: ["Mathématiques", "Physique-Chimie", "Philosophie", "SVT", "Histoire-Géo"]
-            },
-            "abonnes": {
-                primaire: ["Mathématiques", "Physique-Chimie", "Philosophie", "SVT", "Histoire-Géo"]
             }
         };
 
+        // Data for work groups
         const groups = [
             { id: 1, name: "Abonnement premium", description: "Individual 120 DH/1h TTC ." },
             { id: 2, name: "Abonnement mensuel Classique", description: "240 DH/16h TTC de travail dans des petits groupes de 20 élèves." },
             { id: 3, name: "Abonnement mensuel Pack réussite d or", description: "360 DH/24H TTC de travail dans  petits groupes de 20 élèves." }
         ];
-  
+
+        // Variable to store the selected cycle
         let selectedCycle = "";
 
+        // Function to select a cycle
         function selectCycle(cycle) {
             selectedCycle = cycle;
             document.getElementById("levels").classList.remove("hidden");
@@ -449,9 +336,9 @@
             document.getElementById("subjects").classList.add("hidden");
             document.getElementById("groups").classList.add("hidden");
         }
-        let selectedlevel = "";
+
+        // Function to select a level
         function selectLevel(niveau) {
-            selectedlevel = niveau;
             document.getElementById("subjects").classList.remove("hidden");
             document.getElementById("subjectOptions").innerHTML = "";
 
@@ -465,9 +352,9 @@
 
             document.getElementById("groups").classList.add("hidden");
         }
-        let selectedmatier ="";
+
+        // Function to show work groups
         function showGroups(matiere) {
-            selectedmatier = matiere;
             document.getElementById("groups").classList.remove("hidden");
             document.getElementById("groupOptions").innerHTML = "";
 
@@ -478,30 +365,17 @@
                 card.innerHTML = `
                     <h3>${group.name}</h3>
                     <p>${group.description}</p>
+                    <button class="btn" onclick="showlist(${group.id})">Rejoindre</button>
                 `;
-
-                // Ajouter un événement "click" à la carte pour ouvrir le lien Zoom
-                card.addEventListener("click", () => {
-                    showlist(group.id);
-                });
-
                 document.getElementById("groupOptions").appendChild(card);
             });
         }
-        let selectedgroup ="";
+
+        //Function to showlist
         function showlist(group) {
-            if (typeof selectedCycle !== "undefined" && typeof selectedlevel !== "undefined") {
-                selectedgroup = selectedCycle + selectedlevel + selectedmatier + group;
-                console.log("Selected group:", selectedgroup);
 
-                // Ouvrir le lien Zoom dans un nouvel onglet
-                window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
-            } else {
-                console.error("selectedCycle ou selectedlevel n'est pas défini !");
-            }
-}
-
-        
+            window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
+        }
     </script>
 </body>
 </html>
