@@ -140,9 +140,7 @@
         footer p {
             margin: 0;
         }
-        /* Ajout de la classe hidden */
         .hidden { display: none !important; }
-        /* Médias queries pour l'affichage mobile */
         @media (max-width: 768px) {
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; }
@@ -179,7 +177,6 @@
     </style>
 </head>
 <body>
-    <!-- En-tête -->
     <header>
         <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
         <div class="translation">
@@ -188,75 +185,71 @@
             <button onclick="translatePage('ar')">AR</button>
         </div>
         <div class="logos">
-            <img src="logo.png" alt="Logo platforme">
+            <img src="logo.png" alt="Logo plateforme">
         </div>
         <h1 id="page-title">AlaMath.com</h1>
-        <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
+        <p id="page-description">
+            AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.
+        </p>
     </header>
-    <!-- Contenu principal -->
     <div class="container">
-        <!-- Cycles -->
         <section>
             <h2 id="choose-cycle">Choisissez un cycle</h2>
             <div>
+                <button class="btn" id="btn-prescolaire" onclick="selectCycle('Préscolaire')">Préscolaire</button>
                 <button class="btn" id="btn-primaire" onclick="selectCycle('Primaire')">Primaire</button>
-                <button class="btn" id="btn-collegial" onclick="selectCycle('Collégial')">Collégial</button>
+                <button class="btn" id="btn-college" onclick="selectCycle('Collège')">Collège</button>
                 <button class="btn" id="btn-lycee" onclick="selectCycle('Lycée')">Lycée</button>
             </div>
         </section>
-        <!-- Niveaux -->
         <section id="levels" class="hidden">
             <h2 id="choose-level">Choisissez un niveau</h2>
             <div id="levelOptions" class="grid"></div>
         </section>
-        <!-- Matières -->
         <section id="subjects" class="hidden">
             <h2 id="choose-subject">Choisissez une matière</h2>
             <div id="subjectOptions" class="grid"></div>
         </section>
-        <!-- Groupes -->
         <section id="groups" class="hidden">
             <h2 id="group-section">Groupes de travail</h2>
             <div id="groupOptions" class="grid"></div>
         </section>
     </div>
-    <!-- Pied de page -->
     <footer>
         <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
     <script>
-        // Variable globale pour la langue courante
         let currentLang = "fr";
-
-        // Traductions
         const translations = {
             fr: {
                 title: "AlaMath.com",
-                description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d autres matières scientifiques tout en développant leur esprit logique et analytique.",
+                description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.",
                 footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
-                primary: "Primaire",
-                collegial: "Collégial",
-                highschool: "Lycée",
+                presco: "Préscolaire",
+                prima: "Primaire",
+                col: "Collège",
+                lyc: "Lycée",
                 chooseLevel: "Choisissez un niveau",
                 chooseSubject: "Choisissez une matière",
                 groupSection: "Groupes de travail",
                 joinButton: "Rejoindre",
                 group1: "Abonnement premium",
-                group2: "Abonnement mensuel Classique ",
-                group3: "Abonnement mensuel Pack réussite d or ",
+                group2: "Abonnement mensuel Classique",
+                group3: "Abonnement mensuel Pack réussite d'or",
                 group1Description: "Individuel 120 DH/1h TTC",
                 group2Description: "240 DH/16h TTC de travail dans des petits groupes de 20 élèves.",
-                group3Description: "360 DH/24H TTC de travail dans  petits groupes de 20 élèves."
+                group3Description: "360 DH/24h TTC de travail dans petits groupes de 20 élèves."
             },
             en: {
                 title: "AlaMath.com",
                 description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
                 footer: "SARL IaSmarKet Services - All rights reserved - 2025",
                 chooseCycle: "Choose a cycle",
-                primary: "Primary",
-                collegial: "Middle School",
-                highschool: "High School",
+                presco: "Preschool",
+                prima: "Primary",
+                col: "Middle School",
+                lyc: "High School",
                 chooseLevel: "Choose a level",
                 chooseSubject: "Choose a subject",
                 groupSection: "Work Groups",
@@ -273,9 +266,10 @@
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
                 chooseCycle: "اختر السلك",
-                primary: "الابتدائي",
-                collegial: "الإعدادي",
-                highschool: "الثانوي",
+                presco: "التعليم الأولي",
+                prima: "الابتدائي",
+                col: "الإعدادي",
+                lyc: "الثانوي",
                 chooseLevel: "اختر المستوى",
                 chooseSubject: "اختر المادة",
                 groupSection: "المجموعات الدراسية",
@@ -283,59 +277,67 @@
                 group1: "اشتراك بريميوم",
                 group2: "اشتراك شهري كلاسيكي",
                 group3: "اشتراك شهري باقة النجاح الذهبية",
-                group1Description: " TTC فردي 120 درهم / 1 ساعة",
-                group2Description: "240 TTC درهم / 16 ساعة من العمل في مجموعات صغيرة من 20 طالبًا.",
-                group3Description: "360 TTC درهم / 24 ساعة من العمل في مجموعات صغيرة من 20 طالبًا."
+                group1Description: "فردي 120 درهم / 1 ساعة TTC",
+                group2Description: "240 درهم / 16 ساعة TTC من العمل في مجموعات صغيرة من 20 طالبًا.",
+                group3Description: "360 درهم / 24 ساعة TTC من العمل في مجموعات صغيرة من 20 طالبًا."
             }
         };
 
-        // Données cycles, niveaux, matières
+        // Structure marocaine
         const data = {
-            "Primaire": {
-                niveaux: ["CP", "CE1", "CE2", "CM1", "CM2", "6ème année"],
-                matieres: ["Mathématiques", "Français", "Arabe", "Sciences"]
+            "Préscolaire": {
+                niveaux: ["1ère année Préscolaire", "2ème année Préscolaire"],
+                matieres: ["Découverte", "Jeux éducatifs", "Langage"]
             },
-            "Collégial": {
-                niveaux: ["1ère année", "2ème année", "3ème année"],
-                matieres: ["Mathématiques", "Physique", "SVT", "Français", "Anglais"]
+            "Primaire": {
+                niveaux: ["1ère année", "2ème année", "3ème année", "4ème année", "5ème année", "6ème année"],
+                matieres: ["Mathématiques", "Français", "Arabe", "Sciences", "Islamique"]
+            },
+            "Collège": {
+                niveaux: ["1ère année collège", "2ème année collège", "3ème année collège"],
+                matieres: ["Mathématiques", "Physique-Chimie", "SVT", "Français", "Arabe", "Islamique", "Anglais"]
             },
             "Lycée": {
-                niveaux: ["1ère année", "2ème année", "Terminale"],
-                matieres: ["Mathématiques", "Physique-Chimie", "Philosophie", "SVT", "Histoire-Géo"]
+                niveaux: ["Tronc commun", "1ère année Bac", "2ème année Bac"],
+                matieres: [
+                    "Mathématiques",
+                    "Physique-Chimie",
+                    "SVT",
+                    "Français",
+                    "Philosophie",
+                    "Histoire-Géographie",
+                    "Islamique",
+                    "Anglais",
+                    "Informatique"
+                ]
             }
         };
 
-        // Données groupes
         const groups = [
             { id: 1, name: "group1", description: "group1Description" },
             { id: 2, name: "group2", description: "group2Description" },
             { id: 3, name: "group3", description: "group3Description" }
         ];
 
-        // Sélection du cycle
         let selectedCycle = "";
 
-        // Traduction de la page
         function translatePage(lang) {
             currentLang = lang;
             document.querySelector("header h1").innerText = translations[lang].title;
             document.querySelector("header p").innerText = translations[lang].description;
             document.querySelector("footer p").innerText = translations[lang].footer;
             document.getElementById("choose-cycle").innerText = translations[lang].chooseCycle;
-            document.getElementById("btn-primaire").innerText = translations[lang].primary;
-            document.getElementById("btn-collegial").innerText = translations[lang].collegial;
-            document.getElementById("btn-lycee").innerText = translations[lang].highschool;
+            document.getElementById("btn-prescolaire").innerText = translations[lang].presco;
+            document.getElementById("btn-primaire").innerText = translations[lang].prima;
+            document.getElementById("btn-college").innerText = translations[lang].col;
+            document.getElementById("btn-lycee").innerText = translations[lang].lyc;
             document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
             document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
             document.getElementById("group-section").innerText = translations[lang].groupSection;
-
-            // Mise à jour dynamique des groupes si affichés
             updateGroupCardsTranslation();
-            // Mise à jour dynamique des boutons de groupe (si affichés)
             updateJoinButtons();
         }
 
-        // Met à jour la traduction des groupes déjà affichés
         function updateGroupCardsTranslation() {
             const groupCards = document.querySelectorAll(".group-card");
             groupCards.forEach(card => {
@@ -345,7 +347,6 @@
             });
         }
 
-        // Met à jour le texte des boutons "Rejoindre"
         function updateJoinButtons() {
             const joinButtons = document.querySelectorAll(".group-card .btn");
             joinButtons.forEach(btn => {
@@ -353,7 +354,6 @@
             });
         }
 
-        // Sélection d'un cycle
         function selectCycle(cycle) {
             selectedCycle = cycle;
             document.getElementById("levels").classList.remove("hidden");
@@ -372,12 +372,10 @@
             });
             document.getElementById("subjects").classList.add("hidden");
             document.getElementById("groups").classList.add("hidden");
-            // Focus premier niveau
             const levelOptions = document.querySelectorAll('#levelOptions .card');
             if (levelOptions.length > 0) levelOptions[0].focus();
         }
 
-        // Sélection d'un niveau
         function selectLevel(niveau) {
             document.getElementById("subjects").classList.remove("hidden");
             document.getElementById("subjectOptions").innerHTML = "";
@@ -398,7 +396,6 @@
             if (subjectOptions.length > 0) subjectOptions[0].focus();
         }
 
-        // Affichage des groupes
         function showGroups(matiere) {
             document.getElementById("groups").classList.remove("hidden");
             document.getElementById("groupOptions").innerHTML = "";
@@ -415,12 +412,10 @@
                 `;
                 document.getElementById("groupOptions").appendChild(card);
             });
-            // Focus premier groupe
             const groupOptions = document.querySelectorAll('#groupOptions .card');
             if (groupOptions.length > 0) groupOptions[0].focus();
         }
 
-        // Ouvre le lien Zoom
         function showlist(group) {
             window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
         }
