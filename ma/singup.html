@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription AlaMath.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('bkg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
+    }
+    .container {
+      max-width: 450px;
+      margin: 3rem auto;
+      padding: 2.2rem 2rem 1.5rem 2rem;
+      background: rgba(255,255,255,0.13);
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1.2rem;
+      color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    select, input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+      padding: 0.85rem;
+      border-radius: 7px;
+      border: none;
+      background: rgba(255,255,255,0.85);
+      font-size: 1rem;
+      outline: none;
+      color: #4a6fa3;
+    }
+    select:focus, input:focus {
+      box-shadow: 0 0 0 2px #5eb85c;
+    }
+    .type-switch {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    .type-switch label {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button[type="submit"] {
+      padding: 0.9rem;
+      border-radius: 25px;
+      border: none;
+      background: rgba(92,184,92,0.85);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+      background: rgba(76,174,76,1);
+    }
+    .message {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #fff;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ffb3b3;
+    }
+    .success {
+      color: #b6ffb3;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 1.3rem;
+      color: #a6c8e0;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: #5eb85c;
+    }
+    .section-title {
+      margin-bottom: 0.5rem;
+      font-size: 1.07rem;
+      font-weight: 600;
+      color: #e3ffe0;
+    }
+    @media (max-width: 500px) {
+      .container {
+        margin: 1.3rem 0.5rem;
+        padding: 1.1rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Inscription AlaMath.com</h1>
+  <form id="signupForm" autocomplete="off">
+    <div class="section-title">Vous êtes :</div>
+    <div class="type-switch">
+      <label>
+        <input type="radio" name="usertype" value="eleve" checked onclick="toggleUserType()"> Élève
+      </label>
+      <label>
+        <input type="radio" name="usertype" value="prof" onclick="toggleUserType()"> Professeur
+      </label>
+    </div>
+    <div class="section-title">Scolarité</div>
+    <select id="cycle" required>
+      <option value="">-- Choisir le cycle --</option>
+      <option value="Préscolaire">Préscolaire</option>
+      <option value="Primaire">Primaire</option>
+      <option value="Collège">Collège</option>
+      <option value="Lycée">Lycée</option>
+    </select>
+    <select id="niveau" required disabled>
+      <option value="">-- Choisir le niveau --</option>
+    </select>
+    <select id="matiere" required disabled>
+      <option value="">-- Choisir la matière --</option>
+    </select>
+    <div class="section-title" id="contact-title">Informations du tuteur</div>
+    <input type="text" id="nom" placeholder="Nom complet du tuteur" required>
+    <input type="email" id="email" placeholder="Email du tuteur" required>
+    <input type="tel" id="tel" placeholder="Téléphone du tuteur" required pattern="^[0-9+\-\s]{8,16}$">
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <button type="submit">Créer mon compte</button>
+  </form>
+  <div class="message" id="message"></div>
+  <a class="back-link" href="index.html">&larr; Retour à l'accueil</a>
+</div>
+<script>
+const data = {
+  "Préscolaire": {
+    niveaux: ["1ère année Préscolaire", "2ème année Préscolaire"],
+    matieres: ["Découverte", "Jeux éducatifs", "Langage"]
+  },
+  "Primaire": {
+    niveaux: ["1ère année", "2ème année", "3ème année", "4ème année", "5ème année", "6ème année"],
+    matieres: ["Mathématiques", "Français", "Arabe", "Sciences", "Islamique"]
+  },
+  "Collège": {
+    niveaux: ["1ère année collège", "2ème année collège", "3ème année collège"],
+    matieres: ["Mathématiques", "Physique-Chimie", "SVT", "Français", "Arabe", "Islamique", "Anglais"]
+  },
+  "Lycée": {
+    niveaux: ["Tronc commun", "1ère année Bac", "2ème année Bac"],
+    matieres: [
+      "Mathématiques",
+      "Physique-Chimie",
+      "SVT",
+      "Français",
+      "Philosophie",
+      "Histoire-Géographie",
+      "Islamique",
+      "Anglais",
+      "Informatique"
+    ]
+  }
+};
+
+document.getElementById('cycle').addEventListener('change', function() {
+  const niveauSelect = document.getElementById('niveau');
+  const matiereSelect = document.getElementById('matiere');
+  niveauSelect.innerHTML = '<option value="">-- Choisir le niveau --</option>';
+  matiereSelect.innerHTML = '<option value="">-- Choisir la matière --</option>';
+  matiereSelect.disabled = true;
+  if (!this.value) {
+    niveauSelect.disabled = true;
+    return;
+  }
+  data[this.value].niveaux.forEach(niveau => {
+    const option = document.createElement('option');
+    option.value = niveau;
+    option.textContent = niveau;
+    niveauSelect.appendChild(option);
+  });
+  niveauSelect.disabled = false;
+});
+document.getElementById('niveau').addEventListener('change', function() {
+  const cycle = document.getElementById('cycle').value;
+  const matiereSelect = document.getElementById('matiere');
+  matiereSelect.innerHTML = '<option value="">-- Choisir la matière --</option>';
+  if (!this.value || !cycle) {
+    matiereSelect.disabled = true;
+    return;
+  }
+  data[cycle].matieres.forEach(matiere => {
+    const option = document.createElement('option');
+    option.value = matiere;
+    option.textContent = matiere;
+    matiereSelect.appendChild(option);
+  });
+  matiereSelect.disabled = false;
+});
+function toggleUserType() {
+  const isEleve = document.querySelector('input[name="usertype"]:checked').value === 'eleve';
+  document.getElementById('contact-title').textContent = isEleve ? "Informations du tuteur" : "Vos informations";
+  document.getElementById('nom').placeholder = isEleve ? "Nom complet du tuteur" : "Votre nom complet";
+  document.getElementById('email').placeholder = isEleve ? "Email du tuteur" : "Votre email";
+  document.getElementById('tel').placeholder = isEleve ? "Téléphone du tuteur" : "Votre téléphone";
+}
+toggleUserType();
+
+// === CONFIGURATION SUPABASE ===
+const SUPABASE_URL = "https://nbiygofmbgzbaufjtmaa.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5iaXlnb2ZtYmd6YmF1Zmp0bWFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2MzYxOTcsImV4cCI6MjA2MzIxMjE5N30.AUQD28YySadiJ9EHEzzbwATdfZTs99ei8pxUEENaNQ8";
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const usertype = document.querySelector('input[name="usertype"]:checked').value;
+  const cycle = document.getElementById('cycle').value;
+  const niveau = document.getElementById('niveau').value;
+  const matiere = document.getElementById('matiere').value;
+  const nom = document.getElementById('nom').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+  const password = document.getElementById('password').value;
+
+  const messageDiv = document.getElementById('message');
+  messageDiv.textContent = "Envoi de votre inscription...";
+  messageDiv.className = "message";
+
+  if(!cycle || !niveau || !matiere) {
+      messageDiv.textContent = "Veuillez choisir le cycle, le niveau et la matière.";
+      messageDiv.className = "message error";
+      return;
+  }
+
+  // Insertion dans Supabase avec affichage de l'erreur détaillée
+  try {
+    const { data, error } = await _supabase
+      .from('utilisateurs')
+      .insert([
+        { usertype, cycle, niveau, matiere, nom, email, tel, password }
+      ]);
+
+    if(error) {
+      messageDiv.textContent = "Erreur : " + (error.message || "Impossible d’enregistrer votre inscription.");
+      messageDiv.className = "message error";
+      // Affiche l'erreur dans la console navigateur pour debug
+      console.error("Erreur Supabase:", error);
+    } else {
+      messageDiv.textContent = "Inscription réussie ! Bienvenue sur AlaMath.com";
+      messageDiv.className = "message success";
+      document.getElementById('signupForm').reset();
+    }
+  } catch (err) {
+    messageDiv.textContent = "Erreur inattendue : " + err;
+    messageDiv.className = "message error";
+    console.error("Erreur JS:", err);
+  }
+});
+</script>
+</body>
+</html>
