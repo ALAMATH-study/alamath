@@ -55,15 +55,33 @@
             margin: 12px 0 4px 0;
             text-align: left;
         }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            margin-bottom: 0.8em;
+            align-items: flex-start;
+        }
+        .input-row {
+            display: flex;
+            flex-direction: row;
+            gap: 0.7em;
+            width: 100%;
+        }
+        .input-row input,
+        .input-row select {
+            flex: 1;
+            margin-bottom: 0;
+        }
         select, input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
             width: 100%;
             padding: 0.8em;
-            margin-bottom: 9px;
             border: 1px solid #ddd;
             border-radius: 7px;
             font-size: 1em;
             background: rgba(245,245,245,0.98);
             color: #4a6fa3;
+            box-sizing: border-box;
         }
         button {
             width: 100%;
@@ -114,6 +132,7 @@
             font-size: 1.07rem;
             font-weight: 600;
             color: #004aad;
+            text-align: left;
         }
         .type-switch {
             display: flex;
@@ -125,13 +144,17 @@
             cursor: pointer;
             font-weight: 600;
         }
-        @media (max-width: 500px) {
+        @media (max-width: 600px) {
             .container {
                 margin: 1.3rem 0.5rem;
                 padding: 1.1rem 0.6rem;
             }
             .logo {
                 width: 72px;
+            }
+            .input-row {
+                flex-direction: column;
+                gap: 0;
             }
         }
     </style>
@@ -153,26 +176,38 @@
                         <input type="radio" name="usertype" value="prof" onclick="toggleUserType()"> Professeur
                     </label>
                 </div>
+
                 <div class="section-title">Scolarité</div>
-                <select id="cycle" required>
-                    <option value="">-- Choisir le cycle --</option>
-                    <option value="Maternelle">Maternelle</option>
-                    <option value="Élémentaire">Élémentaire</option>
-                    <option value="Collège">Collège</option>
-                    <option value="Lycée">Lycée</option>
-                </select>
-                <select id="niveau" required disabled>
-                    <option value="">-- Choisir le niveau --</option>
-                </select>
-                <select id="matiere" required disabled>
-                    <option value="">-- Choisir la matière --</option>
-                </select>
+                <div class="form-group">
+                    <div class="input-row">
+                        <select id="cycle" required>
+                            <option value="">-- Choisir le cycle --</option>
+                            <option value="Maternelle">Maternelle</option>
+                            <option value="Élémentaire">Élémentaire</option>
+                            <option value="Collège">Collège</option>
+                            <option value="Lycée">Lycée</option>
+                        </select>
+                        <select id="niveau" required disabled>
+                            <option value="">-- Choisir le niveau --</option>
+                        </select>
+                        <select id="matiere" required disabled>
+                            <option value="">-- Choisir la matière --</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="section-title" id="contact-title">Informations du tuteur</div>
-                <input type="text" id="nom" placeholder="Nom complet du tuteur" required>
-                <input type="email" id="email" placeholder="Email du tuteur" required>
-                <input type="tel" id="tel" placeholder="Téléphone du tuteur" required pattern="^[0-9+\-\s]{8,16}$">
-                <input type="text" id="userId" placeholder="Choisissez un ID" required>
-                <input type="text" id="keyWords" placeholder="Clé de récupération (7 mots)" required>
+                <div class="form-group">
+                    <div class="input-row">
+                        <input type="text" id="nom" placeholder="Nom complet du tuteur" required>
+                        <input type="email" id="email" placeholder="Email du tuteur" required>
+                    </div>
+                    <div class="input-row">
+                        <input type="tel" id="tel" placeholder="Téléphone du tuteur" required pattern="^[0-9+\-\s]{8,16}$">
+                        <input type="text" id="userId" placeholder="Choisissez un ID" required>
+                    </div>
+                    <input type="text" id="keyWords" placeholder="Clé de récupération (7 mots)" required style="margin-bottom:0;">
+                </div>
                 <button type="button" onclick="generateKeyWords()">Générer 7 mots aléatoires</button>
                 <button type="submit">Créer mon compte & Générer QR</button>
             </form>
@@ -183,8 +218,12 @@
         <!-- Section Connexion -->
         <div class="section" id="login" style="margin-top:40px;">
             <h3>Connexion</h3>
-            <input type="text" id="loginUserId" placeholder="Entrez votre ID">
-            <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
+            <div class="form-group">
+                <div class="input-row">
+                    <input type="text" id="loginUserId" placeholder="Entrez votre ID">
+                    <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
+                </div>
+            </div>
             <button onclick="loginUser()">Se connecter</button>
             <p id="loginInfo"></p>
         </div>
@@ -279,7 +318,7 @@
         });
     }
 
-    // --- Nouvelle inscription via fetch et ngrok ---
+    // --- Nouvelle inscription via fetch et Cloudflare Tunnel ---
     document.getElementById('signupForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -309,7 +348,7 @@
                 usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
             };
 
-            fetch('https://racer-prime-absolutely.ngrok-free.app', {
+            fetch('https://login.alamath.com', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -350,7 +389,7 @@ Mot de passe: ${password}
         });
     });
 
-    // Connexion (exemple simple, à adapter côté serveur)
+    // Connexion (affiche aussi les détails des cours)
     function loginUser() {
         const inputId = document.getElementById("loginUserId").value.trim();
         const inputPassword = document.getElementById("loginPassword").value.trim();
@@ -360,8 +399,7 @@ Mot de passe: ${password}
             return;
         }
 
-        // Appel à l'API ngrok (à adapter côté backend)
-        fetch('https://racer-prime-absolutely.ngrok-free.app/login', {
+        fetch('https://login.alamath.com/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -370,17 +408,40 @@ Mot de passe: ${password}
         })
         .then(response => response.json())
         .then(result => {
-            if(result && result.success) {
-                document.getElementById("loginInfo").textContent = "✅ Connexion réussie !";
-                // Redirection possible ici
+            if (result.success && result.user) {
+                let html = `
+                    <span style="color:green;">✅ Connexion réussie !</span><br>
+                    <b>ID :</b> ${result.user.userId}<br>
+                    <b>Nom :</b> ${result.user.nom}<br>
+                    <b>Email :</b> ${result.user.email}<br>
+                    <b>Téléphone :</b> ${result.user.tel}<br>
+                    <b>Type :</b> ${result.user.usertype}<br>
+                    <b>Cycle :</b> ${result.user.cycle}<br>
+                    <b>Niveau :</b> ${result.user.niveau}<br>
+                `;
+
+                if(result.user.cours && Array.isArray(result.user.cours) && result.user.cours.length > 0) {
+                    html += `<hr><b>Cours suivis :</b><br>`;
+                    result.user.cours.forEach((cours, idx) => {
+                        html += `<u>Cours #${idx+1}</u><br>`;
+                        html += `Matière : ${cours.matiere || ""}<br>`;
+                        html += `Date début : ${cours.date_debut ? new Date(cours.date_debut).toLocaleString() : ''}<br>`;
+                        html += `Mois payés : ${(cours.mois_payes || []).join(', ')}<br>`;
+                        html += `Mois impayés : ${(cours.mois_impayes || []).join(', ')}<br>`;
+                        html += `Prochaine séance : ${cours.prochaine_seance ? new Date(cours.prochaine_seance).toLocaleString() : ''}<br>`;
+                        html += `Prof : ${cours.prof || ""}<br><br>`;
+                        html += `Observation : ${cours.observation || ""}<br><br>`;
+                    });
+                }
+                document.getElementById("loginInfo").innerHTML = html;
             } else if(result && result.message) {
-                document.getElementById("loginInfo").textContent = "❌ " + result.message;
+                document.getElementById("loginInfo").innerHTML = `<span style="color:red;">❌ ${result.message}</span>`;
             } else {
-                document.getElementById("loginInfo").textContent = "❌ Utilisateur introuvable ou mot de passe incorrect.";
+                document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>❌ Utilisateur introuvable ou mot de passe incorrect.</span>";
             }
         })
         .catch(error => {
-            document.getElementById("loginInfo").textContent = "Erreur réseau : " + error;
+            document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>Erreur réseau : " + error + "</span>";
         });
     }
     </script>
