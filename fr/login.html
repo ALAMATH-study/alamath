@@ -229,6 +229,9 @@
         </div>
     </div>
     <script>
+    // --- Config backend ---
+    const BACKEND_URL = 'https://humans.alamath.com';
+
     // Cycles & Matières conformes à la plateforme
     const data = {
       "Maternelle": {
@@ -307,7 +310,7 @@
     }
 
     function generatePassword(id, phone, keyWords) {
-        const secretKey = "MaSuperCléSecrète"; 
+        const secretKey = "MaSuperCléSecrète";
         const inputString = id + phone + keyWords + secretKey;
         const encoder = new TextEncoder();
         const data = encoder.encode(inputString);
@@ -348,7 +351,7 @@
                 usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
             };
 
-            fetch('https://login.alamath.com', {
+            fetch(`${BACKEND_URL}/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -399,7 +402,7 @@ Mot de passe: ${password}
             return;
         }
 
-        fetch('https://login.alamath.com/login', {
+        fetch(`${BACKEND_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
