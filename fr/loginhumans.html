@@ -346,7 +346,6 @@
         }
 
         generatePassword(userId, tel, keyWords).then(async password => {
-            // Préparer les données à envoyer
             const dataToSend = {
                 usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
             };
@@ -364,7 +363,6 @@
                     messageDiv.className = "message success";
                     document.getElementById('signupForm').reset();
 
-                    // Afficher résumé + QR code
                     const displayInfo = document.getElementById("displayInfo");
                     displayInfo.innerHTML = `<pre style="text-align:left;padding:7px 0;">
 ID: ${userId}
@@ -372,7 +370,6 @@ Téléphone: ${tel}
 Clé: ${keyWords}
 Mot de passe: ${password}
 </pre>`;
-                    // Générer QR Code
                     document.getElementById("qrcode").innerHTML = "";
                     const qrData = `${tel}/${keyWords}/${password}`;
                     new QRCode(document.getElementById("qrcode"), {
@@ -392,7 +389,6 @@ Mot de passe: ${password}
         });
     });
 
-    // Connexion (affiche aussi les détails des cours)
     function loginUser() {
         const inputId = document.getElementById("loginUserId").value.trim();
         const inputPassword = document.getElementById("loginPassword").value.trim();
