@@ -218,14 +218,16 @@
         <!-- Section Connexion -->
         <div class="section" id="login" style="margin-top:40px;">
             <h3>Connexion</h3>
-            <div class="form-group">
-                <div class="input-row">
-                    <input type="text" id="loginUserId" placeholder="Entrez votre ID">
-                    <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
+            <form id="loginForm" autocomplete="off" onsubmit="loginUser(); return false;">
+                <div class="form-group">
+                    <div class="input-row">
+                        <input type="text" id="loginUserId" placeholder="Entrez votre ID">
+                        <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe">
+                    </div>
                 </div>
-            </div>
-            <button onclick="loginUser()">Se connecter</button>
-            <p id="loginInfo"></p>
+                <button type="submit">Se connecter</button>
+                <p id="loginInfo"></p>
+            </form>
         </div>
     </div>
     <script>
