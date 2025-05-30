@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription & Connexion Sécurisées AlaMath.com</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!--<script src="js/qr-scanner.min.js"></script>-->
     <style>
         body {
             font-family: 'Poppins', Arial, sans-serif;
@@ -232,7 +232,9 @@
     </div>
     <script>
     // --- Config backend ---
-    const BACKEND_URL = 'https://humans.alamath.com';
+    // Modifie ici si ton sous-domaine Cloudflare Tunnel diffère :
+    const BACKEND_URL = 'https://api.alamath.com';
+    // const BACKEND_URL = 'https://humans.alamath.com'; // <-- à utiliser si c'est ce nom qui est configuré !
 
     // Cycles & Matières conformes à la plateforme
     const data = {
