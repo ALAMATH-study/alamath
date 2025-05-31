@@ -218,7 +218,7 @@
         <!-- Section Connexion -->
         <div class="section" id="login" style="margin-top:40px;">
             <h3>Connexion</h3>
-            <form id="loginForm" autocomplete="off" onsubmit="loginUser(); return false;">
+            <form id="loginForm" autocomplete="off">
                 <div class="form-group">
                     <div class="input-row">
                     <input type="text" id="loginUserId" placeholder="Entrez votre ID" autocomplete="username">
@@ -232,11 +232,15 @@
     </div>
     <script>
     // --- Config backend ---
-    // Modifie ici si ton sous-domaine Cloudflare Tunnel diffère :
     const BACKEND_URL = 'https://api.alamath.com';
-    // const BACKEND_URL = 'https://humans.alamath.com'; // <-- à utiliser si c'est ce nom qui est configuré !
 
-    // Cycles & Matières conformes à la plateforme
+    // Détection du type de plateforme
+    function getTypeTem() {
+        if (location.hostname.includes('alamath.com')) return 'fralamath';
+        return 'autre';
+    }
+
+    // Gestion cycles/matières
     const data = {
       "Maternelle": {
         niveaux: ["Petite section", "Moyenne section", "Grande section"],
@@ -325,10 +329,10 @@
         });
     }
 
-    // --- Nouvelle inscription via fetch et Cloudflare Tunnel ---
+    // Inscription
     document.getElementById('signupForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-
+        const typetem = getTypeTem();
         const usertype = document.querySelector('input[name="usertype"]:checked').value;
         const cycle = document.getElementById('cycle').value;
         const niveau = document.getElementById('niveau').value;
@@ -351,7 +355,7 @@
 
         generatePassword(userId, tel, keyWords).then(async password => {
             const dataToSend = {
-                usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
+                typetem, usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
             };
 
             fetch(`${BACKEND_URL}/`, {
@@ -393,7 +397,42 @@ Mot de passe: ${password}
         });
     });
 
-    function loginUser() {
+    // --- Gestion Cookie Simple ---
+    function setSessionCookie(name, value, days=1) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Strict";
+    }
+    function getSessionCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i=0;i < ca.length;i++) {
+            let c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+    }
+    function eraseSessionCookie(name) {
+        document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
+    }
+
+    // Redirection si déjà connecté
+    function redirectIfLoggedIn() {
+        const userData = getSessionCookie('alamathUser');
+        if (userData) {
+            window.location.href = "/espace.html";
+        }
+    }
+    redirectIfLoggedIn();
+
+    // Connexion utilisateur
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         const inputId = document.getElementById("loginUserId").value.trim();
         const inputPassword = document.getElementById("loginPassword").value.trim();
 
@@ -412,31 +451,10 @@ Mot de passe: ${password}
         .then(response => response.json())
         .then(result => {
             if (result.success && result.user) {
-                let html = `
-                    <span style="color:green;">✅ Connexion réussie !</span><br>
-                    <b>ID :</b> ${result.user.userId}<br>
-                    <b>Nom :</b> ${result.user.nom}<br>
-                    <b>Email :</b> ${result.user.email}<br>
-                    <b>Téléphone :</b> ${result.user.tel}<br>
-                    <b>Type :</b> ${result.user.usertype}<br>
-                    <b>Cycle :</b> ${result.user.cycle}<br>
-                    <b>Niveau :</b> ${result.user.niveau}<br>
-                `;
-
-                if(result.user.cours && Array.isArray(result.user.cours) && result.user.cours.length > 0) {
-                    html += `<hr><b>Cours suivis :</b><br>`;
-                    result.user.cours.forEach((cours, idx) => {
-                        html += `<u>Cours #${idx+1}</u><br>`;
-                        html += `Matière : ${cours.matiere || ""}<br>`;
-                        html += `Date début : ${cours.date_debut ? new Date(cours.date_debut).toLocaleString() : ''}<br>`;
-                        html += `Mois payés : ${(cours.mois_payes || []).join(', ')}<br>`;
-                        html += `Mois impayés : ${(cours.mois_impayes || []).join(', ')}<br>`;
-                        html += `Prochaine séance : ${cours.prochaine_seance ? new Date(cours.prochaine_seance).toLocaleString() : ''}<br>`;
-                        html += `Prof : ${cours.prof || ""}<br><br>`;
-                        html += `Observation : ${cours.observation || ""}<br><br>`;
-                    });
-                }
-                document.getElementById("loginInfo").innerHTML = html;
+                // Enregistre les données utilisateur dans un cookie (stringifié)
+                setSessionCookie('alamathUser', JSON.stringify(result.user), 1); // 1 jour
+                // Redirige vers l'espace utilisateur
+                window.location.href = "/espace.html";
             } else if(result && result.message) {
                 document.getElementById("loginInfo").innerHTML = `<span style="color:red;">❌ ${result.message}</span>`;
             } else {
@@ -446,7 +464,7 @@ Mot de passe: ${password}
         .catch(error => {
             document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>Erreur réseau : " + error + "</span>";
         });
-    }
+    });
     </script>
 </body>
 </html>
