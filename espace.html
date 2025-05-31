@@ -16,7 +16,7 @@
         }
         .container {
             width: 94%;
-            max-width: 650px;
+            max-width: 700px;
             margin: 38px auto;
             background: #fff;
             padding: 32px 20px 20px 20px;
@@ -189,7 +189,7 @@
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // Affichage utilisateur dynamique
+    // Affichage utilisateur dynamique (tous les champs, même keyWords)
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -198,30 +198,46 @@
         }
         const user = JSON.parse(userDataString);
 
-        // Champs à afficher dans l'ordre, texte d'affichage pour chaque champ
+        // Afficher tous les champs principaux reçus, y compris keyWords
+        // Pour un affichage élégant, on peut regrouper les champs connus, puis afficher tous les champs supplémentaires
+        const fieldLabels = {
+            typetem: "Plateforme",
+            userId: "ID",
+            nom: "Nom",
+            email: "Email",
+            tel: "Téléphone",
+            usertype: "Type",
+            cycle: "Cycle",
+            niveau: "Niveau",
+            matiere: "Matière",
+            keyWords: "Clé de récupération",
+            password: "Mot de passe",
+            "Date début": "Date début",
+            "Nembre de Séance": "Nombre de Séances",
+            "Nembre des Séances impayées": "Séances impayées",
+            "jour de la prochainne séance": "Prochaine séance",
+            "Nom du prof/étudiant": "Prof/Étudiant",
+            "Observation": "Observation"
+        };
+
+        // Champs principaux dans l'ordre souhaité
         const mainFields = [
-            { key: "typetem", label: "Plateforme" },
-            { key: "userId", label: "ID" },
-            { key: "nom", label: "Nom" },
-            { key: "email", label: "Email" },
-            { key: "tel", label: "Téléphone" },
-            { key: "usertype", label: "Type" },
-            { key: "cycle", label: "Cycle" },
-            { key: "niveau", label: "Niveau" },
-            { key: "matiere", label: "Matière" },
-            { key: "Date début", label: "Date début" },
-            { key: "Nembre de Séance", label: "Nombre de Séances" },
-            { key: "Nembre des Séances impayées", label: "Séances impayées" },
-            { key: "jour de la prochainne séance", label: "Prochaine séance" },
-            { key: "Nom du prof/étudiant", label: "Prof/Étudiant" },
-            { key: "Observation", label: "Observation" }
+            "typetem", "userId", "nom", "email", "tel", "usertype", "cycle", "niveau", "matiere", "keyWords", "password",
+            "Date début", "Nembre de Séance", "Nembre des Séances impayées", "jour de la prochainne séance", "Nom du prof/étudiant", "Observation"
         ];
 
         let html = `<div class="user-data fade-up"><div class="flex-row">`;
 
-        mainFields.forEach(field => {
-            if (user[field.key] && String(user[field.key]).trim() !== "") {
-                html += `<div class="flex-col"><span class="section-label">${field.label} :</span><br>${user[field.key]}</div>`;
+        mainFields.forEach(key => {
+            if (user[key] && String(user[key]).trim() !== "") {
+                html += `<div class="flex-col"><span class="section-label">${fieldLabels[key] || key} :</span><br>${user[key]}</div>`;
+            }
+        });
+
+        // Affiche tous les champs supplémentaires qui ne sont pas dans mainFields
+        Object.keys(user).forEach(key => {
+            if (!mainFields.includes(key) && key !== "cours" && user[key] && String(user[key]).trim() !== "") {
+                html += `<div class="flex-col"><span class="section-label">${key} :</span><br>${user[key]}</div>`;
             }
         });
 
@@ -235,23 +251,11 @@
                 <div style="overflow-x:auto">
                 <table class="cours-table">
                     <tr>
-                        <th>Matière</th>
-                        <th>Date début</th>
-                        <th>Nb Séances</th>
-                        <th>Séances impayées</th>
-                        <th>Prochaine séance</th>
-                        <th>Prof/Étudiant</th>
-                        <th>Observation</th>
+                        ${Object.keys(user.cours[0]).map(col => `<th>${col}</th>`).join('')}
                     </tr>
                     ${user.cours.map((cours, idx) => `
                         <tr class="dynamic-row">
-                            <td>${cours.matiere || ''}</td>
-                            <td>${cours.date_debut || ''}</td>
-                            <td>${cours.nbre_seance || user["Nembre de Séance"] || ''}</td>
-                            <td>${cours.nbre_seance_impayees || user["Nembre des Séances impayées"] || ''}</td>
-                            <td>${cours.prochaine_seance || user["jour de la prochainne séance"] || ''}</td>
-                            <td>${cours.prof || user["Nom du prof/étudiant"] || ''}</td>
-                            <td>${cours.observation || user["Observation"] || ''}</td>
+                            ${Object.keys(cours).map(col => `<td>${cours[col] || ''}</td>`).join('')}
                         </tr>
                     `).join('')}
                 </table>
