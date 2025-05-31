@@ -16,13 +16,18 @@
         }
         .container {
             width: 94%;
-            max-width: 520px;
+            max-width: 600px;
             margin: 38px auto;
             background: #fff;
             padding: 32px 20px 20px 20px;
             border-radius: 18px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.13);
             text-align: center;
+            animation: fadeIn 0.8s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
         }
         h2 {
             color: #004aad;
@@ -38,17 +43,20 @@
             margin-top: 10px;
             padding: 0.7em 1.3em;
             font-weight: bold;
+            transition: background 0.2s;
         }
         .logout-btn:hover {
             background: #c00;
         }
         .user-data {
             text-align: left;
-            font-size: 1.08em;
+            font-size: 1.13em;
             margin: 1.2em 0;
-            padding: 1em 1.1em;
+            padding: 1.1em 1.3em;
             background: #f7faff;
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px #eef4fa;
+            animation: fadeIn 1.2s;
         }
         .user-data b {
             color: #004aad;
@@ -57,8 +65,62 @@
             text-align: left;
             margin: 1.2em 0;
             background: #e7f4ff;
-            border-radius: 8px;
-            padding: 1em 1.1em;
+            border-radius: 10px;
+            padding: 1.1em 1.3em;
+            box-shadow: 0 1px 6px #c5e8ff36;
+            animation: fadeIn 1.5s;
+        }
+        .cours-title {
+            font-size: 1.15em;
+            font-weight: bold;
+            color: #004aad;
+            margin-bottom: 0.5em;
+        }
+        .cours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.7em;
+            margin-bottom: 0.8em;
+        }
+        .cours-table th, .cours-table td {
+            border: 1px solid #c9e6ff;
+            padding: 0.5em 0.8em;
+            text-align: left;
+        }
+        .cours-table th {
+            background: #dff1ff;
+            color: #004aad;
+        }
+        .cours-table tr:nth-child(even) {
+            background: #f4faff;
+        }
+        .dynamic-row {
+            animation: rowFadeIn 0.7s;
+        }
+        @keyframes rowFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1;}
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2em 2em;
+        }
+        .flex-col {
+            flex: 1;
+            min-width: 180px;
+        }
+        .section-label {
+            color: #004aad;
+            font-weight: 600;
+            margin-top: 0.5em;
+        }
+        .fade-up {
+            animation: fadeInUp 1.2s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
@@ -84,7 +146,7 @@
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // Affichage utilisateur
+    // Affichage utilisateur dynamique
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -92,31 +154,64 @@
             return;
         }
         const user = JSON.parse(userDataString);
-        let html = `
-            <div class="user-data">
-                <b>Plateforme :</b> ${user.typetem || ''}<br>
-                <b>ID :</b> ${user.userId}<br>
-                <b>Nom :</b> ${user.nom}<br>
-                <b>Email :</b> ${user.email}<br>
-                <b>Téléphone :</b> ${user.tel}<br>
-                <b>Type :</b> ${user.usertype}<br>
-                <b>Cycle :</b> ${user.cycle}<br>
-                <b>Niveau :</b> ${user.niveau}<br>
-            </div>
-        `;
+
+        // Champs à afficher dans l'ordre, texte d'affichage pour chaque champ
+        const mainFields = [
+            { key: "typetem", label: "Plateforme" },
+            { key: "userId", label: "ID" },
+            { key: "nom", label: "Nom" },
+            { key: "email", label: "Email" },
+            { key: "tel", label: "Téléphone" },
+            { key: "usertype", label: "Type" },
+            { key: "cycle", label: "Cycle" },
+            { key: "niveau", label: "Niveau" },
+            { key: "matiere", label: "Matière" },
+            { key: "Date début", label: "Date début" },
+            { key: "Nembre de Séance", label: "Nombre de Séances" },
+            { key: "Nembre des Séances impayées", label: "Séances impayées" },
+            { key: "jour de la prochainne séance", label: "Prochaine séance" },
+            { key: "Nom du prof/étudiant", label: "Prof/Étudiant" },
+            { key: "Observation", label: "Observation" }
+        ];
+
+        let html = `<div class="user-data fade-up"><div class="flex-row">`;
+
+        mainFields.forEach(field => {
+            if (user[field.key] && String(user[field.key]).trim() !== "") {
+                html += `<div class="flex-col"><span class="section-label">${field.label} :</span><br>${user[field.key]}</div>`;
+            }
+        });
+
+        html += `</div></div>`;
+
+        // Section Cours (s'il y en a)
         if(user.cours && Array.isArray(user.cours) && user.cours.length > 0) {
-            html += `<div class="cours-section"><b>Cours suivis :</b><br>`;
-            user.cours.forEach((cours, idx) => {
-                html += `<u>Cours #${idx+1}</u><br>`;
-                html += `Matière : ${cours.matiere || ""}<br>`;
-                html += `Date début : ${cours.date_debut ? new Date(cours.date_debut).toLocaleString() : ''}<br>`;
-                html += `Mois payés : ${(cours.mois_payes || []).join(', ')}<br>`;
-                html += `Mois impayés : ${(cours.mois_impayes || []).join(', ')}<br>`;
-                html += `Prochaine séance : ${cours.prochaine_seance ? new Date(cours.prochaine_seance).toLocaleString() : ''}<br>`;
-                html += `Prof : ${cours.prof || ""}<br>`;
-                html += `Observation : ${cours.observation || ""}<br><br>`;
-            });
-            html += "</div>";
+            html += `
+            <div class="cours-section fade-up">
+                <div class="cours-title">Détails du cours</div>
+                <table class="cours-table">
+                    <tr>
+                        <th>Matière</th>
+                        <th>Date début</th>
+                        <th>Nb Séances</th>
+                        <th>Séances impayées</th>
+                        <th>Prochaine séance</th>
+                        <th>Prof/Étudiant</th>
+                        <th>Observation</th>
+                    </tr>
+                    ${user.cours.map((cours, idx) => `
+                        <tr class="dynamic-row">
+                            <td>${cours.matiere || ''}</td>
+                            <td>${cours.date_debut || ''}</td>
+                            <td>${cours.nbre_seance || user["Nembre de Séance"] || ''}</td>
+                            <td>${cours.nbre_seance_impayees || user["Nembre des Séances impayées"] || ''}</td>
+                            <td>${cours.prochaine_seance || user["jour de la prochainne séance"] || ''}</td>
+                            <td>${cours.prof || user["Nom du prof/étudiant"] || ''}</td>
+                            <td>${cours.observation || user["Observation"] || ''}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            </div>`;
         }
         document.getElementById("userInfo").innerHTML = html;
     }
