@@ -16,7 +16,7 @@
         }
         .container {
             width: 94%;
-            max-width: 600px;
+            max-width: 650px;
             margin: 38px auto;
             background: #fff;
             padding: 32px 20px 20px 20px;
@@ -78,21 +78,39 @@
         }
         .cours-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 0.7em;
             margin-bottom: 0.8em;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px #b9e5ff36;
+            table-layout: fixed;
+            word-break: break-word;
         }
         .cours-table th, .cours-table td {
-            border: 1px solid #c9e6ff;
-            padding: 0.5em 0.8em;
+            border: none;
+            padding: 0.75em 0.8em;
             text-align: left;
         }
         .cours-table th {
             background: #dff1ff;
             color: #004aad;
+            font-weight: 600;
+            font-size: 1em;
+            border-bottom: 2px solid #b3dfff;
         }
-        .cours-table tr:nth-child(even) {
-            background: #f4faff;
+        .cours-table td {
+            background: #f7fcfe;
+            border-bottom: 1px solid #e8f4fc;
+            font-size: 0.98em;
+        }
+        .cours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .cours-table tr:nth-child(even) td {
+            background: #f0f8fd;
         }
         .dynamic-row {
             animation: rowFadeIn 0.7s;
@@ -121,6 +139,31 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px);}
             to { opacity: 1; transform: translateY(0);}
+        }
+        @media (max-width: 800px) {
+            .container {
+                max-width: 99vw;
+                padding: 1em;
+            }
+            .cours-table th, .cours-table td {
+                padding: 0.6em 0.3em;
+                font-size: 0.96em;
+            }
+        }
+        @media (max-width: 600px) {
+            .flex-row {
+                flex-direction: column;
+                gap: 0.6em;
+            }
+            .flex-col {
+                min-width: 0;
+            }
+            .cours-table {
+                font-size: 0.93em;
+            }
+            .cours-section, .user-data {
+                padding: 0.7em 0.6em;
+            }
         }
     </style>
 </head>
@@ -189,6 +232,7 @@
             html += `
             <div class="cours-section fade-up">
                 <div class="cours-title">Détails du cours</div>
+                <div style="overflow-x:auto">
                 <table class="cours-table">
                     <tr>
                         <th>Matière</th>
@@ -211,6 +255,7 @@
                         </tr>
                     `).join('')}
                 </table>
+                </div>
             </div>`;
         }
         document.getElementById("userInfo").innerHTML = html;
