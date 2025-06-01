@@ -189,7 +189,7 @@
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // Affichage utilisateur dynamique (tous les champs, même keyWords)
+    // Affichage utilisateur dynamique (tous les champs)
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -198,12 +198,12 @@
         }
         const user = JSON.parse(userDataString);
 
-        // Afficher tous les champs principaux reçus, y compris keyWords
-        // Pour un affichage élégant, on peut regrouper les champs connus, puis afficher tous les champs supplémentaires
+        // Champs principaux
         const fieldLabels = {
             typetem: "Plateforme",
             userId: "ID",
-            nom: "Nom",
+            nom_eleve: "Nom élève",
+            nom: "Nom tuteur",
             email: "Email",
             tel: "Téléphone",
             usertype: "Type",
@@ -216,13 +216,12 @@
             "Nembre de Séance": "Nombre de Séances",
             "Nembre des Séances impayées": "Séances impayées",
             "jour de la prochainne séance": "Prochaine séance",
-            "Nom du prof/étudiant": "Prof/Étudiant",
+            "Nom du prof/étudiant": "Nom prof/étudiant",
             "Observation": "Observation"
         };
 
-        // Champs principaux dans l'ordre souhaité
         const mainFields = [
-            "typetem", "userId", "nom", "email", "tel", "usertype", "cycle", "niveau", "matiere", "keyWords", "password",
+            "typetem", "userId", "nom_eleve", "nom", "email", "tel", "usertype", "cycle", "niveau", "matiere", "keyWords", "password",
             "Date début", "Nembre de Séance", "Nembre des Séances impayées", "jour de la prochainne séance", "Nom du prof/étudiant", "Observation"
         ];
 
@@ -234,7 +233,7 @@
             }
         });
 
-        // Affiche tous les champs supplémentaires qui ne sont pas dans mainFields
+        // Tous les champs supplémentaires non listés
         Object.keys(user).forEach(key => {
             if (!mainFields.includes(key) && key !== "cours" && user[key] && String(user[key]).trim() !== "") {
                 html += `<div class="flex-col"><span class="section-label">${key} :</span><br>${user[key]}</div>`;
@@ -245,17 +244,19 @@
 
         // Section Cours (s'il y en a)
         if(user.cours && Array.isArray(user.cours) && user.cours.length > 0) {
+            // Filtrer keyWords du tableau cours, mais inclure nom_eleve
+            const coursKeys = Object.keys(user.cours[0]).filter(k => k !== "keyWords");
             html += `
             <div class="cours-section fade-up">
                 <div class="cours-title">Détails du cours</div>
                 <div style="overflow-x:auto">
                 <table class="cours-table">
                     <tr>
-                        ${Object.keys(user.cours[0]).map(col => `<th>${col}</th>`).join('')}
+                        ${coursKeys.map(col => `<th>${fieldLabels[col] || col}</th>`).join('')}
                     </tr>
                     ${user.cours.map((cours, idx) => `
                         <tr class="dynamic-row">
-                            ${Object.keys(cours).map(col => `<td>${cours[col] || ''}</td>`).join('')}
+                            ${coursKeys.map(col => `<td>${cours[col] || ''}</td>`).join('')}
                         </tr>
                     `).join('')}
                 </table>
