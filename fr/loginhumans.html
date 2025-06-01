@@ -196,6 +196,11 @@
                     </div>
                 </div>
 
+                <div class="section-title" id="eleve-title" style="display:block;">Informations de l'élève</div>
+                <div class="form-group" id="eleve-info-group" style="display:block;">
+                    <input type="text" id="nom_eleve" placeholder="Nom complet de l'élève" required>
+                </div>
+
                 <div class="section-title" id="contact-title">Informations du tuteur</div>
                 <div class="form-group">
                     <div class="input-row">
@@ -301,6 +306,10 @@
         document.getElementById('nom').placeholder = isEleve ? "Nom complet du tuteur" : "Votre nom complet";
         document.getElementById('email').placeholder = isEleve ? "Email du tuteur" : "Votre email";
         document.getElementById('tel').placeholder = isEleve ? "Téléphone du tuteur" : "Votre téléphone";
+        // Affichage ou masquage du bloc élève
+        document.getElementById('eleve-title').style.display = isEleve ? 'block' : 'none';
+        document.getElementById('eleve-info-group').style.display = isEleve ? 'block' : 'none';
+        document.getElementById('nom_eleve').required = isEleve;
     }
     toggleUserType();
 
@@ -337,6 +346,7 @@
         const cycle = document.getElementById('cycle').value;
         const niveau = document.getElementById('niveau').value;
         const matiere = document.getElementById('matiere').value;
+        const nom_eleve = document.getElementById('nom_eleve').value.trim();
         const nom = document.getElementById('nom').value.trim();
         const email = document.getElementById('email').value.trim();
         const tel = document.getElementById('tel').value.trim();
@@ -347,7 +357,8 @@
         messageDiv.textContent = "Envoi de votre inscription...";
         messageDiv.className = "message";
 
-        if(!cycle || !niveau || !matiere || !nom || !email || !tel || !userId || !keyWords) {
+        // Validation conditionnelle
+        if(!cycle || !niveau || !matiere || (document.querySelector('input[name="usertype"]:checked').value === 'eleve' && !nom_eleve) || !nom || !email || !tel || !userId || !keyWords) {
             messageDiv.textContent = "Veuillez remplir tous les champs obligatoires.";
             messageDiv.className = "message error";
             return;
@@ -355,7 +366,7 @@
 
         generatePassword(userId, tel, keyWords).then(async password => {
             const dataToSend = {
-                typetem, usertype, cycle, niveau, matiere, nom, email, tel, userId, keyWords, password
+                typetem, usertype, cycle, niveau, matiere, nom_eleve, nom, email, tel, userId, keyWords, password
             };
 
             fetch(`${BACKEND_URL}/`, {
@@ -365,7 +376,7 @@
                 },
                 body: JSON.stringify(dataToSend)
             })
-            .then(response => {
+            .then(async response => {
                 if (response.ok) {
                     messageDiv.textContent = "Inscription réussie ! Vos infos et QR sont générés ci-dessous.";
                     messageDiv.className = "message success";
@@ -373,6 +384,7 @@
 
                     const displayInfo = document.getElementById("displayInfo");
                     displayInfo.innerHTML = `<pre style="text-align:left;padding:7px 0;">
+Nom élève: ${nom_eleve}
 ID: ${userId}
 Téléphone: ${tel}
 Clé: ${keyWords}
@@ -386,7 +398,12 @@ Mot de passe: ${password}
                         height: 150
                     });
                 } else {
-                    messageDiv.textContent = "Erreur lors de l’inscription. Veuillez réessayer.";
+                    let msg = "Erreur lors de l’inscription. Veuillez réessayer.";
+                    try {
+                        const data = await response.json();
+                        if(data && data.message) msg = data.message;
+                    } catch(e){}
+                    messageDiv.textContent = msg;
                     messageDiv.className = "message error";
                 }
             })
