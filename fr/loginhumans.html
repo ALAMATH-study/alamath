@@ -382,6 +382,7 @@
                     messageDiv.className = "message success";
                     document.getElementById('signupForm').reset();
 
+                    // Afficher infos et QR uniquement si inscription acceptée
                     const displayInfo = document.getElementById("displayInfo");
                     displayInfo.innerHTML = `<pre style="text-align:left;padding:7px 0;">
 Nom élève: ${nom_eleve}
@@ -405,11 +406,17 @@ Mot de passe: ${password}
                     } catch(e){}
                     messageDiv.textContent = msg;
                     messageDiv.className = "message error";
+                    // Effacer infos et QR en cas d'erreur/doublon
+                    document.getElementById("displayInfo").innerHTML = "";
+                    document.getElementById("qrcode").innerHTML = "";
                 }
             })
             .catch(error => {
                 messageDiv.textContent = "Erreur réseau : " + error;
                 messageDiv.className = "message error";
+                // Effacer infos et QR en cas d'erreur
+                document.getElementById("displayInfo").innerHTML = "";
+                document.getElementById("qrcode").innerHTML = "";
             });
         });
     });
