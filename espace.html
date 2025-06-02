@@ -33,33 +33,77 @@
             color: #004aad;
             margin-bottom: 0.6em;
         }
-        .logout-btn {
-            background: #ff4d4d;
+        .logout-btn, .add-btn {
+            background: #004aad;
             color: white;
             border: none;
             font-size: 1em;
             cursor: pointer;
             border-radius: 7px;
-            margin-top: 10px;
+            margin: 10px 8px 0 8px;
             padding: 0.7em 1.3em;
             font-weight: bold;
             transition: background 0.2s;
+            min-width: 150px;
+        }
+        .logout-btn {
+            background: #ff4d4d;
         }
         .logout-btn:hover {
             background: #c00;
         }
+        .add-btn:hover {
+            background: #003080;
+        }
         .user-data {
             text-align: left;
             font-size: 1.13em;
-            margin: 1.2em 0;
+            margin: 1.2em 0 1.8em 0;
             padding: 1.1em 1.3em;
             background: #f7faff;
             border-radius: 10px;
             box-shadow: 0 1px 6px #eef4fa;
             animation: fadeIn 1.2s;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .user-data b {
+        .user-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 0.65em;
+            gap: 0.95em;
+        }
+        .user-label {
             color: #004aad;
+            font-weight: 600;
+            min-width: 130px;
+            display: inline-block;
+        }
+        .user-value {
+            flex: 1;
+            font-family: inherit;
+            font-size: 1em;
+            letter-spacing: 0.02em;
+        }
+        .masked {
+            letter-spacing: 0.25em;
+            font-size: 1.05em;
+            vertical-align: middle;
+        }
+        .show-hide-btn {
+            background: none;
+            border: none;
+            color: #004aad;
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: 7px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .show-hide-btn:hover {
+            color: #003080;
         }
         .cours-section {
             text-align: left;
@@ -69,6 +113,9 @@
             padding: 1.1em 1.3em;
             box-shadow: 0 1px 6px #c5e8ff36;
             animation: fadeIn 1.5s;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .cours-title {
             font-size: 1.15em;
@@ -100,6 +147,7 @@
             font-weight: 600;
             font-size: 1em;
             border-bottom: 2px solid #b3dfff;
+            text-align: left;
         }
         .cours-table td {
             background: #f7fcfe;
@@ -119,20 +167,6 @@
             from { opacity: 0; }
             to { opacity: 1;}
         }
-        .flex-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2em 2em;
-        }
-        .flex-col {
-            flex: 1;
-            min-width: 180px;
-        }
-        .section-label {
-            color: #004aad;
-            font-weight: 600;
-            margin-top: 0.5em;
-        }
         .fade-up {
             animation: fadeInUp 1.2s;
         }
@@ -140,30 +174,26 @@
             from { opacity: 0; transform: translateY(20px);}
             to { opacity: 1; transform: translateY(0);}
         }
-        @media (max-width: 800px) {
-            .container {
-                max-width: 99vw;
-                padding: 1em;
-            }
-            .cours-table th, .cours-table td {
-                padding: 0.6em 0.3em;
-                font-size: 0.96em;
-            }
+        .flex-btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5em;
+            margin-top: 1.5em;
         }
-        @media (max-width: 600px) {
-            .flex-row {
-                flex-direction: column;
-                gap: 0.6em;
-            }
-            .flex-col {
-                min-width: 0;
-            }
-            .cours-table {
-                font-size: 0.93em;
-            }
-            .cours-section, .user-data {
-                padding: 0.7em 0.6em;
-            }
+        /* Popup styles */
+        #popupAjout {
+            display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+            background:rgba(0,0,0,0.34);z-index:999;align-items:center;justify-content:center;
+        }
+        #popupAjout .popup-inner {
+            background:#fff;padding:2em 1.3em 1.7em 1.3em;border-radius:14px;
+            max-width:350px;width:96vw;box-shadow:0 4px 20px #0002;position:relative;
+        }
+        #popupAjout h3 {margin-top:0;}
+        #popupAjoutMsg { color:#004aad;margin-top:1em;font-size:1em;}
+        #popupAjoutCloseBtn {
+            position:absolute;top:10px;right:16px;background:none;border:none;
+            font-size:1.5em;cursor:pointer;
         }
     </style>
 </head>
@@ -171,7 +201,21 @@
     <div class="container">
         <h2>Bienvenue sur votre espace AlaMath</h2>
         <div id="userInfo"></div>
-        <button class="logout-btn" onclick="logout()">Déconnexion</button>
+        <div class="cours-section fade-up" id="coursSection" style="display:none;"></div>
+        <div class="flex-btn-row">
+            <button class="logout-btn" onclick="logout()">Déconnexion</button>
+            <button class="add-btn" onclick="ajouterSeance()">Ajouter une autre matière / séance</button>
+        </div>
+    </div>
+    <!-- Popup ajout matière/séance -->
+    <div id="popupAjout">
+      <div class="popup-inner">
+        <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
+        <h3>Demander une nouvelle matière / séance</h3>
+        <div id="listeMatieres"></div>
+        <button id="demanderBtn" style="display:none;width:100%;margin-top:1.2em;padding:0.7em 0;font-size:1.1em;background:#004aad;color:#fff;border:none;border-radius:7px;font-weight:600;cursor:pointer;">Demander</button>
+        <div id="popupAjoutMsg"></div>
+      </div>
     </div>
     <script>
     // Cookie helpers
@@ -189,7 +233,106 @@
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // Affichage utilisateur dynamique (tous les champs)
+    // Masquage/affichage clé et mot de passe
+    function toggleMask(id, btnId) {
+        const elem = document.getElementById(id);
+        const btn = document.getElementById(btnId);
+        if (elem.dataset.masked === "true") {
+            elem.textContent = elem.dataset.value;
+            btn.textContent = "Masquer";
+            elem.dataset.masked = "false";
+        } else {
+            elem.textContent = "********";
+            btn.textContent = "Afficher";
+            elem.dataset.masked = "true";
+        }
+    }
+
+    function renderUserData(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
+        let rows = "";
+
+        if (isEleve) {
+            // Élève : Nom tuteur, Téléphone, Email, Clé (masquée), Mot de passe (masqué), Niveau et Matière
+            rows += `
+                <div class="user-row"><span class="user-label">Nom du tuteur :</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone :</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email :</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération :</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe :</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row"><span class="user-label">Niveau :</span><span class="user-value">${user.niveau || ""}</span></div>
+                <div class="user-row"><span class="user-label">Matière :</span><span class="user-value">${user.matiere || ""}</span></div>
+            `;
+        } else {
+            // Professeur : Nom, Téléphone, Email, Clé (masquée), Mot de passe (masqué), Niveau et Matière
+            rows += `
+                <div class="user-row"><span class="user-label">Nom :</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone :</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email :</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération :</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe :</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row"><span class="user-label">Niveau :</span><span class="user-value">${user.niveau || ""}</span></div>
+                <div class="user-row"><span class="user-label">Matière :</span><span class="user-value">${user.matiere || ""}</span></div>
+            `;
+        }
+        return `<div class="user-data fade-up">${rows}</div>`;
+    }
+
+    function renderCoursSection(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
+        // Champs pour le tableau
+        const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
+        let tableHtml = "";
+        if (cours.length > 0) {
+            // Pour élève, colonne "Nom élève". Pour prof, colonne "Type de séance".
+            const coursKeys = Object.keys(cours[0]);
+            tableHtml += `<div class="cours-title">Détails du cours</div>
+            <div style="overflow-x:auto">
+                <table class="cours-table">
+                    <tr>
+                        ${coursKeys.map(col =>
+                            `<th style="text-align:left;">${isEleve ? (col === "nom_eleve" ? "Nom élève" : col) :
+                                                                (col === "nom_eleve" ? "Type de séance" : col)
+                            }</th>`
+                        ).join('')}
+                    </tr>
+                    ${cours.map((coursItem, idx) => `
+                        <tr class="dynamic-row">
+                            ${coursKeys.map(col =>
+                                `<td style="text-align:left;">${coursItem[col] || ''}</td>`
+                            ).join('')}
+                        </tr>
+                    `).join('')}
+                </table>
+            </div>`;
+        }
+        return tableHtml;
+    }
+
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -198,79 +341,131 @@
         }
         const user = JSON.parse(userDataString);
 
-        // Champs principaux
-        const fieldLabels = {
-            typetem: "Plateforme",
-            userId: "ID",
-            nom_eleve: "Nom élève",
-            nom: "Nom tuteur",
-            email: "Email",
-            tel: "Téléphone",
-            usertype: "Type",
-            cycle: "Cycle",
-            niveau: "Niveau",
-            matiere: "Matière",
-            keyWords: "Clé de récupération",
-            password: "Mot de passe",
-            "Date début": "Date début",
-            "Nembre de Séance": "Nombre de Séances",
-            "Nembre des Séances impayées": "Séances impayées",
-            "jour de la prochainne séance": "Prochaine séance",
-            "Nom du prof/étudiant": "Nom prof/étudiant",
-            "Observation": "Observation"
-        };
+        // Affichage principal
+        document.getElementById("userInfo").innerHTML = renderUserData(user);
 
-        const mainFields = [
-            "typetem", "userId", "nom_eleve", "nom", "email", "tel", "usertype", "cycle", "niveau", "matiere", "keyWords", "password",
-            "Date début", "Nembre de Séance", "Nembre des Séances impayées", "jour de la prochainne séance", "Nom du prof/étudiant", "Observation"
-        ];
+        // Affichage du tableau
+        const coursSection = document.getElementById("coursSection");
+        coursSection.innerHTML = renderCoursSection(user);
+        coursSection.style.display = "block";
 
-        let html = `<div class="user-data fade-up"><div class="flex-row">`;
-
-        mainFields.forEach(key => {
-            if (user[key] && String(user[key]).trim() !== "") {
-                html += `<div class="flex-col"><span class="section-label">${fieldLabels[key] || key} :</span><br>${user[key]}</div>`;
+        // Masquage initial clé et mot de passe, valeurs réelles en dataset pour affichage
+        if (user.keyWords) {
+            const elem = document.getElementById('cleRecup');
+            if (elem) {
+                elem.dataset.value = user.keyWords;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
             }
-        });
-
-        // Tous les champs supplémentaires non listés
-        Object.keys(user).forEach(key => {
-            if (!mainFields.includes(key) && key !== "cours" && user[key] && String(user[key]).trim() !== "") {
-                html += `<div class="flex-col"><span class="section-label">${key} :</span><br>${user[key]}</div>`;
-            }
-        });
-
-        html += `</div></div>`;
-
-        // Section Cours (s'il y en a)
-        if(user.cours && Array.isArray(user.cours) && user.cours.length > 0) {
-            // Filtrer keyWords du tableau cours, mais inclure nom_eleve
-            const coursKeys = Object.keys(user.cours[0]).filter(k => k !== "keyWords");
-            html += `
-            <div class="cours-section fade-up">
-                <div class="cours-title">Détails du cours</div>
-                <div style="overflow-x:auto">
-                <table class="cours-table">
-                    <tr>
-                        ${coursKeys.map(col => `<th>${fieldLabels[col] || col}</th>`).join('')}
-                    </tr>
-                    ${user.cours.map((cours, idx) => `
-                        <tr class="dynamic-row">
-                            ${coursKeys.map(col => `<td>${cours[col] || ''}</td>`).join('')}
-                        </tr>
-                    `).join('')}
-                </table>
-                </div>
-            </div>`;
         }
-        document.getElementById("userInfo").innerHTML = html;
+        if (user.password) {
+            const elem = document.getElementById('motDePasse');
+            if (elem) {
+                elem.dataset.value = user.password;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
+            }
+        }
     }
+
     showUserInfo();
 
     function logout() {
         eraseSessionCookie('alamathUser');
         window.location.href = '/';
     }
+
+    // Popup Ajout Matière/Séance
+    let matiereSelectionnee = "";
+    function ajouterSeance() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+
+        // Liste de matières selon le niveau
+        const matieresParCycle = {
+            "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
+            "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
+            "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
+            "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
+        };
+
+        const niveau = user.niveau || "";
+        let cycle = user.cycle || "";
+        // Essayez de deviner le cycle à partir du niveau si besoin
+        if (!cycle && niveau) {
+            if (["Petite section","Moyenne section","Grande section"].includes(niveau)) cycle = "Maternelle";
+            else if (["CP","CE1","CE2","CM1","CM2"].includes(niveau)) cycle = "Élémentaire";
+            else if (["6e","5e","4e","3e"].includes(niveau)) cycle = "Collège";
+            else if (["Seconde","Première","Terminale"].includes(niveau)) cycle = "Lycée";
+        }
+
+        const matieres = matieresParCycle[cycle] || [];
+        let listeHtml = "";
+        if(matieres.length) {
+            listeHtml = `<div style="margin-bottom:1em;text-align:left;">Choisissez la matière :</div>`;
+            listeHtml += matieres.map(mat => 
+                `<div style="margin-bottom:0.6em;">
+                    <label style="cursor:pointer;">
+                        <input type="radio" name="matiereAjout" value="${mat}" onclick="selectMatiereAjout('${mat}')"> ${mat}
+                    </label>
+                </div>`
+            ).join('');
+        } else {
+            listeHtml = `<div style="color:#c00;">Aucune matière disponible pour votre niveau.</div>`;
+        }
+        document.getElementById('listeMatieres').innerHTML = listeHtml;
+        document.getElementById('demanderBtn').style.display = "none";
+        document.getElementById('popupAjoutMsg').textContent = '';
+        matiereSelectionnee = "";
+
+        document.getElementById('popupAjout').style.display = "flex";
+    }
+    function closePopupAjout() {
+        document.getElementById('popupAjout').style.display = "none";
+    }
+    function selectMatiereAjout(matiere) {
+        matiereSelectionnee = matiere;
+        document.getElementById('demanderBtn').style.display = "block";
+    }
+    document.getElementById('demanderBtn').onclick = function() {
+        if(!matiereSelectionnee) return;
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        // Préparer la demande
+        const dataToSend = {
+            usertype: user.usertype,
+            nom_eleve: user.nom_eleve || "",
+            nom: user.nom || "",
+            email: user.email || "",
+            tel: user.tel || "",
+            niveau: user.niveau || "",
+            cycle: user.cycle || "",
+            matiere_demande: matiereSelectionnee,
+            demande_date: new Date().toISOString()
+        };
+        document.getElementById('popupAjoutMsg').textContent = "Envoi en cours...";
+        fetch('https://api.alamath.com/demande-matiere', {
+            method: "POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(dataToSend)
+        }).then(async res => {
+            if(res.ok) {
+                document.getElementById('popupAjoutMsg').style.color = "#13b813";
+                document.getElementById('popupAjoutMsg').textContent = "Votre demande a bien été envoyée !";
+                setTimeout(closePopupAjout, 1800);
+            } else {
+                let msg = "Erreur lors de l'envoi.";
+                try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
+                document.getElementById('popupAjoutMsg').style.color = "#c00";
+                document.getElementById('popupAjoutMsg').textContent = msg;
+            }
+        }).catch(e => {
+            document.getElementById('popupAjoutMsg').style.color = "#c00";
+            document.getElementById('popupAjoutMsg').textContent = "Erreur réseau : " + e;
+        });
+    };
     </script>
 </body>
 </html>
