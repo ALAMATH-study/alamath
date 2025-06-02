@@ -334,7 +334,72 @@
         return tableHtml;
     }
 
-    function showUserInfo() {
+    function renderCoursSection(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
+        const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
+        let tableHtml = "";
+        if (cours.length > 0) {
+            // Traductions des entêtes pour affichage utilisateur
+            const headersMap = {
+                nom_eleve: "Nom élève",
+                matiere: "Matière",
+                date_debut: "Date début",
+                nbre_seance: "Nombre de séances",
+                nbre_seance_impayees: "Séances impayées",
+                prochaine_seance: "Prochaine séance",
+                prof: "Nom du professeur",
+                observation: "Observation"
+            };
+            const coursKeys = Object.keys(cours[0]);
+            tableHtml += `<div class="cours-title">Détails des cours</div>
+            <div style="overflow-x:auto">
+                <table class="cours-table">
+                    <tr>
+                        ${coursKeys.map(col =>
+                            `<th style="text-align:left;">${headersMap[col] || col}</th>`
+                        ).join('')}
+                        <th style="text-align:left;">Paiement</th>
+                        ${isEleve ? '<th style="text-align:left;">Visa Pays</th>' : ''}
+                    </tr>
+                    ${cours.map((coursItem, idx) => {
+                        let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
+                        return `
+                        <tr class="dynamic-row">
+                            ${coursKeys.map(col =>
+                                `<td style="text-align:left;">${coursItem[col] || ''}</td>`
+                            ).join('')}
+                            <td>
+                                <button 
+                                    class="add-btn" 
+                                    style="min-width:90px;padding:0.5em 1em;font-size:0.98em;"
+                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
+                                    onclick="payerSeance(${idx})"
+                                >Payer</button>
+                            </td>
+                            ${isEleve ? `<td>
+                                <button 
+                                    class="add-btn"
+                                    style="min-width:90px;padding:0.5em 1em;font-size:0.98em;background:#0a7d2c;"
+                                    onclick="visaPays(${idx})"
+                                >Visa Pays</button>
+                            </td>` : ''}
+                        </tr>
+                    `}).join('')}
+                </table>
+            </div>`;
+        }
+        return tableHtml;
+    }
+
+    // Exemple de handler (à personnaliser selon votre logique)
+    function payerSeance(index) {
+        alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
+        // Ici, vous pouvez ouvrir un popup ou rediriger vers un module de paiement réel
+    }
+    function visaPays(index) {
+        alert("Visa Pays demandé pour le cours #" + (index+1) + " (intégrez ici votre logique Visa/Pays)");
+        // Ici, vous pouvez ouvrir un popup ou rediriger vers une action visa pays réelle
+    }    function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
             window.location.href = '/'; // Redirige vers page de login si pas connecté
