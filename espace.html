@@ -297,7 +297,7 @@
                     </span>
                 </div>
                 <div class="user-row"><span class="user-label">Cycle :</span><span class="user-value">${user.cycle || ""}</span></div>
-                <div class="user-row"><span class="user-label">Matière :</span><span class="user-value">${user.matiere || ""}</span></div>
+                
             `;
         }
         return `<div class="user-data fade-up">${rows}</div>`;
@@ -317,7 +317,7 @@
                     <tr>
                         ${coursKeys.map(col =>
                             `<th style="text-align:left;">${isEleve ? (col === "nom_eleve" ? "Nom élève" : col) :
-                                                                (col === "nom_eleve" ? "Type de séance" : col)
+                                                                (col === "nom_eleve" ? "Type de séance/ niveau" : col)
                             }</th>`
                         ).join('')}
                     </tr>
