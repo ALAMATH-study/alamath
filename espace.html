@@ -217,12 +217,7 @@
             color: #7a8699;
             cursor: not-allowed;
         }
-        .btn.visa {
-            background: var(--color-secondary);
-            min-width: 90px;
-            padding: 0.5em 1em;
-            font-size: 0.97em;
-        }
+  
         /* Popup */
         #popupAjout {
             display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
@@ -384,13 +379,7 @@
             tableHtml += `<div class="cours-title">Détails des cours</div>
             <div style="overflow-x:auto">
                 <table class="cours-table">
-                    <tr>
-                        ${coursKeys.map(col =>
-                            `<th>${headersMap[col] || col}</th>`
-                        ).join('')}
-                        <th>Paiement</th>
-                        ${isEleve ? '<th>Visa Pays</th>' : ''}
-                    </tr>
+
                     ${cours.map((coursItem, idx) => {
                         let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
                         return `
@@ -406,10 +395,7 @@
                                 >Payer</button>
                             </td>
                             ${isEleve ? `<td>
-                                <button 
-                                    class="btn visa"
-                                    onclick="visaPays(${idx})"
-                                >Visa Pays</button>
+                 
                             </td>` : ''}
                         </tr>
                     `}).join('')}
@@ -421,9 +407,7 @@
     function payerSeance(index) {
         alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
     }
-    function visaPays(index) {
-        alert("Visa Pays demandé pour le cours #" + (index+1) + " (intégrez ici votre logique Visa/Pays)");
-    }
+
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
