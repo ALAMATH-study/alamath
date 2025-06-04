@@ -223,7 +223,7 @@
         }
         #popupAjout .popup-inner {
             background:#fff;padding:2.2em 1.5em 2em 1.5em;border-radius:16px;
-            max-width:430px;width:98vw;box-shadow:0 4px 20px #0003;position:relative;
+            max-width:370px;width:96vw;box-shadow:0 4px 20px #0003;position:relative;
         }
         #popupAjout h3 {margin-top:0;}
         #popupAjoutMsg { color:var(--color-primary-dark);margin-top:1em;font-size:1em;}
@@ -297,7 +297,6 @@
             #btnRefresh {
                 bottom: 12px;
             }
-            #popupAjout .popup-inner {max-width:99vw;}
         }
         @media (max-width: 400px) {
             h2 { font-size: 1.08em;}
@@ -317,24 +316,15 @@
         </div>
         <div class="cours-section" id="coursSection" style="display:none;"></div>
     </div>
-    <!-- Popup ajout matière/séance (NOUVELLE VERSION) -->
+    <!-- Popup ajout matière/séance -->
     <div id="popupAjout">
       <div class="popup-inner">
         <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
-        <h3>Ajouter une matière / séance à un élève</h3>
-        <form id="formAjoutMatiere" onsubmit="event.preventDefault(); validerAjoutMatiere();">
-          <div style="margin-bottom:1em;text-align:left;">
-            <label for="eleveSelect">Choisissez un élève existant&nbsp;:</label><br>
-            <select id="eleveSelect" style="width:98%;margin:8px 0;">
-              <option value="">-- Saisir un nouveau nom d'élève ci-dessous --</option>
-            </select>
-            <div style="margin:10px 0 0 0;font-size:0.98em;">Ou entrez un nouveau nom d'élève :</div>
-            <input type="text" id="nouvelEleve" style="width:96%;margin:6px 0 12px 0;font-size:1em;" placeholder="Nom de l'élève">
-          </div>
-          <div id="matieresSection"></div>
-          <button id="ajouterBtn" class="btn" type="submit" style="width:100%;margin-top:1.2em;">Ajouter</button>
-          <div id="popupAjoutMsg"></div>
-        </form>
+        <h3>Demander une nouvelle matière / séance</h3>
+        <div id="listeMatieres"></div>
+        <div id="listeElevesContainer" style="margin:1.3em 0 0.5em 0;"></div>
+        <button id="demanderBtn" class="btn" style="display:none;width:100%;margin-top:1.2em;">Demander</button>
+        <div id="popupAjoutMsg"></div>
       </div>
     </div>
     <!-- Boutons flottants -->
@@ -430,10 +420,13 @@
         }
         return `<div class="user-info-grid">${rows}</div>`;
     }
+    // SUPPRESSION COLONNE VISA PAY
     function renderCoursSection(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
         const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
         let tableHtml = "";
         if (cours.length > 0) {
+            // Entêtes lisibles pour utilisateur
             const headersMap = {
                 nom_eleve: "Nom élève",
                 matiere: "Matière",
@@ -478,6 +471,188 @@
     function payerSeance(index) {
         alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
     }
+    // Liste élève + ajout nom
+    let matiereSelectionnee = "";
+    let eleveSelectionne = "";
+    let listeEleves = [];
+    function ajouterSeance() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        const matieresParCycle = {
+            "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
+            "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
+            "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
+            "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
+        };
+        const niveau = user.niveau || "";
+        let cycle = user.cycle || "";
+        if (!cycle && niveau) {
+            if (["Petite section","Moyenne section","Grande section"].includes(niveau)) cycle = "Maternelle";
+            else if (["CP","CE1","CE2","CM1","CM2"].includes(niveau)) cycle = "Élémentaire";
+            else if (["6e","5e","4e","3e"].includes(niveau)) cycle = "Collège";
+            else if (["Seconde","Première","Terminale"].includes(niveau)) cycle = "Lycée";
+        }
+        const matieres = matieresParCycle[cycle] || [];
+        let listeHtml = "";
+        if(matieres.length) {
+            listeHtml = `<div style="margin-bottom:1em;text-align:left;">Choisissez la matière :</div>`;
+            listeHtml += matieres.map(mat =>
+                `<div style="margin-bottom:0.6em;">
+                    <label style="cursor:pointer;">
+                        <input type="radio" name="matiereAjout" value="${mat}" onclick="selectMatiereAjout('${mat}')"> ${mat}
+                    </label>
+                </div>`
+            ).join('');
+        } else {
+            listeHtml = `<div style="color:#c00;">Aucune matière disponible pour votre niveau.</div>`;
+        }
+        document.getElementById('listeMatieres').innerHTML = listeHtml;
+
+        // Générer la liste des élèves à partir du tableau des cours
+        let elevesSet = new Set();
+        if (user.cours && Array.isArray(user.cours)) {
+            user.cours.forEach(c => {
+                if (c.nom_eleve) elevesSet.add(c.nom_eleve);
+            });
+        }
+        listeEleves = Array.from(elevesSet);
+        // Ajout d'une zone pour nouvelle saisie
+        let elevesHtml = `
+            <div style="margin-bottom:0.5em;">Sélectionnez l'élève concerné :</div>
+            <select id="selectEleve" style="width:100%;padding:6px;font-size:1em;" onchange="selectionEleveChanged()">
+                <option value="">-- Choisissez un élève --</option>
+                ${listeEleves.map(e => `<option value="${e}">${e}</option>`).join('')}
+                <option value="__autre">+ Ajouter un nouveau nom...</option>
+            </select>
+            <input id="inputNouveauEleve" type="text" style="display:none;width:100%;margin-top:0.5em;padding:6px;font-size:1em;" placeholder="Nouveau nom d'élève"/>
+        `;
+        document.getElementById('listeElevesContainer').innerHTML = elevesHtml;
+
+        document.getElementById('demanderBtn').style.display = "none";
+        document.getElementById('popupAjoutMsg').textContent = '';
+        matiereSelectionnee = "";
+        eleveSelectionne = "";
+        document.getElementById('popupAjout').style.display = "flex";
+    }
+    function closePopupAjout() {
+        document.getElementById('popupAjout').style.display = "none";
+    }
+    function selectMatiereAjout(matiere) {
+        matiereSelectionnee = matiere;
+        verifierAffichageDemandeBtn();
+    }
+    function selectionEleveChanged() {
+        const select = document.getElementById('selectEleve');
+        const val = select.value;
+        if (val === "__autre") {
+            document.getElementById('inputNouveauEleve').style.display = "";
+            eleveSelectionne = "";
+        } else if(val==="") {
+            document.getElementById('inputNouveauEleve').style.display = "none";
+            eleveSelectionne = "";
+        } else {
+            document.getElementById('inputNouveauEleve').style.display = "none";
+            eleveSelectionne = val;
+        }
+        verifierAffichageDemandeBtn();
+    }
+    // Réafficher le bouton demander si tout est ok
+    function verifierAffichageDemandeBtn() {
+        // Le bouton s'affiche si une matière et un élève sont sélectionnés (ou champ rempli pour nouveau nom)
+        const select = document.getElementById('selectEleve');
+        const val = select ? select.value : "";
+        const nouveauNom = document.getElementById('inputNouveauEleve')?.value?.trim();
+        if(matiereSelectionnee && ((val && val!=="__autre") || (val==="__autre" && nouveauNom))) {
+            document.getElementById('demanderBtn').style.display = "block";
+        } else {
+            document.getElementById('demanderBtn').style.display = "none";
+        }
+    }
+    // Ecoute la saisie du nouveau nom pour bouton demander
+    document.addEventListener('input', function(e){
+        if(e.target && e.target.id === 'inputNouveauEleve') verifierAffichageDemandeBtn();
+    });
+
+    document.getElementById('demanderBtn').onclick = function() {
+        if(!matiereSelectionnee) return;
+        const select = document.getElementById('selectEleve');
+        let nomEleve = "";
+        if(select.value === "__autre") {
+            nomEleve = document.getElementById('inputNouveauEleve').value.trim();
+            if(!nomEleve) return;
+        } else {
+            nomEleve = select.value;
+            if(!nomEleve) return;
+        }
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        const dataToSend = {
+            usertype: user.usertype,
+            nom_eleve: nomEleve,
+            nom: user.nom || "",
+            email: user.email || "",
+            tel: user.tel || "",
+            niveau: user.niveau || "",
+            cycle: user.cycle || "",
+            matiere_demande: matiereSelectionnee,
+            demande_date: new Date().toISOString()
+        };
+        document.getElementById('popupAjoutMsg').textContent = "Envoi en cours...";
+        fetch('https://api.alamath.com/demande-matiere', {
+            method: "POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(dataToSend)
+        }).then(async res => {
+            if(res.ok) {
+                document.getElementById('popupAjoutMsg').style.color = "#13b813";
+                document.getElementById('popupAjoutMsg').textContent = "Votre demande a bien été envoyée !";
+                setTimeout(closePopupAjout, 1800);
+            } else {
+                let msg = "Erreur lors de l'envoi.";
+                try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
+                document.getElementById('popupAjoutMsg').style.color = "#c00";
+                document.getElementById('popupAjoutMsg').textContent = msg;
+            }
+        }).catch(e => {
+            document.getElementById('popupAjoutMsg').style.color = "#c00";
+            document.getElementById('popupAjoutMsg').textContent = "Erreur réseau : " + e;
+        });
+    };
+
+    // Fonction actualiser
+    function refreshData() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) {
+            window.location.href = '/';
+            return;
+        }
+        const user = JSON.parse(userDataString);
+        if (!user.userId || !user.password) {
+            alert("Impossible d'actualiser: identifiants manquants.");
+            return;
+        }
+        fetch('https://api.alamath.com/login', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({userId: user.userId, password: user.password})
+        })
+        .then(res => res.json())
+        .then(result => {
+            if(result && result.success && result.user) {
+                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
+                showUserInfo();
+            } else if(result && result.message) {
+                alert("Erreur lors de l'actualisation : " + result.message);
+            } else {
+                alert("Erreur lors de l'actualisation.");
+            }
+        })
+        .catch(err => {
+            alert("Erreur réseau lors de l'actualisation : " + err);
+        });
+    }
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -510,147 +685,6 @@
     function logout() {
         eraseSessionCookie('alamathUser');
         window.location.href = '/';
-    }
-
-    // ==== Ajout matière/séance (popup amélioré avec nouvel élève) ====
-    function ajouterSeance() {
-        const userDataString = getSessionCookie('alamathUser');
-        if (!userDataString) { window.location.href = '/'; return; }
-        const user = JSON.parse(userDataString);
-
-        // Liste des élèves du tuteur dans le tableau cours
-        const eleves = (user.cours || [])
-            .map(c => c.nom_eleve)
-            .filter(n => n && n.trim())
-            .filter((v, i, arr) => arr.indexOf(v) === i); // unique
-
-        let selectHtml = `<option value="">-- Saisir un nouveau nom d'élève ci-dessous --</option>`;
-        eleves.forEach(nom => selectHtml += `<option value="${nom}">${nom}</option>`);
-        document.getElementById('eleveSelect').innerHTML = selectHtml;
-        document.getElementById('nouvelEleve').value = "";
-
-        // Liste matières selon le niveau/cycle
-        const matieresParCycle = {
-            "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
-            "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
-            "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
-            "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
-        };
-        let cycle = user.cycle || "";
-        const niveau = user.niveau || "";
-        if (!cycle && niveau) {
-            if (["Petite section","Moyenne section","Grande section"].includes(niveau)) cycle = "Maternelle";
-            else if (["CP","CE1","CE2","CM1","CM2"].includes(niveau)) cycle = "Élémentaire";
-            else if (["6e","5e","4e","3e"].includes(niveau)) cycle = "Collège";
-            else if (["Seconde","Première","Terminale"].includes(niveau)) cycle = "Lycée";
-        }
-        const matieres = matieresParCycle[cycle] || [];
-        let matieresHtml = "";
-        if(matieres.length) {
-            matieresHtml = `<div style="margin-bottom:1em;text-align:left;">Choisissez la matière :</div>`;
-            matieresHtml += matieres.map(mat =>
-                `<div style="margin-bottom:0.6em;">
-                    <label>
-                        <input type="radio" name="matiereAjout" value="${mat}" required> ${mat}
-                    </label>
-                </div>`
-            ).join('');
-        } else {
-            matieresHtml = `<div style="color:#c00;">Aucune matière disponible pour ce niveau/cycle.</div>`;
-        }
-        document.getElementById('matieresSection').innerHTML = matieresHtml;
-        document.getElementById('popupAjoutMsg').textContent = '';
-        document.getElementById('popupAjout').style.display = "flex";
-    }
-
-    function closePopupAjout() {
-        document.getElementById('popupAjout').style.display = "none";
-    }
-
-    function validerAjoutMatiere() {
-        const userDataString = getSessionCookie('alamathUser');
-        if (!userDataString) { window.location.href = '/'; return; }
-        const user = JSON.parse(userDataString);
-        const eleveSelect = document.getElementById('eleveSelect');
-        const nouvelEleve = document.getElementById('nouvelEleve').value.trim();
-        const matiere = document.querySelector('input[name="matiereAjout"]:checked');
-        if (!matiere) {
-            document.getElementById('popupAjoutMsg').textContent = "Veuillez sélectionner une matière.";
-            return;
-        }
-
-        let nom_eleve = "";
-        if (nouvelEleve) {
-            nom_eleve = nouvelEleve;
-        } else if (eleveSelect.value) {
-            nom_eleve = eleveSelect.value;
-        } else {
-            document.getElementById('popupAjoutMsg').textContent = "Veuillez choisir ou saisir un élève.";
-            return;
-        }
-
-        const dataToSend = {
-            usertype: user.usertype,
-            nom_eleve,
-            nom: user.nom || "",
-            email: user.email || "",
-            tel: user.tel || "",
-            niveau: user.niveau || "",
-            cycle: user.cycle || "",
-            matiere: matiere.value
-        };
-        document.getElementById('popupAjoutMsg').textContent = "Ajout en cours...";
-        fetch('https://api.alamath.com/ajouter-matiere-seance', {
-            method: "POST",
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify(dataToSend)
-        }).then(async res => {
-            if(res.ok) {
-                document.getElementById('popupAjoutMsg').style.color = "#13b813";
-                document.getElementById('popupAjoutMsg').textContent = "Ajout effectué !";
-                setTimeout(() => { closePopupAjout(); refreshData(); }, 1600);
-            } else {
-                let msg = "Erreur lors de l'ajout.";
-                try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
-                document.getElementById('popupAjoutMsg').style.color = "#c00";
-                document.getElementById('popupAjoutMsg').textContent = msg;
-            }
-        }).catch(e => {
-            document.getElementById('popupAjoutMsg').style.color = "#c00";
-            document.getElementById('popupAjoutMsg').textContent = "Erreur réseau : " + e;
-        });
-    }
-
-    function refreshData() {
-        const userDataString = getSessionCookie('alamathUser');
-        if (!userDataString) {
-            window.location.href = '/';
-            return;
-        }
-        const user = JSON.parse(userDataString);
-        if (!user.userId || !user.password) {
-            alert("Impossible d'actualiser: identifiants manquants.");
-            return;
-        }
-        fetch('https://api.alamath.com/login', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({userId: user.userId, password: user.password})
-        })
-        .then(res => res.json())
-        .then(result => {
-            if(result && result.success && result.user) {
-                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
-                showUserInfo();
-            } else if(result && result.message) {
-                alert("Erreur lors de l'actualisation : " + result.message);
-            } else {
-                alert("Erreur lors de l'actualisation.");
-            }
-        })
-        .catch(err => {
-            alert("Erreur réseau lors de l'actualisation : " + err);
-        });
     }
     </script>
 </body>
