@@ -216,12 +216,6 @@
             color: #7a8699;
             cursor: not-allowed;
         }
-        .btn.vice {
-            background: #34be82;
-            min-width: 90px;
-            padding: 0.5em 1em;
-            font-size: 0.97em;
-        }
         /* Popup */
         #popupAjout {
             display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
@@ -323,7 +317,7 @@
         </div>
         <div class="cours-section" id="coursSection" style="display:none;"></div>
     </div>
-    <!-- Popup ajout matière/séance amélioré -->
+    <!-- Popup ajout matière/séance (NOUVELLE VERSION) -->
     <div id="popupAjout">
       <div class="popup-inner">
         <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
@@ -437,11 +431,9 @@
         return `<div class="user-info-grid">${rows}</div>`;
     }
     function renderCoursSection(user) {
-        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
         const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
         let tableHtml = "";
         if (cours.length > 0) {
-            // Entêtes lisibles pour utilisateur
             const headersMap = {
                 nom_eleve: "Nom élève",
                 matiere: "Matière",
@@ -461,7 +453,6 @@
                             `<th>${headersMap[col] || col}</th>`
                         ).join('')}
                         <th>Paiement</th>
-                        ${isEleve ? '<th>Visa Pays</th>' : ''}
                     </tr>
                     ${cours.map((coursItem, idx) => {
                         let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
@@ -477,12 +468,6 @@
                                     onclick="payerSeance(${idx})"
                                 >Payer</button>
                             </td>
-                            ${isEleve ? `<td>
-                                <button 
-                                    class="btn vice"
-                                    onclick="visaPays(${idx})"
-                                >Visa Pays</button>
-                            </td>` : ''}
                         </tr>
                     `}).join('')}
                 </table>
@@ -492,9 +477,6 @@
     }
     function payerSeance(index) {
         alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
-    }
-    function visaPays(index) {
-        alert("Visa Pays demandé pour le cours #" + (index+1) + " (intégrez ici votre logique Visa/Pays)");
     }
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
@@ -530,7 +512,7 @@
         window.location.href = '/';
     }
 
-    // ==== Ajout matière/séance (popup amélioré) ====
+    // ==== Ajout matière/séance (popup amélioré avec nouvel élève) ====
     function ajouterSeance() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) { window.location.href = '/'; return; }
