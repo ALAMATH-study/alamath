@@ -475,6 +475,7 @@
             verifierAffichageDemandeBtn();
         } else {
             document.getElementById('champsNouveauEleve').style.display = "none";
+            // Afficher le choix matière (toujours !)
             const userDataString = getSessionCookie('alamathUser');
             const user = JSON.parse(userDataString);
             let coursEleve = (user.cours || []).find(c=>c.nom_eleve===val);
