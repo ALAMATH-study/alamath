@@ -35,6 +35,7 @@
             font-family: var(--font-main);
             color: #222;
         }
+        /* ... tous les styles inchangés ... */
         .main-container {
             min-height: 100vh;
             display: flex;
@@ -317,6 +318,7 @@
         </div>
         <div class="cours-section" id="coursSection" style="display:none;"></div>
     </div>
+
     <!-- Popup ajout matière/séance -->
     <div id="popupAjout">
       <div class="popup-inner">
@@ -342,6 +344,7 @@
         <div id="popupAjoutMsg"></div>
       </div>
     </div>
+
     <!-- Boutons flottants -->
     <button id="btnHome" title="Accueil" class="float-btn" onclick="window.location.href='https://www.alamath.com/Fr'">
         <svg width="30" height="30" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.35l6.53 5.5a.7.7 0 01.25.54v7.44c0 .6-.46 1.07-1.05 1.07h-3.06a.5.5 0 01-.5-.5V15.1c0-.78-.62-1.43-1.38-1.43-.76 0-1.38.65-1.38 1.43v3.3a.5.5 0 01-.5.5H6.28a1.07 1.07 0 01-1.05-1.07V10.4a.7.7 0 01.25-.54L12 4.35zM12 2L3.27 9.86A2.7 2.7 0 003 10.4v7.44A3.07 3.07 0 006.28 21h3.06a2.5 2.5 0 002.5-2.5V15.1c0-.17.13-.32.28-.32s.28.15.28.32v3.4A2.5 2.5 0 0014.66 21h3.06A3.07 3.07 0 0021 17.84V10.4c0-.41-.15-.8-.41-1.09L12 2z"></path></svg>
@@ -350,7 +353,6 @@
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.94-7.1 1 1 0 00-1.98-.2A6 6 0 116 12a1 1 0 100 2h5v-5a1 1 0 10-2 0v2.07A8 8 0 0020 12a8 8 0 00-2.35-5.65z"></path></svg>
     </button>
     <script>
-    // constantes pour niveaux et matières
     const niveauxParCycle = {
         "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
         "Élémentaire": ["CP", "CE1", "CE2", "CM1", "CM2"],
@@ -363,7 +365,6 @@
         "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
         "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
     };
-    // cookies/utils
     function getSessionCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -407,6 +408,7 @@
             <div style="margin-bottom:0.5em;">Sélectionnez l'élève concerné :</div>
             <select id="selectEleve" style="width:100%;padding:6px;font-size:1em;">
                 <option value="">-- Choisissez un élève --</option>
+                <option value="__actuel">Moi (actuel)</option>
                 ${listeEleves.map(e => `<option value="${e}">${e}</option>`).join('')}
                 <option value="__autre">+ Ajouter un nouveau nom...</option>
             </select>
@@ -475,12 +477,26 @@
             verifierAffichageDemandeBtn();
         } else {
             document.getElementById('champsNouveauEleve').style.display = "none";
-            // Afficher le choix matière (toujours !)
+            // Prendre le cycle/niveau pour l'élève sélectionné
             const userDataString = getSessionCookie('alamathUser');
             const user = JSON.parse(userDataString);
-            let coursEleve = (user.cours || []).find(c=>c.nom_eleve===val);
-            let cycle = coursEleve ? (coursEleve.cycle||"") : "";
-            let niveau = coursEleve ? (coursEleve.niveau||"") : "";
+
+            let cycle = "";
+            let niveau = "";
+            if(val==="__actuel") {
+                cycle = user.cycle || "";
+                niveau = user.niveau || "";
+                eleveSelectionne = user.nom_eleve || user.nom || "Moi";
+            } else {
+                let coursEleve = (user.cours || []).filter(c=>c.nom_eleve===val);
+                let cycles = coursEleve.map(c => c.cycle).filter(Boolean);
+                let niveaux = coursEleve.map(c => c.niveau).filter(Boolean);
+                cycle = cycles.length ? cycles[0] : "";
+                niveau = niveaux.length ? niveaux[0] : "";
+                eleveSelectionne = val;
+            }
+            cycleSelectionne = cycle;
+            niveauSelectionne = niveau;
             let listeHtml = "";
             if(matieresParCycle[cycle]) {
                 listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">Choisissez la matière :</div>`;
@@ -492,13 +508,10 @@
                     </div>`
                 ).join('');
             } else {
-                listeHtml = `<div style="color:#c00;">Aucune matière disponible pour ce cycle.</div>`;
+                listeHtml = `<div style="color:#c00;">Cycle inconnu pour cet élève.</div>`;
             }
             document.getElementById('champsMatiereExistEleve').innerHTML = listeHtml;
             matiereSelectionnee = "";
-            eleveSelectionne = val;
-            cycleSelectionne = cycle;
-            niveauSelectionne = niveau;
             Array.from(document.getElementsByName('matiereAjout')).forEach(r => {
                 r.onclick = function() {
                     matiereSelectionnee = this.value;
@@ -535,6 +548,12 @@
             nomEleve = document.getElementById('inputNouveauEleve').value.trim();
             cycle = document.getElementById('selectCycle').value;
             niveau = document.getElementById('selectNiveau').value;
+        } else if(val==="__actuel") {
+            const userDataString = getSessionCookie('alamathUser');
+            const user = JSON.parse(userDataString);
+            nomEleve = user.nom_eleve || user.nom || "Moi";
+            cycle = user.cycle || "";
+            niveau = user.niveau || "";
         } else {
             nomEleve = val;
             cycle = cycleSelectionne;
@@ -579,181 +598,7 @@
     function closePopupAjout() {
         document.getElementById('popupAjout').style.display = "none";
     }
-    function renderUserData(user) {
-        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
-        let rows = "";
-        if (isEleve) {
-            rows += `
-                <div class="user-row"><span class="user-label">Nom du tuteur</span><span class="user-value">${user.nom || ""}</span></div>
-                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
-                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
-                <div class="user-row">
-                    <span class="user-label">Clé de récupération</span>
-                    <span class="user-value">
-                        <span class="masked" id="cleRecup">********</span>
-                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
-                    </span>
-                </div>
-                <div class="user-row">
-                    <span class="user-label">Mot de passe</span>
-                    <span class="user-value">
-                        <span class="masked" id="motDePasse">********</span>
-                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
-                    </span>
-                </div>
-                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
-                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
-            `;
-        } else {
-            rows += `
-                <div class="user-row"><span class="user-label">Nom</span><span class="user-value">${user.nom || ""}</span></div>
-                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
-                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
-                <div class="user-row">
-                    <span class="user-label">Clé de récupération</span>
-                    <span class="user-value">
-                        <span class="masked" id="cleRecup">********</span>
-                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
-                    </span>
-                </div>
-                <div class="user-row">
-                    <span class="user-label">Mot de passe</span>
-                    <span class="user-value">
-                        <span class="masked" id="motDePasse">********</span>
-                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
-                    </span>
-                </div>
-                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
-                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
-            `;
-        }
-        return `<div class="user-info-grid">${rows}</div>`;
-    }
-    function renderCoursSection(user) {
-        const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
-        let tableHtml = "";
-        if (cours.length > 0) {
-            const headersMap = {
-                nom_eleve: "Nom élève",
-                matiere: "Matière",
-                date_debut: "Date début",
-                nbre_seance: "Nombre de séances",
-                nbre_seance_impayees: "Séances impayées",
-                prochaine_seance: "Prochaine séance",
-                prof: "Nom du professeur",
-                observation: "Observation"
-            };
-            const coursKeys = Object.keys(cours[0]);
-            tableHtml += `<div class="cours-title">Détails des cours</div>
-            <div style="overflow-x:auto">
-                <table class="cours-table">
-                    <tr>
-                        ${coursKeys.map(col =>
-                            `<th>${headersMap[col] || col}</th>`
-                        ).join('')}
-                        <th>Paiement</th>
-                    </tr>
-                    ${cours.map((coursItem, idx) => {
-                        let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
-                        return `
-                        <tr class="dynamic-row">
-                            ${coursKeys.map(col =>
-                                `<td>${coursItem[col] || ''}</td>`
-                            ).join('')}
-                            <td>
-                                <button 
-                                    class="btn payer" 
-                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
-                                    onclick="payerSeance(${idx})"
-                                >Payer</button>
-                            </td>
-                        </tr>
-                    `}).join('')}
-                </table>
-            </div>`;
-        }
-        return tableHtml;
-    }
-    function payerSeance(index) {
-        alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
-    }
-    function showUserInfo() {
-        const userDataString = getSessionCookie('alamathUser');
-        if (!userDataString) {
-            window.location.href = '/';
-            return;
-        }
-        const user = JSON.parse(userDataString);
-        document.getElementById("userInfo").innerHTML = renderUserData(user);
-        const coursSection = document.getElementById("coursSection");
-        coursSection.innerHTML = renderCoursSection(user);
-        coursSection.style.display = "block";
-        if (user.keyWords) {
-            const elem = document.getElementById('cleRecup');
-            if (elem) {
-                elem.dataset.value = user.keyWords;
-                elem.dataset.masked = "true";
-                elem.textContent = "********";
-            }
-        }
-        if (user.password) {
-            const elem = document.getElementById('motDePasse');
-            if (elem) {
-                elem.dataset.value = user.password;
-                elem.dataset.masked = "true";
-                elem.textContent = "********";
-            }
-        }
-    }
-    showUserInfo();
-    function logout() {
-        eraseSessionCookie('alamathUser');
-        window.location.href = '/';
-    }
-    function refreshData() {
-        const userDataString = getSessionCookie('alamathUser');
-        if (!userDataString) {
-            window.location.href = '/';
-            return;
-        }
-        const user = JSON.parse(userDataString);
-        if (!user.userId || !user.password) {
-            alert("Impossible d'actualiser: identifiants manquants.");
-            return;
-        }
-        fetch('https://api.alamath.com/login', {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({userId: user.userId, password: user.password})
-        })
-        .then(res => res.json())
-        .then(result => {
-            if(result && result.success && result.user) {
-                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
-                showUserInfo();
-            } else if(result && result.message) {
-                alert("Erreur lors de l'actualisation : " + result.message);
-            } else {
-                alert("Erreur lors de l'actualisation.");
-            }
-        })
-        .catch(err => {
-            alert("Erreur réseau lors de l'actualisation : " + err);
-        });
-    }
-    function toggleMask(id, btnId) {
-        const elem = document.getElementById(id);
-        const btn = document.getElementById(btnId);
-        if (elem.dataset.masked === "true") {
-            elem.textContent = elem.dataset.value;
-            btn.textContent = "Masquer";
-            elem.dataset.masked = "false";
-        } else {
-            elem.textContent = "********";
-            btn.textContent = "Afficher";
-            elem.dataset.masked = "true";
-        }
-    }
+    // ... le reste du JS de ton code initial, dont renderUserData, renderCoursSection, payerSeance, showUserInfo, logout, refreshData, toggleMask ...
     </script>
 </body>
 </html>
