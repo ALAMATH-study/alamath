@@ -57,31 +57,155 @@
         const conjugations = {
             "1": { // 1er groupe
                 "indicatif": {
-                    "présent": {
-                        "aimer": ["aime", "aimes", "aime", "aimons", "aimez", "aiment"],
-                        "travailler": ["travaille", "travailles", "travaille", "travaillons", "travaillez", "travaillent"],
-                        "se laver": ["me lave", "te laves", "se lave", "nous lavons", "vous lavez", "se lavent"],
-                        "se coucher": ["me couche", "te couches", "se couche", "nous couchons", "vous couchez", "se couchent"],
-                        // ... jusqu'à 30 verbes (dont 10 pronominaux)
-                    },
-                    "imparfait": {
-                        "aimer": ["aimais", "aimais", "aimait", "aimions", "aimiez", "aimaient"],
-                        "travailler": ["travaillais", "travaillais", "travaillait", "travaillions", "travailliez", "travaillaient"],
-                        "se laver": ["me lavais", "te lavais", "se lavait", "nous lavions", "vous laviez", "se lavaient"],
-                        // ...
-                    },
-                    "passé_composé": {
-                        "aimer": ["ai aimé", "as aimé", "a aimé", "avons aimé", "avez aimé", "ont aimé"],
-                        "se laver": ["me suis lavé", "t'es lavé", "s'est lavé", "nous sommes lavés", "vous êtes lavés", "se sont lavés"],
-                        // ...
-                    },
-                    "futur_simple": {
-                        "aimer": ["aimerai", "aimeras", "aimera", "aimerons", "aimerez", "aimeront"],
-                        "se laver": ["me laverai", "te laveras", "se lavera", "nous laverons", "vous laverez", "se laveront"],
-                        // ...
-                    }
-                    // ... autres temps de l'indicatif
-                },
+    "présent": {
+      "aimer": ["aime", "aimes", "aime", "aimons", "aimez", "aiment"],
+      "travailler": ["travaille", "travailles", "travaille", "travaillons", "travaillez", "travaillent"],
+      "se laver": ["me lave", "te laves", "se lave", "nous lavons", "vous lavez", "se lavent"],
+      "se coucher": ["me couche", "te couches", "se couche", "nous couchons", "vous couchez", "se couchent"],
+      "regarder": ["regarde", "regardes", "regarde", "regardons", "regardez", "regardent"],
+      "parler": ["parle", "parles", "parle", "parlons", "parlez", "parlent"],
+      "écouter": ["écoute", "écoutes", "écoute", "écoutons", "écoutez", "écoutent"],
+      "marcher": ["marche", "marches", "marche", "marchons", "marchez", "marchent"],
+      "jouer": ["joue", "joues", "joue", "jouons", "jouez", "jouent"],
+      "arriver": ["arrive", "arrives", "arrive", "arrivons", "arrivez", "arrivent"],
+      "donner": ["donne", "donnes", "donne", "donnons", "donnez", "donnent"],
+      "chanter": ["chante", "chantes", "chante", "chantons", "chantez", "chantent"],
+      "montrer": ["montre", "montres", "montre", "montrons", "montrez", "montrent"],
+      "penser": ["pense", "penses", "pense", "pensons", "pensez", "pensent"],
+      "demander": ["demande", "demandes", "demande", "demandons", "demandez", "demandent"],
+      "trouver": ["trouve", "trouves", "trouve", "trouvons", "trouvez", "trouvent"],
+      "appeler": ["appelle", "appelles", "appelle", "appelons", "appelez", "appellent"],
+      "porter": ["porte", "portes", "porte", "portons", "portez", "portent"],
+      "rentrer": ["rentre", "rentres", "rentre", "rentrons", "rentrez", "rentrent"],
+      // 10 pronominaux
+      "se lever": ["me lève", "te lèves", "se lève", "nous levons", "vous levez", "se lèvent"],
+      "se réveiller": ["me réveille", "te réveilles", "se réveille", "nous réveillons", "vous réveillez", "se réveillent"],
+      "se promener": ["me promène", "te promènes", "se promène", "nous promenons", "vous promenez", "se promènent"],
+      "se brosser": ["me brosse", "te brosses", "se brosse", "nous brossons", "vous brossez", "se brossent"],
+      "se maquiller": ["me maquille", "te maquilles", "se maquille", "nous maquillons", "vous maquillez", "se maquillent"],
+      "s'habiller": ["m'habille", "t'habilles", "s'habille", "nous habillons", "vous habillez", "s'habillent"],
+      "se reposer": ["me repose", "te reposes", "se repose", "nous reposons", "vous reposez", "se reposent"],
+      "s'amuser": ["m'amuse", "t'amuses", "s'amuse", "nous amusons", "vous amusez", "s'amusent"],
+      "se dépêcher": ["me dépêche", "te dépêches", "se dépêche", "nous dépêchons", "vous dépêchez", "se dépêchent"],
+      "se fâcher": ["me fâche", "te fâches", "se fâche", "nous fâchons", "vous fâchez", "se fâchent"]
+    },
+    "imparfait": {
+      "aimer": ["aimais", "aimais", "aimait", "aimions", "aimiez", "aimaient"],
+      "travailler": ["travaillais", "travaillais", "travaillait", "travaillions", "travailliez", "travaillaient"],
+      "se laver": ["me lavais", "te lavais", "se lavait", "nous lavions", "vous laviez", "se lavaient"],
+      "se coucher": ["me couchais", "te couchais", "se couchait", "nous couchions", "vous couchiez", "se couchaient"],
+      "regarder": ["regardais", "regardais", "regardait", "regardions", "regardiez", "regardaient"],
+      "parler": ["parlais", "parlais", "parlait", "parlions", "parliez", "parlaient"],
+      "écouter": ["écoutais", "écoutais", "écoutait", "écoutions", "écoutiez", "écoutaient"],
+      "marcher": ["marchais", "marchais", "marchait", "marchions", "marchiez", "marchaient"],
+      "jouer": ["jouais", "jouais", "jouait", "jouions", "jouiez", "jouaient"],
+      "arriver": ["arrivais", "arrivais", "arrivait", "arrivions", "arriviez", "arrivaient"],
+      "donner": ["donnais", "donnais", "donnait", "donnions", "donniez", "donnaient"],
+      "chanter": ["chantais", "chantais", "chantait", "chantions", "chantiez", "chantaient"],
+      "montrer": ["montrais", "montrais", "montrait", "montrions", "montriez", "montraient"],
+      "penser": ["pensais", "pensais", "pensait", "pensions", "pensiez", "pensaient"],
+      "demander": ["demandais", "demandais", "demandait", "demandions", "demandiez", "demandaient"],
+      "trouver": ["trouvais", "trouvais", "trouvait", "trouvions", "trouviez", "trouvaient"],
+      "appeler": ["appelais", "appelais", "appelait", "appelions", "appeliez", "appelaient"],
+      "porter": ["portais", "portais", "portait", "portions", "portiez", "portaient"],
+      "rentrer": ["rentrais", "rentrais", "rentrait", "rentrions", "rentriez", "rentraient"],
+      // 10 pronominaux
+      "se lever": ["me levais", "te levais", "se levait", "nous levions", "vous leviez", "se levaient"],
+      "se réveiller": ["me réveillais", "te réveillais", "se réveillait", "nous réveillions", "vous réveilliez", "se réveillaient"],
+      "se promener": ["me promenais", "te promenais", "se promenait", "nous promenions", "vous promeniez", "se promenaient"],
+      "se brosser": ["me brossais", "te brossais", "se brossait", "nous brossions", "vous brossiez", "se brossaient"],
+      "se maquiller": ["me maquillais", "te maquillais", "se maquillait", "nous maquillions", "vous maquilliez", "se maquillaient"],
+      "s'habiller": ["m'habillais", "t'habillais", "s'habillait", "nous habillions", "vous habilliez", "s'habillaient"],
+      "se reposer": ["me reposais", "te reposais", "se reposait", "nous reposions", "vous reposiez", "se reposaient"],
+      "s'amuser": ["m'amusais", "t'amusais", "s'amusait", "nous amusions", "vous amusiez", "s'amusaient"],
+      "se dépêcher": ["me dépêchais", "te dépêchais", "se dépêchait", "nous dépêchions", "vous dépêchiez", "se dépêchaient"],
+      "se fâcher": ["me fâchais", "te fâchais", "se fâchait", "nous fâchions", "vous fâchiez", "se fâchaient"]
+    },
+    "passé_composé": {
+      "aimer": ["ai aimé", "as aimé", "a aimé", "avons aimé", "avez aimé", "ont aimé"],
+      "travailler": ["ai travaillé", "as travaillé", "a travaillé", "avons travaillé", "avez travaillé", "ont travaillé"],
+      "se laver": ["me suis lavé", "t'es lavé", "s'est lavé", "nous sommes lavés", "vous êtes lavés", "se sont lavés"],
+      "se coucher": ["me suis couché", "t'es couché", "s'est couché", "nous nous sommes couchés", "vous vous êtes couchés", "se sont couchés"],
+      "regarder": ["ai regardé", "as regardé", "a regardé", "avons regardé", "avez regardé", "ont regardé"],
+      "parler": ["ai parlé", "as parlé", "a parlé", "avons parlé", "avez parlé", "ont parlé"],
+      "écouter": ["ai écouté", "as écouté", "a écouté", "avons écouté", "avez écouté", "ont écouté"],
+      "marcher": ["ai marché", "as marché", "a marché", "avons marché", "avez marché", "ont marché"],
+      "jouer": ["ai joué", "as joué", "a joué", "avons joué", "avez joué", "ont joué"],
+      "arriver": ["suis arrivé", "es arrivé", "est arrivé", "sommes arrivés", "êtes arrivés", "sont arrivés"],
+      "donner": ["ai donné", "as donné", "a donné", "avons donné", "avez donné", "ont donné"],
+      "chanter": ["ai chanté", "as chanté", "a chanté", "avons chanté", "avez chanté", "ont chanté"],
+      "montrer": ["ai montré", "as montré", "a montré", "avons montré", "avez montré", "ont montré"],
+      "penser": ["ai pensé", "as pensé", "a pensé", "avons pensé", "avez pensé", "ont pensé"],
+      "demander": ["ai demandé", "as demandé", "a demandé", "avons demandé", "avez demandé", "ont demandé"],
+      "trouver": ["ai trouvé", "as trouvé", "a trouvé", "avons trouvé", "avez trouvé", "ont trouvé"],
+      "appeler": ["ai appelé", "as appelé", "a appelé", "avons appelé", "avez appelé", "ont appelé"],
+      "porter": ["ai porté", "as porté", "a porté", "avons porté", "avez porté", "ont porté"],
+      "rentrer": ["suis rentré", "es rentré", "est rentré", "sommes rentrés", "êtes rentrés", "sont rentrés"],
+      // 10 pronominaux
+      "se lever": ["me suis levé", "t'es levé", "s'est levé", "nous nous sommes levés", "vous vous êtes levés", "se sont levés"],
+      "se réveiller": ["me suis réveillé", "t'es réveillé", "s'est réveillé", "nous nous sommes réveillés", "vous vous êtes réveillés", "se sont réveillés"],
+      "se promener": ["me suis promené", "t'es promené", "s'est promené", "nous nous sommes promenés", "vous vous êtes promenés", "se sont promenés"],
+      "se brosser": ["me suis brossé", "t'es brossé", "s'est brossé", "nous nous sommes brossés", "vous vous êtes brossés", "se sont brossés"],
+      "se maquiller": ["me suis maquillé", "t'es maquillé", "s'est maquillé", "nous nous sommes maquillés", "vous vous êtes maquillés", "se sont maquillés"],
+      "s'habiller": ["me suis habillé", "t'es habillé", "s'est habillé", "nous nous sommes habillés", "vous vous êtes habillés", "se sont habillés"],
+      "se reposer": ["me suis reposé", "t'es reposé", "s'est reposé", "nous nous sommes reposés", "vous vous êtes reposés", "se sont reposés"],
+      "s'amuser": ["me suis amusé", "t'es amusé", "s'est amusé", "nous nous sommes amusés", "vous vous êtes amusés", "se sont amusés"],
+      "se dépêcher": ["me suis dépêché", "t'es dépêché", "s'est dépêché", "nous nous sommes dépêchés", "vous vous êtes dépêchés", "se sont dépêchés"],
+      "se fâcher": ["me suis fâché", "t'es fâché", "s'est fâché", "nous nous sommes fâchés", "vous vous êtes fâchés", "se sont fâchés"]
+    },
+    "futur_simple": {
+      "aimer": ["aimerai", "aimeras", "aimera", "aimerons", "aimerez", "aimeront"],
+      "travailler": ["travaillerai", "travailleras", "travaillera", "travaillerons", "travaillerez", "travailleront"],
+      "se laver": ["me laverai", "te laveras", "se lavera", "nous laverons", "vous laverez", "se laveront"],
+      "se coucher": ["me coucherai", "te coucheras", "se couchera", "nous coucherons", "vous coucherez", "se coucheront"],
+      "regarder": ["regarderai", "regarderas", "regardera", "regarderons", "regarderez", "regarderont"],
+      "parler": ["parlerai", "parleras", "parlera", "parlerons", "parlerez", "parleront"],
+      "écouter": ["écouterai", "écouteras", "écoutera", "écouterons", "écouterez", "écouteront"],
+      "marcher": ["marcherai", "marcheras", "marchera", "marcherons", "marcherez", "marcheront"],
+      "jouer": ["jouerai", "joueras", "jouera", "jouerons", "jouerez", "joueront"],
+      "arriver": ["arriverai", "arriveras", "arrivera", "arriverons", "arriverez", "arriveront"],
+      "donner": ["donnerai", "donneras", "donnera", "donnerons", "donnerez", "donneront"],
+      "chanter": ["chanterai", "chanteras", "chantera", "chanterons", "chanterez", "chanteront"],
+      "montrer": ["montrerai", "montreras", "montrera", "montrerons", "montrerez", "montreront"],
+      "penser": ["penserai", "penseras", "pensera", "penserons", "penserez", "penseront"],
+      "demander": ["demanderai", "demanderas", "demandera", "demanderons", "demanderez", "demanderont"],
+      "trouver": ["trouverai", "trouveras", "trouvera", "trouverons", "trouverez", "trouveront"],
+      "appeler": ["appellerai", "appelleras", "appellera", "appellerons", "appelerez", "appelleront"],
+      "porter": ["porterai", "porteras", "portera", "porterons", "porterez", "porteront"],
+      "rentrer": ["rentrerai", "rentreras", "rentrera", "rentrerons", "rentrerez", "rentreront"],
+      // 10 pronominaux
+      "se lever": ["me lèverai", "te lèveras", "se lèvera", "nous lèverons", "vous lèverez", "se lèveront"],
+      "se réveiller": ["me réveillerai", "te réveilleras", "se réveillera", "nous réveillerons", "vous réveillerez", "se réveilleront"],
+      "se promener": ["me promènerai", "te promèneras", "se promènera", "nous promènerons", "vous promènerez", "se promèneront"],
+      "se brosser": ["me brosserai", "te brosseras", "se brossera", "nous brosserons", "vous brosserez", "se brosseront"],
+      "se maquiller": ["me maquillerai", "te maquilleras", "se maquillera", "nous maquillerons", "vous maquillerez", "se maquilleront"],
+      "s'habiller": ["m'habillerai", "t'habilleras", "s'habillera", "nous habillerons", "vous habillerez", "s'habilleront"],
+      "se reposer": ["me reposerai", "te reposeras", "se reposera", "nous reposerons", "vous reposerez", "se reposeront"],
+      "s'amuser": ["m'amuserai", "t'amuseras", "s'amusera", "nous amuserons", "vous amuserez", "s'amuseront"],
+      "se dépêcher": ["me dépêcherai", "te dépêcheras", "se dépêchera", "nous dépêcherons", "vous dépêcherez", "se dépêcheront"],
+      "se fâcher": ["me fâcherai", "te fâcheras", "se fâchera", "nous fâcherons", "vous fâcherez", "se fâcheront"]
+    },
+    "plus_que_parfait": {
+      "aimer": ["avais aimé", "avais aimé", "avait aimé", "avions aimé", "aviez aimé", "avaient aimé"],
+      "se laver": ["m'étais lavé", "t'étais lavé", "s'était lavé", "nous nous étions lavés", "vous vous étiez lavés", "s'étaient lavés"]
+      // à compléter pour tous les verbes si besoin
+    },
+    "passé_simple": {
+      "aimer": ["aimai", "aimas", "aima", "aimâmes", "aimâtes", "aimèrent"],
+      "se laver": ["me lavai", "te lavas", "se lava", "nous lavâmes", "vous lavâtes", "se lavèrent"]
+      // à compléter pour tous les verbes si besoin
+    },
+    "passé_antérieur": {
+      "aimer": ["eus aimé", "eus aimé", "eut aimé", "eûmes aimé", "eûtes aimé", "eurent aimé"],
+      "se laver": ["me fus lavé", "te fus lavé", "se fut lavé", "nous fûmes lavés", "vous fûtes lavés", "se furent lavés"]
+      // à compléter pour tous les verbes si besoin
+    },
+    "futur_antérieur": {
+      "aimer": ["aurai aimé", "auras aimé", "aura aimé", "aurons aimé", "aurez aimé", "auront aimé"],
+      "se laver": ["me serai lavé", "te seras lavé", "se sera lavé", "nous serons lavés", "vous serez lavés", "se seront lavés"]
+      // à compléter pour tous les verbes si besoin
+    }                  
+},
                 "subjonctif": {
                     "présent": {
                         "aimer": ["aime", "aimes", "aime", "aimions", "aimiez", "aiment"],
