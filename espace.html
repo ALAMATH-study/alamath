@@ -428,17 +428,11 @@
         const val = select.value;
         matiereSelectionnee = "";
         if(val !== "") {
-            if(val !== "__autre") {
-                document.getElementById('champsNouveauEleve').style.display = "";
-            }else {
-                document.getElementById('champsNouveauEleve').style.display = "";
-                document.getElementById('champsNouveauEleve').innerHTML = `
-                <div style="margin-top: 0.5em;">
-                    <label for="nouveauNom">Entrez le nom de l'élève :</label>
-                    <input type="text" id="nouveauNom" style="width:100%;padding:6px;font-size:1em;margin-top:0.3em;">
-                </div>
-            `;
-            }
+
+             document.getElementById('champsNouveauEleve').style.display = "";
+           if(val !== "__autre") { 
+                document.getElementById('champsNouveauEleve').innerHTML =select.option;
+           }
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
             document.getElementById('inputNouveauEleve').value = "";
             document.getElementById('selectCycle').value = "";
