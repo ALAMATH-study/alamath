@@ -428,12 +428,8 @@
         const val = select.value;
         matiereSelectionnee = "";
         if(val !== "") {
-
-             document.getElementById('champsNouveauEleve').style.display = "";
-           if(val !== "__autre") { 
-                document.getElementById('champsNouveauEleve').innerHTML = select.options[select.selectedIndex].text;
-
-           }
+            document.getElementById('champsNouveauEleve').style.display = "";   
+            document.getElementById('champsNouveauEleve').innerHTML = select.options[select.selectedIndex].text;
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
             document.getElementById('inputNouveauEleve').value = "";
             document.getElementById('selectCycle').value = "";
