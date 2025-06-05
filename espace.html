@@ -35,6 +35,764 @@
             font-family: var(--font-main);
             color: #222;
         }
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 32px;
+            padding: 0 16px;
+        }
+        .card {
+            background: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            padding: 34px 20px 26px 20px;
+            margin: 46px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s;
+            position: relative;
+            z-index: 5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        h2 {
+            font-family: var(--font-title);
+            color: var(--color-primary-dark);
+            font-size: 2em;
+            margin-bottom: 0.7em;
+            margin-top: 0;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            text-align: center;
+        }
+        .user-info-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f7fafc;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px #e9f1fa;
+            padding: 22px 16px;
+            margin-bottom: 18px;
+        }
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+        }
+        .user-label {
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            min-width: 90px;
+            font-family: var(--font-title);
+            font-size: 1.04em;
+            flex-shrink: 0;
+        }
+        .user-value {
+            font-size: 1.07em;
+            font-family: inherit;
+        }
+        .masked {
+            letter-spacing: 0.22em;
+            font-size: 1.03em;
+            vertical-align: middle;
+        }
+        .show-hide-btn {
+            background: none;
+            border: none;
+            color: var(--color-primary-dark);
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: 7px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+        .show-hide-btn:hover {
+            color: var(--color-primary);
+            background: #f1f5ff;
+        }
+        .flex-btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.3em;
+            margin-top: 1.4em;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: var(--color-primary-dark);
+            color: #fff;
+            border: none;
+            font-size: 1.05em;
+            font-family: var(--font-title);
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 0 8px;
+            padding: 0.75em 1.3em;
+            font-weight: 600;
+            transition: background 0.16s, box-shadow 0.16s;
+            box-shadow: 0 2px 10px #004aad13;
+            min-width: 135px;
+        }
+        .btn:hover {
+            background: var(--color-primary);
+        }
+        .btn.logout {
+            background: var(--color-danger);
+            box-shadow: 0 2px 10px #e53e3e12;
+        }
+        .btn.logout:hover {
+            background: #b91c1c;
+        }
+        /* Section cours */
+        .cours-section {
+            width: 100%;
+            max-width: 680px;
+            background: #f0f8ff;
+            border-radius: 14px;
+            padding: 30px 16px;
+            box-shadow: 0 1px 7px #c5e8ff36;
+            margin: 32px auto 0 auto;
+            animation: fadeIn 1.2s;
+            position: relative;
+            z-index: 3;
+        }
+        .cours-title {
+            font-family: var(--font-title);
+            color: var(--color-primary-dark);
+            font-size: 1.19em;
+            font-weight: 700;
+            margin-bottom: 1.1em;
+            margin-top: 0;
+        }
+        .cours-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--color-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px #b9e5ff15;
+            table-layout: auto;
+        }
+        .cours-table th, .cours-table td {
+            padding: 0.78em 1em;
+            text-align: left;
+        }
+        .cours-table th {
+            background: #e0f0ff;
+            color: var(--color-primary-dark);
+            font-weight: 700;
+            font-size: 1.02em;
+            border-bottom: 2px solid #b3dfff;
+        }
+        .cours-table td {
+            background: #f7fcfe;
+            border-bottom: 1px solid #e8f4fc;
+            font-size: 0.99em;
+        }
+        .cours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .cours-table tr:nth-child(even) td {
+            background: #f3faff;
+        }
+        .btn.payer {
+            background: var(--color-primary);
+            min-width: 90px;
+            padding: 0.5em 1em;
+            font-size: 0.97em;
+        }
+        .btn.payer:disabled {
+            background: #c0d9ed;
+            color: #7a8699;
+            cursor: not-allowed;
+        }
+        /* Popup */
+        #popupAjout {
+            display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+            background:rgba(0,0,0,0.20);z-index:999;align-items:center;justify-content:center;
+        }
+        #popupAjout .popup-inner {
+            background:#fff;padding:2.2em 1.5em 2em 1.5em;border-radius:16px;
+            max-width:370px;width:96vw;box-shadow:0 4px 20px #0003;position:relative;
+        }
+        #popupAjout h3 {margin-top:0;}
+        #popupAjoutMsg { color:var(--color-primary-dark);margin-top:1em;font-size:1em;}
+        #popupAjoutCloseBtn {
+            position:absolute;top:8px;right:16px;background:none;border:none;
+            font-size:1.5em;cursor:pointer;
+        }
+        /* Boutons flottants */
+        .float-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,106,255,0.16);
+            color: #004aad;
+            box-shadow: 0 2px 10px #004aad19;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7em;
+            z-index: 9999;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            margin-bottom: 0;
+            margin-right: 0;
+            backdrop-filter: blur(1.5px);
+        }
+        #btnHome {
+            bottom: 102px;
+            right: 32px;
+        }
+        #btnRefresh {
+            bottom: 32px;
+            right: 32px;
+        }
+        .float-btn:hover {
+            background: #004aad;
+            color: #fff;
+        }
+        .float-btn svg {
+            pointer-events: none;
+        }
+        @media (max-width: 600px) {
+            .main-container { padding: 0 3vw; }
+            .card {
+                margin: 16px 0 0 0;
+                max-width: 99vw;
+                padding: 16px 4vw 14px 4vw;
+            }
+            .user-info-grid {
+                padding: 12px 4vw;
+            }
+            .cours-section {
+                border-radius: 10px;
+                padding: 18px 2vw;
+                margin: 18px 0 0 0;
+                max-width: 99vw;
+            }
+            .cours-title { font-size: 1.06em; }
+            .cours-table th, .cours-table td { font-size: 0.98em; padding: 0.65em 0.4em; }
+            .flex-btn-row { flex-direction: column; gap: 1em; }
+            #btnHome, #btnRefresh {
+                right: 12px;
+            }
+            #btnHome {
+                bottom: 92px;
+            }
+            #btnRefresh {
+                bottom: 12px;
+            }
+        }
+        @media (max-width: 400px) {
+            h2 { font-size: 1.08em;}
+            .btn, .btn.logout { font-size: 0.97em; min-width: 90px; padding: 0.65em 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="card">
+            <h2>Bienvenue sur votre espace AlaMath</h2>
+            <div id="userInfo"></div>
+            <div class="flex-btn-row">
+                <button class="btn logout" onclick="logout()">Déconnexion</button>
+                <button class="btn" onclick="ajouterSeance()">Ajouter une matière / séance</button>
+            </div>
+        </div>
+        <div class="cours-section" id="coursSection" style="display:none;"></div>
+    </div>
+    <!-- Popup ajout matière/séance -->
+    <div id="popupAjout">
+      <div class="popup-inner">
+        <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
+        <h3>Demander une nouvelle matière / séance</h3>
+        <div id="listeElevesContainer" style="margin-bottom:1em;"></div>
+        <div id="champsNouveauEleve" style="display:none;">
+            <input id="inputNouveauEleve" type="text" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;" placeholder="Nouveau nom d'élève"/>
+            <select id="selectCycle" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;">
+                <option value="">-- Choisissez un cycle --</option>
+                <option value="Maternelle">Maternelle</option>
+                <option value="Élémentaire">Élémentaire</option>
+                <option value="Collège">Collège</option>
+                <option value="Lycée">Lycée</option>
+            </select>
+            <select id="selectNiveau" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;">
+                <option value="">-- Choisissez un niveau --</option>
+            </select>
+            <div id="listeMatieres"></div>
+        </div>
+        <div id="champsMatiereExistEleve"></div>
+        <button id="demanderBtn" class="btn" style="display:none;width:100%;margin-top:1.2em;">Demander</button>
+        <div id="popupAjoutMsg"></div>
+      </div>
+    </div>
+    <!-- Boutons flottants -->
+    <button id="btnHome" title="Accueil" class="float-btn" onclick="window.location.href='https://www.alamath.com/Fr'">
+        <svg width="30" height="30" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.35l6.53 5.5a.7.7 0 01.25.54v7.44c0 .6-.46 1.07-1.05 1.07h-3.06a.5.5 0 01-.5-.5V15.1c0-.78-.62-1.43-1.38-1.43-.76 0-1.38.65-1.38 1.43v3.3a.5.5 0 01-.5.5H6.28a1.07 1.07 0 01-1.05-1.07V10.4a.7.7 0 01.25-.54L12 4.35zM12 2L3.27 9.86A2.7 2.7 0 003 10.4v7.44A3.07 3.07 0 006.28 21h3.06a2.5 2.5 0 002.5-2.5V15.1c0-.17.13-.32.28-.32s.28.15.28.32v3.4A2.5 2.5 0 0014.66 21h3.06A3.07 3.07 0 0021 17.84V10.4c0-.41-.15-.8-.41-1.09L12 2z"></path></svg>
+    </button>
+    <button id="btnRefresh" title="Actualiser" class="float-btn" onclick="refreshData()">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.94-7.1 1 1 0 00-1.98-.2A6 6 0 116 12a1 1 0 100 2h5v-5a1 1 0 10-2 0v2.07A8 8 0 0020 12a8 8 0 00-2.35-5.65z"></path></svg>
+    </button>
+    <script>
+    // constantes pour niveaux et matières
+    const niveauxParCycle = {
+        "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
+        "Élémentaire": ["CP", "CE1", "CE2", "CM1", "CM2"],
+        "Collège": ["6e", "5e", "4e", "3e"],
+        "Lycée": ["Seconde", "Première", "Terminale"]
+    };
+    const matieresParCycle = {
+        "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
+        "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
+        "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
+        "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
+    };
+    // cookies/utils
+    function getSessionCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i=0;i < ca.length;i++) {
+            let c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length,c.length));
+        }
+        return null;
+    }
+    function setSessionCookie(name, value, days=1) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Strict";
+    }
+    function eraseSessionCookie(name) {
+        document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
+    }
+    // popup logique
+    let matiereSelectionnee = "";
+    let eleveSelectionne = "";
+    let cycleSelectionne = "";
+    let niveauSelectionne = "";
+    let listeEleves = [];
+    function ajouterSeance() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        let elevesSet = new Set();
+        if (user.cours && Array.isArray(user.cours)) {
+            user.cours.forEach(c => {
+                if (c.nom_eleve) elevesSet.add(c.nom_eleve);
+            });
+        }
+        listeEleves = Array.from(elevesSet);
+        let elevesHtml = `
+            <div style="margin-bottom:0.5em;">Sélectionnez l'élève concerné :</div>
+            <select id="selectEleve" style="width:100%;padding:6px;font-size:1em;">
+                <option value="">-- Choisissez un élève --</option>
+                ${listeEleves.map(e => `<option value="${e}">${e}</option>`).join('')}
+                <option value="__autre">+ Ajouter un nouveau nom...</option>
+            </select>
+        `;
+        document.getElementById('listeElevesContainer').innerHTML = elevesHtml;
+        document.getElementById('champsNouveauEleve').style.display = "none";
+        document.getElementById('champsMatiereExistEleve').innerHTML = "";
+        document.getElementById('demanderBtn').style.display = "none";
+        matiereSelectionnee = "";
+        eleveSelectionne = "";
+        cycleSelectionne = "";
+        niveauSelectionne = "";
+        document.getElementById('popupAjoutMsg').textContent = '';
+        document.getElementById('popupAjout').style.display = "flex";
+        document.getElementById('selectEleve').onchange = selectionEleveChanged;
+    }
+    function selectionEleveChanged() {
+        const select = document.getElementById('selectEleve');
+        const val = select.value;
+        matiereSelectionnee = "";
+        if(val === "__autre") {
+            document.getElementById('champsNouveauEleve').style.display = "";
+            document.getElementById('champsMatiereExistEleve').innerHTML = "";
+            document.getElementById('inputNouveauEleve').value = "";
+            document.getElementById('selectCycle').value = "";
+            document.getElementById('selectNiveau').innerHTML = `<option value="">-- Choisissez un niveau --</option>`;
+            document.getElementById('listeMatieres').innerHTML = "";
+            document.getElementById('selectCycle').onchange = function() {
+                cycleSelectionne = this.value;
+                let options = `<option value="">-- Choisissez un niveau --</option>`;
+                if(niveauxParCycle[cycleSelectionne]) {
+                    options += niveauxParCycle[cycleSelectionne].map(n => `<option value="${n}">${n}</option>`).join('');
+                }
+                document.getElementById('selectNiveau').innerHTML = options;
+                niveauSelectionne = "";
+                document.getElementById('listeMatieres').innerHTML = "";
+                verifierAffichageDemandeBtn();
+            };
+            document.getElementById('selectNiveau').onchange = function() {
+                niveauSelectionne = this.value;
+                let listeHtml = "";
+                if(matieresParCycle[cycleSelectionne]) {
+                    listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">Choisissez la matière :</div>`;
+                    listeHtml += matieresParCycle[cycleSelectionne].map(mat =>
+                        `<div style="margin-bottom:0.6em;">
+                            <label style="cursor:pointer;">
+                                <input type="radio" name="matiereAjout" value="${mat}"> ${mat}
+                            </label>
+                        </div>`
+                    ).join('');
+                }
+                document.getElementById('listeMatieres').innerHTML = listeHtml;
+                Array.from(document.getElementsByName('matiereAjout')).forEach(r => {
+                    r.onclick = function() {
+                        matiereSelectionnee = this.value;
+                        verifierAffichageDemandeBtn();
+                    }
+                });
+                verifierAffichageDemandeBtn();
+            };
+            document.getElementById('inputNouveauEleve').oninput = verifierAffichageDemandeBtn;
+        } else if(val==="") {
+            document.getElementById('champsNouveauEleve').style.display = "none";
+            document.getElementById('champsMatiereExistEleve').innerHTML = "";
+            matiereSelectionnee = "";
+            verifierAffichageDemandeBtn();
+        } else {
+            document.getElementById('champsNouveauEleve').style.display = "none";
+            // Afficher le choix matière (toujours !)
+            const userDataString = getSessionCookie('alamathUser');
+            const user = JSON.parse(userDataString);
+            let coursEleve = (user.cours || []).find(c=>c.nom_eleve===val);
+            let cycle = coursEleve ? (coursEleve.cycle||"") : "";
+            let niveau = coursEleve ? (coursEleve.niveau||"") : "";
+            let listeHtml = "";
+            if(matieresParCycle[cycle]) {
+                listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">Choisissez la matière :</div>`;
+                listeHtml += matieresParCycle[cycle].map(mat =>
+                    `<div style="margin-bottom:0.6em;">
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="matiereAjout" value="${mat}"> ${mat}
+                        </label>
+                    </div>`
+                ).join('');
+            } else {
+                listeHtml = `<div style="color:#c00;">Aucune matière disponible pour ce cycle.</div>`;
+            }
+            document.getElementById('champsMatiereExistEleve').innerHTML = listeHtml;
+            matiereSelectionnee = "";
+            eleveSelectionne = val;
+            cycleSelectionne = cycle;
+            niveauSelectionne = niveau;
+            Array.from(document.getElementsByName('matiereAjout')).forEach(r => {
+                r.onclick = function() {
+                    matiereSelectionnee = this.value;
+                    verifierAffichageDemandeBtn();
+                }
+            });
+            verifierAffichageDemandeBtn();
+        }
+    }
+    function verifierAffichageDemandeBtn() {
+        const select = document.getElementById('selectEleve');
+        const val = select ? select.value : "";
+        let ok = false;
+        if(val && val !== "__autre") {
+            if(matiereSelectionnee) ok = true;
+        } else if(val==="__autre") {
+            let nom = document.getElementById('inputNouveauEleve').value.trim();
+            let cycle = document.getElementById('selectCycle').value;
+            let niveau = document.getElementById('selectNiveau').value;
+            if(nom && cycle && niveau && matiereSelectionnee) ok = true;
+        }
+        document.getElementById('demanderBtn').style.display = ok ? "block" : "none";
+    }
+    document.addEventListener('input', function(e){
+        if(e.target && e.target.id === 'inputNouveauEleve') verifierAffichageDemandeBtn();
+    });
+    document.getElementById('demanderBtn').onclick = function() {
+        const select = document.getElementById('selectEleve');
+        const val = select.value;
+        let nomEleve = "";
+        let cycle = "";
+        let niveau = "";
+        if(val === "__autre") {
+            nomEleve = document.getElementById('inputNouveauEleve').value.trim();
+            cycle = document.getElementById('selectCycle').value;
+            niveau = document.getElementById('selectNiveau').value;
+        } else {
+            nomEleve = val;
+            cycle = cycleSelectionne;
+            niveau = niveauSelectionne;
+        }
+        if (!matiereSelectionnee || !nomEleve) return;
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        const dataToSend = {
+            usertype: user.usertype,
+            nom_eleve: nomEleve,
+            nom: user.nom || "",
+            email: user.email || "",
+            tel: user.tel || "",
+            niveau: niveau || "",
+            cycle: cycle || "",
+            matiere_demande: matiereSelectionnee,
+            demande_date: new Date().toISOString()
+        };
+        document.getElementById('popupAjoutMsg').textContent = "Envoi en cours...";
+        fetch('https://api.alamath.com/demande-matiere', {
+            method: "POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(dataToSend)
+        }).then(async res => {
+            if(res.ok) {
+                document.getElementById('popupAjoutMsg').style.color = "#13b813";
+                document.getElementById('popupAjoutMsg').textContent = "Votre demande a bien été envoyée !";
+                setTimeout(closePopupAjout, 1800);
+            } else {
+                let msg = "Erreur lors de l'envoi.";
+                try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
+                document.getElementById('popupAjoutMsg').style.color = "#c00";
+                document.getElementById('popupAjoutMsg').textContent = msg;
+            }
+        }).catch(e => {
+            document.getElementById('popupAjoutMsg').style.color = "#c00";
+            document.getElementById('popupAjoutMsg').textContent = "Erreur réseau : " + e;
+        });
+    };
+    function closePopupAjout() {
+        document.getElementById('popupAjout').style.display = "none";
+    }
+    function renderUserData(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
+        let rows = "";
+        if (isEleve) {
+            rows += `
+                <div class="user-row"><span class="user-label">Nom du tuteur</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
+                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
+            `;
+        } else {
+            rows += `
+                <div class="user-row"><span class="user-label">Nom</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                    </span>
+                </div>
+                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
+                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
+            `;
+        }
+        return `<div class="user-info-grid">${rows}</div>`;
+    }
+    function renderCoursSection(user) {
+        const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
+        let tableHtml = "";
+        if (cours.length > 0) {
+            const headersMap = {
+                nom_eleve: "Nom élève",
+                matiere: "Matière",
+                date_debut: "Date début",
+                nbre_seance: "Nombre de séances",
+                nbre_seance_impayees: "Séances impayées",
+                prochaine_seance: "Prochaine séance",
+                prof: "Nom du professeur",
+                observation: "Observation"
+            };
+            const coursKeys = Object.keys(cours[0]);
+            tableHtml += `<div class="cours-title">Détails des cours</div>
+            <div style="overflow-x:auto">
+                <table class="cours-table">
+                    <tr>
+                        ${coursKeys.map(col =>
+                            `<th>${headersMap[col] || col}</th>`
+                        ).join('')}
+                        <th>Paiement</th>
+                    </tr>
+                    ${cours.map((coursItem, idx) => {
+                        let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
+                        return `
+                        <tr class="dynamic-row">
+                            ${coursKeys.map(col =>
+                                `<td>${coursItem[col] || ''}</td>`
+                            ).join('')}
+                            <td>
+                                <button 
+                                    class="btn payer" 
+                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
+                                    onclick="payerSeance(${idx})"
+                                >Payer</button>
+                            </td>
+                        </tr>
+                    `}).join('')}
+                </table>
+            </div>`;
+        }
+        return tableHtml;
+    }
+    function payerSeance(index) {
+        alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
+    }
+    function showUserInfo() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) {
+            window.location.href = '/';
+            return;
+        }
+        const user = JSON.parse(userDataString);
+        document.getElementById("userInfo").innerHTML = renderUserData(user);
+        const coursSection = document.getElementById("coursSection");
+        coursSection.innerHTML = renderCoursSection(user);
+        coursSection.style.display = "block";
+        if (user.keyWords) {
+            const elem = document.getElementById('cleRecup');
+            if (elem) {
+                elem.dataset.value = user.keyWords;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
+            }
+        }
+        if (user.password) {
+            const elem = document.getElementById('motDePasse');
+            if (elem) {
+                elem.dataset.value = user.password;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
+            }
+        }
+    }
+    showUserInfo();
+    function logout() {
+        eraseSessionCookie('alamathUser');
+        window.location.href = '/';
+    }
+    function refreshData() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) {
+            window.location.href = '/';
+            return;
+        }
+        const user = JSON.parse(userDataString);
+        if (!user.userId || !user.password) {
+            alert("Impossible d'actualiser: identifiants manquants.");
+            return;
+        }
+        fetch('https://api.alamath.com/login', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({userId: user.userId, password: user.password})
+        })
+        .then(res => res.json())
+        .then(result => {
+            if(result && result.success && result.user) {
+                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
+                showUserInfo();
+            } else if(result && result.message) {
+                alert("Erreur lors de l'actualisation : " + result.message);
+            } else {
+                alert("Erreur lors de l'actualisation.");
+            }
+        })
+        .catch(err => {
+            alert("Erreur réseau lors de l'actualisation : " + err);
+        });
+    }
+    function toggleMask(id, btnId) {
+        const elem = document.getElementById(id);
+        const btn = document.getElementById(btnId);
+        if (elem.dataset.masked === "true") {
+            elem.textContent = elem.dataset.value;
+            btn.textContent = "Masquer";
+            elem.dataset.masked = "false";
+        } else {
+            elem.textContent = "********";
+            btn.textContent = "Afficher";
+            elem.dataset.masked = "true";
+        }
+    }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace - AlaMath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg1: #f5f8fb;
+            --color-bg2: #d0e4f7;
+            --color-bg3: #f2e6ff;
+            --color-primary: #0066ee;
+            --color-primary-dark: #004aad;
+            --color-secondary: #13b813;
+            --color-danger: #e53e3e;
+            --color-card: #fff;
+            --radius: 18px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.13);
+            --font-main: 'Inter', Arial, sans-serif;
+            --font-title: 'Poppins', Arial, sans-serif;
+        }
+        html, body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background:
+                url('bkg.png') center center/cover no-repeat fixed,
+                radial-gradient(circle at 80% 0%, var(--color-bg3) 0, transparent 38%),
+                radial-gradient(circle at 10% 100%, var(--color-bg2) 0, transparent 49%),
+                linear-gradient(120deg, var(--color-bg1) 60%, #e5f0fc 100%);
+            font-family: var(--font-main);
+            color: #222;
+        }
         /* ... tous les styles inchangés ... */
         .main-container {
             min-height: 100vh;
