@@ -431,7 +431,8 @@
 
              document.getElementById('champsNouveauEleve').style.display = "";
            if(val !== "__autre") { 
-                document.getElementById('champsNouveauEleve').innerHTML =select.option;
+                document.getElementById('champsNouveauEleve').innerHTML = select.options[select.selectedIndex].text;
+
            }
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
             document.getElementById('inputNouveauEleve').value = "";
