@@ -427,7 +427,7 @@
         const select = document.getElementById('selectEleve');
         const val = select.value;
         matiereSelectionnee = "";
-        if(val === "__autre") {
+        if(val !== "") {
             document.getElementById('champsNouveauEleve').style.display = "";
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
             document.getElementById('inputNouveauEleve').value = "";
