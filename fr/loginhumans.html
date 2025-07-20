@@ -412,7 +412,7 @@ Mot de passe: ${password}
                 }
             })
             .catch(error => {
-                messageDiv.textContent = "Erreur réseau : " + error;
+                messageDiv.textContent = "Le serveur est en maintenance, veuillez réessayer plus tard. " ;
                 messageDiv.className = "message error";
                 // Effacer infos et QR en cas d'erreur
                 document.getElementById("displayInfo").innerHTML = "";
@@ -486,7 +486,7 @@ Mot de passe: ${password}
             }
         })
         .catch(error => {
-            document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>Erreur réseau : " + error + "</span>";
+            document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>Erreur réseau : Le serveur est en maintenance, veuillez réessayer plus tard.</span>";
         });
     });
     </script>
