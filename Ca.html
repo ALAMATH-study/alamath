@@ -42,9 +42,8 @@
             margin-top: 0.5rem;
         }
         .btn-inscription {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
+            display: block;
+            margin: 2rem auto 0 auto;
             padding: 0.8rem 1.5rem;
             background: rgba(92, 184, 92, 0.8);
             color: white;
@@ -53,6 +52,7 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s;
+            position: static;
         }
         .btn-inscription:hover {
             background: rgba(76, 174, 76, 0.9);
@@ -141,12 +141,36 @@
             margin: 0;
         }
         .hidden { display: none !important; }
+        /* Floating buttons up right */
+        .floating-buttons {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            z-index: 50;
+        }
+        .floating-buttons button {
+            background: rgba(255,255,255,0.85);
+            color: #4a6fa3;
+            border: none;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 12px rgba(94, 123, 182, 0.3);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .floating-buttons button:hover {
+            background: #4a6fa3;
+            color: #fff;
+        }
         @media (max-width: 768px) {
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; }
             .btn-inscription {
-                top: 1rem;
-                right: 1rem;
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
@@ -159,6 +183,10 @@
             footer {
                 font-size: 0.9rem;
                 padding: 1rem;
+            }
+            .floating-buttons {
+                top: 1rem;
+                right: 1rem;
             }
         }
         @media (max-width: 480px) {
@@ -173,12 +201,20 @@
                 gap: 0.3rem;
             }
             footer { font-size: 0.8rem; }
+            .floating-buttons {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            .floating-buttons button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
         <div class="translation">
             <button onclick="translatePage('fr')">FR</button>
             <button onclick="translatePage('en')">EN</button>
@@ -188,6 +224,7 @@
             <img src="logo.png" alt="Logo plateforme">
         </div>
         <h1 id="page-title">AlaMath.com</h1>
+        <button id="btn-inscription" class="btn-inscription" onclick="window.location.href='https://www.alamath.com/loginsignup'">Inscription</button>
         <p id="page-description">
             AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.
         </p>
@@ -215,14 +252,21 @@
             <div id="groupOptions" class="grid"></div>
         </section>
     </div>
+    <div class="floating-buttons">
+        <button id="btn-home" title="Accueil" onclick="goHome()">🏠</button>
+        <button id="btn-prev" title="Précédent" onclick="goBack()">⬅️</button>
+    </div>
     <footer>
-        <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
+        <p id="footer-text">&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
     <script>
         let currentLang = "fr";
         const translations = {
             fr: {
                 title: "AlaMath.com",
+                inscription: "Inscription",
+                home: "Accueil",
+                previous: "Précédent",
                 description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.",
                 footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
@@ -235,14 +279,14 @@
                 groupSection: "Groupes de travail",
                 joinButton: "Rejoindre",
                 group1: "Abonnement premium",
-                group2: "Abonnement mensuel Classique",
-                group3: "Abonnement mensuel Pack réussite d'or",
-                group1Description: "Individuel 120 $/1h TTC",
-                group2Description: "240 $/16h TTC de travail dans des petits groupes de 20 élèves.",
-                group3Description: "360 $/24h TTC de travail dans petits groupes de 20 élèves."
+                group1Description: "Individuel 50 $/1h TTC",
+                arabe: "Arabe"
             },
             en: {
                 title: "AlaMath.com",
+                inscription: "Sign up",
+                home: "Home",
+                previous: "Previous",
                 description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
                 footer: "SARL IaSmarKet Services - All rights reserved - 2025",
                 chooseCycle: "Choose a cycle",
@@ -255,14 +299,14 @@
                 groupSection: "Work Groups",
                 joinButton: "Join",
                 group1: "Premium Subscription",
-                group2: "Classic Monthly Subscription",
-                group3: "Golden Success Pack Monthly Subscription",
-                group1Description: "Individual 120 $/1h (tax incl.)",
-                group2Description: "240 $/16h (tax incl.) of work in small groups of 20 students.",
-                group3Description: "360 $/24h (tax incl.) of work in small groups of 20 students."
+                group1Description: "Individual 50 $/1h (tax incl.)",
+                arabe: "Arabic"
             },
             ar: {
                 title: "AlaMath.com",
+                inscription: "تسجيل",
+                home: "الرئيسية",
+                previous: "السابق",
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
                 chooseCycle: "اختر السلك",
@@ -275,11 +319,8 @@
                 groupSection: "المجموعات الدراسية",
                 joinButton: "انضم",
                 group1: "اشتراك بريميوم",
-                group2: "اشتراك شهري كلاسيكي",
-                group3: "اشتراك شهري باقة النجاح الذهبية",
-                group1Description: "فردي 120 دولار / 1 ساعة شامل الضرائب",
-                group2Description: "240 دولار / 16 ساعة من العمل في مجموعات صغيرة من 20 طالبًا.",
-                group3Description: "360 دولار / 24 ساعة من العمل في مجموعات صغيرة من 20 طالبًا."
+                group1Description: "فردي 50 دولار / 1 ساعة شامل الضرائب",
+                arabe: "العربية"
             }
         };
 
@@ -287,26 +328,24 @@
         const data = {
             "Préscolaire": {
                 niveaux: ["Maternelle 4 ans", "Maternelle 5 ans"],
-                matieres: ["Découverte", "Jeux éducatifs", "Développement du langage"]
+                matieres: ["Découverte", "Jeux éducatifs", "Développement du langage", "Arabe"]
             },
             "Primaire": {
                 niveaux: ["1re année", "2e année", "3e année", "4e année", "5e année", "6e année"],
-                matieres: ["Mathématiques", "Français", "Sciences", "Univers social", "Anglais"]
+                matieres: ["Mathématiques", "Français", "Sciences", "Univers social", "Anglais", "Arabe"]
             },
             "Secondaire": {
                 niveaux: ["1re secondaire", "2e secondaire", "3e secondaire", "4e secondaire", "5e secondaire"],
-                matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais", "Éthique et culture religieuse", "Arts"]
+                matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais", "Éthique et culture religieuse", "Arts", "Arabe"]
             },
             "Cégep": {
                 niveaux: ["1re année Cégep", "2e année Cégep", "3e année Cégep (techniques)"],
-                matieres: ["Mathématiques", "Physique", "Chimie", "Biologie", "Philosophie", "Informatique", "Français", "Anglais"]
+                matieres: ["Mathématiques", "Physique", "Chimie", "Biologie", "Philosophie", "Informatique", "Français", "Anglais", "Arabe"]
             }
         };
 
         const groups = [
-            { id: 1, name: "group1", description: "group1Description" },
-            { id: 2, name: "group2", description: "group2Description" },
-            { id: 3, name: "group3", description: "group3Description" }
+            { id: 1, name: "group1", description: "group1Description" }
         ];
 
         let selectedCycle = "";
@@ -314,8 +353,9 @@
         function translatePage(lang) {
             currentLang = lang;
             document.querySelector("header h1").innerText = translations[lang].title;
+            document.getElementById("btn-inscription").innerText = translations[lang].inscription;
             document.querySelector("header p").innerText = translations[lang].description;
-            document.querySelector("footer p").innerText = translations[lang].footer;
+            document.getElementById("footer-text").innerText = translations[lang].footer;
             document.getElementById("choose-cycle").innerText = translations[lang].chooseCycle;
             document.getElementById("btn-prescolaire").innerText = translations[lang].presco;
             document.getElementById("btn-primaire").innerText = translations[lang].prima;
@@ -324,9 +364,13 @@
             document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
             document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
             document.getElementById("group-section").innerText = translations[lang].groupSection;
-
+            document.getElementById("btn-home").title = translations[lang].home;
+            document.getElementById("btn-prev").title = translations[lang].previous;
             updateGroupCardsTranslation();
             updateJoinButtons();
+            if (!document.getElementById("levels").classList.contains("hidden")) {
+                selectCycle(selectedCycle);
+            }
         }
 
         function updateGroupCardsTranslation() {
@@ -377,7 +421,12 @@
                 card.tabIndex = 0;
                 card.setAttribute('role', 'button');
                 card.setAttribute('aria-label', matiere);
-                card.innerHTML = `<h3>${matiere}</h3>`;
+                // Traduction dynamique pour "Arabe" seulement, sinon garder la matière telle quelle
+                if (matiere.toLowerCase() === "arabe") {
+                    card.innerHTML = `<h3>${translations[currentLang]["arabe"]}</h3>`;
+                } else {
+                    card.innerHTML = `<h3>${matiere}</h3>`;
+                }
                 card.onclick = () => showGroups(matiere);
                 card.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") card.click(); };
                 document.getElementById("subjectOptions").appendChild(card);
@@ -409,6 +458,13 @@
 
         function showlist(group) {
             window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+        function goHome() {
+            window.location.href = 'https://www.alamath.com';
         }
     </script>
 </body>
