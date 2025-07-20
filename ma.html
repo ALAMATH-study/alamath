@@ -42,9 +42,8 @@
             margin-top: 0.5rem;
         }
         .btn-inscription {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
+            display: block;
+            margin: 2rem auto 0 auto;
             padding: 0.8rem 1.5rem;
             background: rgba(92, 184, 92, 0.8);
             color: white;
@@ -53,6 +52,7 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s;
+            position: static;
         }
         .btn-inscription:hover {
             background: rgba(76, 174, 76, 0.9);
@@ -145,8 +145,6 @@
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; }
             .btn-inscription {
-                top: 1rem;
-                right: 1rem;
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
@@ -178,7 +176,6 @@
 </head>
 <body>
     <header>
-        <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/ma/loginhumans'">Inscription</button>
         <div class="translation">
             <button onclick="translatePage('fr')">FR</button>
             <button onclick="translatePage('en')">EN</button>
@@ -188,6 +185,7 @@
             <img src="logo.png" alt="Logo plateforme">
         </div>
         <h1 id="page-title">AlaMath.com</h1>
+        <button id="btn-inscription" class="btn-inscription" onclick="window.location.href='https://www.alamath.com/ma/loginhumans'">Inscription</button>
         <p id="page-description">
             AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.
         </p>
@@ -216,13 +214,14 @@
         </section>
     </div>
     <footer>
-        <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
+        <p id="footer-text">&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
     <script>
         let currentLang = "fr";
         const translations = {
             fr: {
                 title: "AlaMath.com",
+                inscription: "Inscription",
                 description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.",
                 footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
@@ -239,10 +238,26 @@
                 group3: "Abonnement mensuel Pack réussite d'or",
                 group1Description: "Individuel 120 DH/1h TTC",
                 group2Description: "240 DH/16h TTC de travail dans des petits groupes de 20 élèves.",
-                group3Description: "360 DH/24h TTC de travail dans petits groupes de 20 élèves."
+                group3Description: "360 DH/24h TTC de travail dans petits groupes de 20 élèves.",
+                // matières
+                decouverte: "Découverte",
+                jeuxeducatifs: "Jeux éducatifs",
+                langage: "Langage",
+                mathematiques: "Mathématiques",
+                francais: "Français",
+                arabe: "Arabe",
+                sciences: "Sciences",
+                islamique: "Islamique",
+                physiquechimie: "Physique-Chimie",
+                svt: "SVT",
+                anglais: "Anglais",
+                philosophie: "Philosophie",
+                histoiregeographie: "Histoire-Géographie",
+                informatique: "Informatique"
             },
             en: {
                 title: "AlaMath.com",
+                inscription: "Sign up",
                 description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
                 footer: "SARL IaSmarKet Services - All rights reserved - 2025",
                 chooseCycle: "Choose a cycle",
@@ -259,10 +274,25 @@
                 group3: "Golden Success Pack Monthly Subscription",
                 group1Description: "Individual 120 DH/1h TTC",
                 group2Description: "240 DH/16h TTC of work in small groups of 20 students.",
-                group3Description: "360 DH/24h TTC of work in small groups of 20 students."
+                group3Description: "360 DH/24h TTC of work in small groups of 20 students.",
+                decouverte: "Discovery",
+                jeuxeducatifs: "Educational Games",
+                langage: "Language",
+                mathematiques: "Mathematics",
+                francais: "French",
+                arabe: "Arabic",
+                sciences: "Sciences",
+                islamique: "Islamic",
+                physiquechimie: "Physics-Chemistry",
+                svt: "Life & Earth Science",
+                anglais: "English",
+                philosophie: "Philosophy",
+                histoiregeographie: "History-Geography",
+                informatique: "Computer Science"
             },
             ar: {
                 title: "AlaMath.com",
+                inscription: "تسجيل",
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
                 chooseCycle: "اختر السلك",
@@ -279,7 +309,21 @@
                 group3: "اشتراك شهري باقة النجاح الذهبية",
                 group1Description: "فردي 120 درهم / 1 ساعة TTC",
                 group2Description: "240 درهم / 16 ساعة TTC من العمل في مجموعات صغيرة من 20 طالبًا.",
-                group3Description: "360 درهم / 24 ساعة TTC من العمل في مجموعات صغيرة من 20 طالبًا."
+                group3Description: "360 درهم / 24 ساعة TTC من العمل في مجموعات صغيرة من 20 طالبًا.",
+                decouverte: "الاكتشاف",
+                jeuxeducatifs: "ألعاب تعليمية",
+                langage: "اللغة",
+                mathematiques: "الرياضيات",
+                francais: "الفرنسية",
+                arabe: "العربية",
+                sciences: "العلوم",
+                islamique: "إسلامية",
+                physiquechimie: "الفيزياء والكيمياء",
+                svt: "علوم الحياة والأرض",
+                anglais: "الإنجليزية",
+                philosophie: "الفلسفة",
+                histoiregeographie: "التاريخ والجغرافيا",
+                informatique: "المعلوميات"
             }
         };
 
@@ -324,8 +368,9 @@
         function translatePage(lang) {
             currentLang = lang;
             document.querySelector("header h1").innerText = translations[lang].title;
+            document.getElementById("btn-inscription").innerText = translations[lang].inscription;
             document.querySelector("header p").innerText = translations[lang].description;
-            document.querySelector("footer p").innerText = translations[lang].footer;
+            document.getElementById("footer-text").innerText = translations[lang].footer;
             document.getElementById("choose-cycle").innerText = translations[lang].chooseCycle;
             document.getElementById("btn-prescolaire").innerText = translations[lang].presco;
             document.getElementById("btn-primaire").innerText = translations[lang].prima;
@@ -336,6 +381,9 @@
             document.getElementById("group-section").innerText = translations[lang].groupSection;
             updateGroupCardsTranslation();
             updateJoinButtons();
+            if (!document.getElementById("levels").classList.contains("hidden")) {
+                selectCycle(selectedCycle);
+            }
         }
 
         function updateGroupCardsTranslation() {
@@ -352,6 +400,14 @@
             joinButtons.forEach(btn => {
                 btn.innerText = translations[currentLang].joinButton;
             });
+        }
+
+        function getSubjectKey(subject) {
+            // retire les accents, espaces, majuscules, tirets
+            return subject.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[\s\-]/g, '')
+                .replace(/é/g,"e").replace(/è/g,"e").replace(/à/g,"a").replace(/ç/g,"c");
         }
 
         function selectCycle(cycle) {
@@ -386,7 +442,8 @@
                 card.tabIndex = 0;
                 card.setAttribute('role', 'button');
                 card.setAttribute('aria-label', matiere);
-                card.innerHTML = `<h3>${matiere}</h3>`;
+                const key = getSubjectKey(matiere);
+                card.innerHTML = `<h3>${translations[currentLang][key] || matiere}</h3>`;
                 card.onclick = () => showGroups(matiere);
                 card.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") card.click(); };
                 document.getElementById("subjectOptions").appendChild(card);
