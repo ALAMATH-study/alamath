@@ -42,9 +42,8 @@
             margin-top: 0.5rem;
         }
         .btn-inscription {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
+            display: block;
+            margin: 2rem auto 0 auto;
             padding: 0.8rem 1.5rem;
             background: rgba(92, 184, 92, 0.8);
             color: white;
@@ -53,6 +52,7 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s;
+            position: static; /* ou simplement retirez la propriété position */
         }
         .btn-inscription:hover {
             background: rgba(76, 174, 76, 0.9);
@@ -179,7 +179,7 @@
 <body>
     <!-- En-tête -->
     <header>
-        <button class="btn-inscription" onclick="window.location.href='https://www.alamath.com/fr/loginhumans'">Inscription</button>
+        
         <div class="translation">
             <button onclick="translatePage('fr')">FR</button>
             <button onclick="translatePage('en')">EN</button>
@@ -189,6 +189,7 @@
             <img src="logo.png" alt="Logo plateforme">
         </div>
         <h1 id="page-title">AlaMath.com</h1>
+        <button id="btn-inscription" class="btn-inscription" onclick="window.location.href='https://www.alamath.com/fr/loginhumans'">Inscription</button>
         <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
     </header>
     <div class="container">
@@ -238,6 +239,7 @@
                 group2: "Abonnement mensuel Classique",
                 group3: "Abonnement mensuel Pack réussite d'or",
                 group1Description: "Individuel 20 €/1h TTC",
+                inscription: "Inscription",
            },
             en: {
                 title: "AlaMath.com",
@@ -256,6 +258,7 @@
                 group2: "Classic Monthly Subscription",
                 group3: "Golden Success Pack Monthly Subscription",
                 group1Description: "Individual 24 €/1h TTC",
+                inscription: "Sign up",
 
             },
             ar: {
@@ -275,6 +278,7 @@
                 group2: "اشتراك شهري كلاسيكي",
                 group3: "اشتراك شهري باقة النجاح الذهبية",
                 group1Description: " TTC فردي 24 أورو / 1 ساعة",
+                inscription: "تسجيل",
                
             }
         };
@@ -320,7 +324,7 @@
             document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
             document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
             document.getElementById("group-section").innerText = translations[lang].groupSection;
-
+            document.getElementById("btn-inscription").innerText = translations[lang].inscription;
             updateGroupCardsTranslation();
             updateJoinButtons();
         }
