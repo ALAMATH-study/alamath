@@ -52,7 +52,7 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s;
-            position: static; /* ou simplement retirez la propriété position */
+            position: static;
         }
         .btn-inscription:hover {
             background: rgba(76, 174, 76, 0.9);
@@ -145,8 +145,6 @@
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; }
             .btn-inscription {
-                top: 1rem;
-                right: 1rem;
                 padding: 0.6rem 1rem;
                 font-size: 0.9rem;
             }
@@ -179,11 +177,10 @@
 <body>
     <!-- En-tête -->
     <header>
-        
         <div class="translation">
-            <button onclick="translatePage('fr')">FR</button>
-            <button onclick="translatePage('en')">EN</button>
-            <button onclick="translatePage('ar')">AR</button>
+            <button id="btn-fr" onclick="translatePage('fr')">FR</button>
+            <button id="btn-en" onclick="translatePage('en')">EN</button>
+            <button id="btn-ar" onclick="translatePage('ar')">AR</button>
         </div>
         <div class="logos">
             <img src="logo.png" alt="Logo plateforme">
@@ -217,13 +214,14 @@
         </section>
     </div>
     <footer>
-        <p>&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
+        <p id="footer-text">&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
     <script>
         let currentLang = "fr";
         const translations = {
             fr: {
                 title: "AlaMath.com",
+                inscription: "Inscription",
                 description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.",
                 footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
@@ -239,10 +237,24 @@
                 group2: "Abonnement mensuel Classique",
                 group3: "Abonnement mensuel Pack réussite d'or",
                 group1Description: "Individuel 20 €/1h TTC",
-                inscription: "Inscription",
-           },
+
+                // matières
+                decouverte: "Découverte",
+                jeuxeducatifs: "Jeux éducatifs",
+                langage: "Langage",
+                mathématiques: "Mathématiques",
+                francais: "Français",
+                sciences: "Sciences",
+                histoiregeographie: "Histoire-Géographie",
+                anglais: "Anglais",
+                arabe: "Arabe",
+                philosophie: "Philosophie",
+                svt: "SVT",
+                physiquechimie: "Physique-Chimie"
+            },
             en: {
                 title: "AlaMath.com",
+                inscription: "Sign up",
                 description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
                 footer: "SARL IaSmarKet Services - All rights reserved - 2025",
                 chooseCycle: "Choose a cycle",
@@ -257,12 +269,24 @@
                 group1: "Premium Subscription",
                 group2: "Classic Monthly Subscription",
                 group3: "Golden Success Pack Monthly Subscription",
-                group1Description: "Individual 24 €/1h TTC",
-                inscription: "Sign up",
+                group1Description: "Individual 24 €/1h VAT incl.",
 
+                decouverte: "Discovery",
+                jeuxeducatifs: "Educational Games",
+                langage: "Language",
+                mathématiques: "Mathematics",
+                francais: "French",
+                sciences: "Sciences",
+                histoiregeographie: "History-Geography",
+                anglais: "English",
+                arabe: "Arabic",
+                philosophie: "Philosophy",
+                svt: "Life & Earth Science",
+                physiquechimie: "Physics-Chemistry"
             },
             ar: {
                 title: "AlaMath.com",
+                inscription: "تسجيل",
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
                 chooseCycle: "اختر السلك",
@@ -278,35 +302,46 @@
                 group2: "اشتراك شهري كلاسيكي",
                 group3: "اشتراك شهري باقة النجاح الذهبية",
                 group1Description: " TTC فردي 24 أورو / 1 ساعة",
-                inscription: "تسجيل",
-               
+
+                decouverte: "الاكتشاف",
+                jeuxeducatifs: "ألعاب تعليمية",
+                langage: "اللغة",
+                mathématiques: "الرياضيات",
+                francais: "الفرنسية",
+                sciences: "العلوم",
+                histoiregeographie: "التاريخ والجغرافيا",
+                anglais: "الإنجليزية",
+                arabe: "العربية",
+                philosophie: "الفلسفة",
+                svt: "علوم الحياة والأرض",
+                physiquechimie: "الفيزياء والكيمياء"
             }
         };
 
-        // Structure française
+        // Structure française + ajout "Arabe" dans les matières
         const data = {
             "Maternelle": {
                 niveaux: ["Petite section", "Moyenne section", "Grande section"],
-                matieres: ["Découverte", "Jeux éducatifs", "Langage"]
+                matieres: ["Découverte", "Jeux éducatifs", "Langage", "Arabe"]
             },
             "Élémentaire": {
                 niveaux: ["CP", "CE1", "CE2", "CM1", "CM2"],
-                matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"]
+                matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais", "Arabe"]
             },
             "Collège": {
                 niveaux: ["6e", "5e", "4e", "3e"],
-                matieres: ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"]
+                matieres: ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais", "Arabe"]
             },
             "Lycée": {
                 niveaux: ["Seconde", "Première", "Terminale"],
-                matieres: ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
+                matieres: ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais", "Arabe"]
             }
         };
 
         const groups = [
-            { id: 1, name: "group1", description: "group1Description" },
-          //  { id: 2, name: "group2", description: "group2Description" },
-           // { id: 3, name: "group3", description: "group3Description" }
+            { id: 1, name: "group1", description: "group1Description" }
+            // { id: 2, name: "group2", description: "group2Description" },
+            // { id: 3, name: "group3", description: "group3Description" }
         ];
 
         let selectedCycle = "";
@@ -314,8 +349,9 @@
         function translatePage(lang) {
             currentLang = lang;
             document.querySelector("header h1").innerText = translations[lang].title;
+            document.getElementById("btn-inscription").innerText = translations[lang].inscription;
             document.querySelector("header p").innerText = translations[lang].description;
-            document.querySelector("footer p").innerText = translations[lang].footer;
+            document.getElementById("footer-text").innerText = translations[lang].footer;
             document.getElementById("choose-cycle").innerText = translations[lang].chooseCycle;
             document.getElementById("btn-maternelle").innerText = translations[lang].mat;
             document.getElementById("btn-elementaire").innerText = translations[lang].ele;
@@ -324,9 +360,13 @@
             document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
             document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
             document.getElementById("group-section").innerText = translations[lang].groupSection;
-            document.getElementById("btn-inscription").innerText = translations[lang].inscription;
+
             updateGroupCardsTranslation();
             updateJoinButtons();
+            // Mettre à jour les niveaux et matières si visible
+            if (!document.getElementById("levels").classList.contains("hidden")) {
+                selectCycle(selectedCycle);
+            }
         }
 
         function updateGroupCardsTranslation() {
@@ -367,6 +407,15 @@
             if (levelOptions.length > 0) levelOptions[0].focus();
         }
 
+        // Fonction utilitaire pour clé de matière
+        function getSubjectKey(subject) {
+            // retire les accents, espaces, majuscules, tirets
+            return subject.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[\s\-]/g, '')
+                .replace(/é/g,"e").replace(/è/g,"e").replace(/à/g,"a").replace(/ç/g,"c");
+        }
+
         function selectLevel(niveau) {
             document.getElementById("subjects").classList.remove("hidden");
             document.getElementById("subjectOptions").innerHTML = "";
@@ -377,7 +426,8 @@
                 card.tabIndex = 0;
                 card.setAttribute('role', 'button');
                 card.setAttribute('aria-label', matiere);
-                card.innerHTML = `<h3>${matiere}</h3>`;
+                const key = getSubjectKey(matiere);
+                card.innerHTML = `<h3>${translations[currentLang][key] || matiere}</h3>`;
                 card.onclick = () => showGroups(matiere);
                 card.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") card.click(); };
                 document.getElementById("subjectOptions").appendChild(card);
