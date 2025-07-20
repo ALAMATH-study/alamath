@@ -141,6 +141,32 @@
             margin: 0;
         }
         .hidden { display: none !important; }
+        /* Floating buttons up right */
+        .floating-buttons {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            z-index: 50;
+        }
+        .floating-buttons button {
+            background: rgba(255,255,255,0.85);
+            color: #4a6fa3;
+            border: none;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 12px rgba(94, 123, 182, 0.3);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .floating-buttons button:hover {
+            background: #4a6fa3;
+            color: #fff;
+        }
         @media (max-width: 768px) {
             header h1 { font-size: 2rem; }
             header p { font-size: 1rem; }
@@ -158,6 +184,10 @@
                 font-size: 0.9rem;
                 padding: 1rem;
             }
+            .floating-buttons {
+                top: 1rem;
+                right: 1rem;
+            }
         }
         @media (max-width: 480px) {
             .btn-inscription {
@@ -171,16 +201,24 @@
                 gap: 0.3rem;
             }
             footer { font-size: 0.8rem; }
+            .floating-buttons {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            .floating-buttons button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- En-tête -->
     <header>
         <div class="translation">
-            <button id="btn-fr" onclick="translatePage('fr')">FR</button>
-            <button id="btn-en" onclick="translatePage('en')">EN</button>
-            <button id="btn-ar" onclick="translatePage('ar')">AR</button>
+            <button onclick="translatePage('fr')">FR</button>
+            <button onclick="translatePage('en')">EN</button>
+            <button onclick="translatePage('ar')">AR</button>
         </div>
         <div class="logos">
             <img src="logo.png" alt="Logo plateforme">
@@ -190,7 +228,6 @@
         <p id="page-description">AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.</p>
     </header>
     <div class="container">
-        <!-- Cycles adaptés -->
         <section>
             <h2 id="choose-cycle">Choisissez un cycle</h2>
             <div>
@@ -213,6 +250,10 @@
             <div id="groupOptions" class="grid"></div>
         </section>
     </div>
+    <div class="floating-buttons">
+        <button id="btn-home" title="Accueil" onclick="goHome()">🏠</button>
+        <button id="btn-prev" title="Précédent" onclick="goBack()">⬅️</button>
+    </div>
     <footer>
         <p id="footer-text">&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
     </footer>
@@ -222,6 +263,8 @@
             fr: {
                 title: "AlaMath.com",
                 inscription: "Inscription",
+                home: "Accueil",
+                previous: "Précédent",
                 description: "AlaMath.com est une plateforme éducative innovante dédiée à l’apprentissage des mathématiques et des sciences. Elle offre des cours interactifs, des ressources pédagogiques, et un accompagnement personnalisé pour les élèves de tous niveaux. Grâce à une approche moderne et dynamique, AlaMath.com permet aux étudiants de renforcer leurs compétences en mathématiques et dans d’autres matières scientifiques tout en développant leur esprit logique et analytique.",
                 footer: "SARL IaSmarKet Services - Tous droits réservés - 2025",
                 chooseCycle: "Choisissez un cycle",
@@ -237,12 +280,11 @@
                 group2: "Abonnement mensuel Classique",
                 group3: "Abonnement mensuel Pack réussite d'or",
                 group1Description: "Individuel 20 €/1h TTC",
-
                 // matières
                 decouverte: "Découverte",
                 jeuxeducatifs: "Jeux éducatifs",
                 langage: "Langage",
-                mathématiques: "Mathématiques",
+                mathematiques: "Mathématiques",
                 francais: "Français",
                 sciences: "Sciences",
                 histoiregeographie: "Histoire-Géographie",
@@ -255,6 +297,8 @@
             en: {
                 title: "AlaMath.com",
                 inscription: "Sign up",
+                home: "Home",
+                previous: "Previous",
                 description: "AlaMath.com is an innovative educational platform dedicated to learning mathematics and sciences. It offers interactive courses, educational resources, and personalized support for students of all levels. With a modern and dynamic approach, AlaMath.com helps students strengthen their skills in mathematics and other scientific subjects while developing their logical and analytical thinking.",
                 footer: "SARL IaSmarKet Services - All rights reserved - 2025",
                 chooseCycle: "Choose a cycle",
@@ -270,11 +314,10 @@
                 group2: "Classic Monthly Subscription",
                 group3: "Golden Success Pack Monthly Subscription",
                 group1Description: "Individual 24 €/1h VAT incl.",
-
                 decouverte: "Discovery",
                 jeuxeducatifs: "Educational Games",
                 langage: "Language",
-                mathématiques: "Mathematics",
+                mathematiques: "Mathematics",
                 francais: "French",
                 sciences: "Sciences",
                 histoiregeographie: "History-Geography",
@@ -287,6 +330,8 @@
             ar: {
                 title: "AlaMath.com",
                 inscription: "تسجيل",
+                home: "الرئيسية",
+                previous: "السابق",
                 description: "AlaMath.com هي منصة تعليمية مبتكرة مخصصة لتعلم الرياضيات والعلوم. تقدم دورات تفاعلية، وموارد تعليمية، ودعماً شخصياً للطلاب من جميع المستويات. من خلال نهج حديث وديناميكي، تساعد AlaMath.com الطلاب على تعزيز مهاراتهم في الرياضيات والمواد العلمية الأخرى، مع تنمية تفكيرهم المنطقي والتحليلي.",
                 footer: "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -",
                 chooseCycle: "اختر السلك",
@@ -302,11 +347,10 @@
                 group2: "اشتراك شهري كلاسيكي",
                 group3: "اشتراك شهري باقة النجاح الذهبية",
                 group1Description: " TTC فردي 24 أورو / 1 ساعة",
-
                 decouverte: "الاكتشاف",
                 jeuxeducatifs: "ألعاب تعليمية",
                 langage: "اللغة",
-                mathématiques: "الرياضيات",
+                mathematiques: "الرياضيات",
                 francais: "الفرنسية",
                 sciences: "العلوم",
                 histoiregeographie: "التاريخ والجغرافيا",
@@ -340,8 +384,6 @@
 
         const groups = [
             { id: 1, name: "group1", description: "group1Description" }
-            // { id: 2, name: "group2", description: "group2Description" },
-            // { id: 3, name: "group3", description: "group3Description" }
         ];
 
         let selectedCycle = "";
@@ -360,10 +402,10 @@
             document.getElementById("choose-level").innerText = translations[lang].chooseLevel;
             document.getElementById("choose-subject").innerText = translations[lang].chooseSubject;
             document.getElementById("group-section").innerText = translations[lang].groupSection;
-
+            document.getElementById("btn-home").title = translations[lang].home;
+            document.getElementById("btn-prev").title = translations[lang].previous;
             updateGroupCardsTranslation();
             updateJoinButtons();
-            // Mettre à jour les niveaux et matières si visible
             if (!document.getElementById("levels").classList.contains("hidden")) {
                 selectCycle(selectedCycle);
             }
@@ -383,6 +425,14 @@
             joinButtons.forEach(btn => {
                 btn.innerText = translations[currentLang].joinButton;
             });
+        }
+
+        function getSubjectKey(subject) {
+            // retire les accents, espaces, majuscules, tirets
+            return subject.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[\s\-]/g, '')
+                .replace(/é/g,"e").replace(/è/g,"e").replace(/à/g,"a").replace(/ç/g,"c");
         }
 
         function selectCycle(cycle) {
@@ -405,15 +455,6 @@
             document.getElementById("groups").classList.add("hidden");
             const levelOptions = document.querySelectorAll('#levelOptions .card');
             if (levelOptions.length > 0) levelOptions[0].focus();
-        }
-
-        // Fonction utilitaire pour clé de matière
-        function getSubjectKey(subject) {
-            // retire les accents, espaces, majuscules, tirets
-            return subject.toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                .replace(/[\s\-]/g, '')
-                .replace(/é/g,"e").replace(/è/g,"e").replace(/à/g,"a").replace(/ç/g,"c");
         }
 
         function selectLevel(niveau) {
@@ -459,6 +500,13 @@
 
         function showlist(group) {
             window.open("https://us06web.zoom.us/j/86712039153?pwd=d0OXmC1IpfOuWzOcap1LDcBdgBucee.1", "_blank");
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+        function goHome() {
+            window.location.href = 'https://www.alamath.com';
         }
     </script>
 </body>
