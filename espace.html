@@ -20,6 +20,8 @@
             --shadow: 0 4px 24px rgba(0,0,0,0.13);
             --font-main: 'Inter', Arial, sans-serif;
             --font-title: 'Poppins', Arial, sans-serif;
+            --icon-sun: #ffe15a;
+            --icon-moon: #ffe15a;
         }
         html, body {
             min-height: 100vh;
@@ -34,6 +36,18 @@
                 linear-gradient(120deg, var(--color-bg1) 60%, #e5f0fc 100%);
             font-family: var(--font-main);
             color: #222;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night {
+            background:
+                url('bkg.png') center center/cover no-repeat fixed,
+                radial-gradient(circle at 80% 0%, #223357 0, transparent 38%),
+                radial-gradient(circle at 10% 100%, #172133 0, transparent 49%),
+                linear-gradient(120deg, #172133 60%, #223357 100%);
+            color: #f4f7fb;
+        }
+        .rtl, body.rtl {
+            direction: rtl !important;
         }
         .main-container {
             min-height: 100vh;
@@ -58,6 +72,12 @@
             animation: fadeIn 0.8s;
             position: relative;
             z-index: 5;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night .card {
+            background: #223357;
+            color: #f4f7fb;
+            box-shadow: 0 4px 18px #0a18374b;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px);}
@@ -72,6 +92,10 @@
             font-weight: 700;
             letter-spacing: 0.01em;
             text-align: center;
+            transition: color 0.3s;
+        }
+        body.night h2 {
+            color: #ffe15a;
         }
         .user-info-grid {
             width: 100%;
@@ -83,6 +107,10 @@
             box-shadow: 0 1px 6px #e9f1fa;
             padding: 22px 16px;
             margin-bottom: 18px;
+        }
+        body.night .user-info-grid {
+            background: #223357;
+            color: #f4f7fb;
         }
         .user-row {
             display: flex;
@@ -96,6 +124,9 @@
             font-family: var(--font-title);
             font-size: 1.04em;
             flex-shrink: 0;
+        }
+        body.night .user-label {
+            color: #ffe15a;
         }
         .user-value {
             font-size: 1.07em;
@@ -117,9 +148,16 @@
             padding: 2px 6px;
             border-radius: 5px;
         }
+        body.night .show-hide-btn {
+            color: #ffe15a;
+        }
         .show-hide-btn:hover {
             color: var(--color-primary);
             background: #f1f5ff;
+        }
+        body.night .show-hide-btn:hover {
+            background: #172133;
+            color: #ffe15a;
         }
         .flex-btn-row {
             display: flex;
@@ -145,6 +183,15 @@
         }
         .btn:hover {
             background: var(--color-primary);
+            color: #fff;
+        }
+        body.night .btn {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .btn:hover {
+            background: #13243e;
+            color: #ffe15a;
         }
         .btn.logout {
             background: var(--color-danger);
@@ -164,6 +211,11 @@
             animation: fadeIn 1.2s;
             position: relative;
             z-index: 3;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night .cours-section {
+            background: #223357;
+            color: #f4f7fb;
         }
         .cours-title {
             font-family: var(--font-title);
@@ -172,6 +224,9 @@
             font-weight: 700;
             margin-bottom: 1.1em;
             margin-top: 0;
+        }
+        body.night .cours-title {
+            color: #ffe15a;
         }
         .cours-table {
             width: 100%;
@@ -182,6 +237,10 @@
             overflow: hidden;
             box-shadow: 0 2px 10px #b9e5ff15;
             table-layout: auto;
+        }
+        body.night .cours-table {
+            background: #223357;
+            color: #fff;
         }
         .cours-table th, .cours-table td {
             padding: 0.78em 1em;
@@ -194,16 +253,29 @@
             font-size: 1.02em;
             border-bottom: 2px solid #b3dfff;
         }
+        body.night .cours-table th {
+            background: #223357;
+            color: #ffe15a;
+            border-bottom: 2px solid #ffe15a88;
+        }
         .cours-table td {
             background: #f7fcfe;
             border-bottom: 1px solid #e8f4fc;
             font-size: 0.99em;
+        }
+        body.night .cours-table td {
+            background: #304066;
+            color: #ffe15a;
+            border-bottom: 1px solid #223357;
         }
         .cours-table tr:last-child td {
             border-bottom: none;
         }
         .cours-table tr:nth-child(even) td {
             background: #f3faff;
+        }
+        body.night .cours-table tr:nth-child(even) td {
+            background: #223357;
         }
         .btn.payer {
             background: var(--color-primary);
@@ -216,6 +288,14 @@
             color: #7a8699;
             cursor: not-allowed;
         }
+        body.night .btn.payer {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .btn.payer:disabled {
+            background: #223357;
+            color: #aaa;
+        }
         #popupAjout {
             display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
             background:rgba(0,0,0,0.20);z-index:999;align-items:center;justify-content:center;
@@ -224,48 +304,98 @@
             background:#fff;padding:2.2em 1.5em 2em 1.5em;border-radius:16px;
             max-width:370px;width:96vw;box-shadow:0 4px 20px #0003;position:relative;
         }
+        body.night #popupAjout .popup-inner {
+            background: #223357;
+            color: #ffe15a;
+        }
         #popupAjout h3 {margin-top:0;}
         #popupAjoutMsg { color:var(--color-primary-dark);margin-top:1em;font-size:1em;}
+        body.night #popupAjoutMsg { color: #ffe15a;}
         #popupAjoutCloseBtn {
             position:absolute;top:8px;right:16px;background:none;border:none;
             font-size:1.5em;cursor:pointer;
         }
-        .float-btn {
+        /* Floating buttons left */
+        .floating-left {
             position: fixed;
-            bottom: 32px;
-            right: 32px;
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
+            top: 1rem;
+            left: 1rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+            gap: 0.7rem;
+            align-items: center;
+        }
+        .floating-left .lang-btn, .floating-left .night-toggle, .floating-left .refresh-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary-dark);
+            color: #fff;
             border: none;
-            background: rgba(0,106,255,0.16);
-            color: #004aad;
-            box-shadow: 0 2px 10px #004aad19;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.12em;
+            box-shadow: var(--shadow);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.7em;
-            z-index: 9999;
-            cursor: pointer;
-            transition: background 0.18s, color 0.18s;
-            margin-bottom: 0;
-            margin-right: 0;
-            backdrop-filter: blur(1.5px);
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.22s;
+            outline: none;
+            border: 2px solid transparent;
         }
-        #btnHome {
-            bottom: 102px;
-            right: 32px;
+        .floating-left .lang-btn.active,
+        .floating-left .lang-btn:hover {
+            background: var(--color-primary);
+            color: var(--btn-text);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #2166c180;
+            transform: scale(1.08) rotate(-7deg);
         }
-        #btnRefresh {
-            bottom: 32px;
-            right: 32px;
+        .floating-left .night-toggle {
+            font-size: 1.4em;
+            background: #fffbe7;
+            color: var(--icon-moon);
         }
-        .float-btn:hover {
-            background: #004aad;
+        .floating-left .night-toggle.night,
+        .floating-left .night-toggle:hover {
+            background: #223357;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #22335770;
+            transform: scale(1.08) rotate(7deg);
+        }
+        .floating-left .refresh-btn {
+            font-size: 1.4em;
+            background: var(--color-primary);
+        }
+        .floating-left .refresh-btn:hover {
+            background: #13b813;
             color: #fff;
         }
-        .float-btn svg {
-            pointer-events: none;
+        body.night .floating-left .lang-btn {
+            background: #304066;
+            color: #ffe15a;
+            border-color: transparent;
+        }
+        body.night .floating-left .lang-btn.active,
+        body.night .floating-left .lang-btn:hover {
+            background: #13243e;
+            color: #ffe15a;
+            border-color: #ffe15a;
+        }
+        body.night .floating-left .night-toggle {
+            background: #1a2236;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+        }
+        body.night .floating-left .refresh-btn {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .floating-left .refresh-btn:hover {
+            background: #13b813;
+            color: #fff;
         }
         @media (max-width: 600px) {
             .main-container { padding: 0 3vw; }
@@ -286,14 +416,12 @@
             .cours-title { font-size: 1.06em; }
             .cours-table th, .cours-table td { font-size: 0.98em; padding: 0.65em 0.4em; }
             .flex-btn-row { flex-direction: column; gap: 1em; }
-            #btnHome, #btnRefresh {
-                right: 12px;
+            .floating-left {
+                top: 0.7rem;
+                left: 0.7rem;
             }
-            #btnHome {
-                bottom: 92px;
-            }
-            #btnRefresh {
-                bottom: 12px;
+            .floating-left .lang-btn, .floating-left .night-toggle, .floating-left .refresh-btn {
+                width: 38px; height: 38px; font-size: 0.95em;
             }
         }
         @media (max-width: 400px) {
@@ -303,22 +431,33 @@
     </style>
 </head>
 <body>
-    <div class="main-container">
+    <div class="floating-left" id="floatingLeft">
+        <button id="lang-fr" class="lang-btn" onclick="setLang('fr')">FR</button>
+        <button id="lang-en" class="lang-btn" onclick="setLang('en')">EN</button>
+        <button id="lang-ar" class="lang-btn" onclick="setLang('ar')">AR</button>
+        <button class="night-toggle" id="night-toggle" title="Mode nuit / Night mode" onclick="toggleNightMode()">
+            <span id="night-icon">🌙</span>
+        </button>
+        <button id="refresh-btn" class="refresh-btn" title="Actualiser / Refresh" onclick="refreshData()">
+            &#x21bb;
+        </button>
+    </div>
+    <div class="main-container" id="main-container">
         <div class="card">
-            <h2>Bienvenue sur votre espace AlaMath</h2>
+            <h2 id="title-espace">Bienvenue sur votre espace AlaMath</h2>
             <div id="userInfo"></div>
             <div class="flex-btn-row">
-                <button class="btn logout" onclick="logout()">Déconnexion</button>
-                <button class="btn" onclick="ajouterSeance()">Ajouter une matière / séance</button>
+                <button class="btn logout" id="btnLogout" onclick="logout()">Déconnexion</button>
+                <button class="btn" id="btnAddSeance" onclick="ajouterSeance()">Ajouter une matière / séance</button>
             </div>
         </div>
         <div class="cours-section" id="coursSection" style="display:none;"></div>
     </div>
-    <!-- Popup ajout matière/séance -->
+    <!-- Popup ajout matière/séance (inchangé) -->
     <div id="popupAjout">
       <div class="popup-inner">
         <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
-        <h3>Demander une nouvelle matière / séance</h3>
+        <h3 id="popupTitle">Demander une nouvelle matière / séance</h3>
         <div id="listeElevesContainer" style="margin-bottom:1em;"></div>
         <div id="champsNouveauEleve" style="display:none;">
             <input id="inputNouveauEleve" type="text" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;" placeholder="Nouveau nom d'élève"/>
@@ -339,15 +478,190 @@
         <div id="popupAjoutMsg"></div>
       </div>
     </div>
-    <!-- Boutons flottants -->
-    <button id="btnHome" title="Accueil" class="float-btn" onclick="window.location.href='https://www.alamath.com/Fr'">
-        <svg width="30" height="30" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.35l6.53 5.5a.7.7 0 01.25.54v7.44c0 .6-.46 1.07-1.05 1.07h-3.06a.5.5 0 01-.5-.5V15.1c0-.78-.62-1.43-1.38-1.43-.76 0-1.38.65-1.38 1.43v3.3a.5.5 0 01-.5.5H6.28a1.07 1.07 0 01-1.05-1.07V10.4a.7.7 0 01.25-.54L12 4.35zM12 2L3.27 9.86A2.7 2.7 0 003 10.4v7.44A3.07 3.07 0 006.28 21h3.06a2.5 2.5 0 002.5-2.5V15.1c0-.17.13-.32.28-.32s.28.15.28.32v3.4A2.5 2.5 0 0014.66 21h3.06A3.07 3.07 0 0021 17.84V10.4c0-.41-.15-.8-.41-1.09L12 2z"></path></svg>
-    </button>
-    <button id="btnRefresh" title="Actualiser" class="float-btn" onclick="refreshData()">
-        <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.94-7.1 1 1 0 00-1.98-.2A6 6 0 116 12a1 1 0 100 2h5v-5a1 1 0 10-2 0v2.07A8 8 0 0020 12a8 8 0 00-2.35-5.65z"></path></svg>
-    </button>
     <script>
-    // constantes pour niveaux et matières
+    // --- Traductions ---
+    const translations = {
+        fr: {
+            "title-espace": "Bienvenue sur votre espace AlaMath",
+            "btnLogout": "Déconnexion",
+            "btnAddSeance": "Ajouter une matière / séance",
+            "cours-title": "Détails des cours",
+            "demandes-title": "Demandes en attente",
+            "nom-eleve": "Nom élève",
+            "matiere": "Matière",
+            "date-debut": "Date début",
+            "nbre-seance": "Nombre de séances",
+            "nbre-seance-impayees": "Séances impayées",
+            "prochaine-seance": "Prochaine séance",
+            "prof": "Professeur",
+            "observation": "Observation",
+            "paiement": "Paiement",
+            "matiere-demandee": "Matière demandée",
+            "date-demande": "Date demande",
+            "btn-payer": "Payer",
+            "btn-payer-disabled": "Payé",
+            "popupTitle": "Demander une nouvelle matière / séance",
+            "select-eleve": "Sélectionnez l'élève concerné :",
+            "choose-eleve": "-- Choisissez un élève --",
+            "add-new-eleve": "+ Ajouter un nouveau nom...",
+            "choose-cycle": "-- Choisissez un cycle --",
+            "choose-niveau": "-- Choisissez un niveau --",
+            "choose-matiere": "Choisissez la matière :",
+            "btn-demander": "Demander",
+            "envoi-en-cours": "Envoi en cours...",
+            "demande-envoyee": "Votre demande a bien été envoyée !",
+            "erreur-envoi": "Erreur lors de l'envoi.",
+            "erreur-reseau": "Erreur réseau : ",
+            "btnAfficher": "Afficher",
+            "btnMasquer": "Masquer",
+            "actualiser": "Actualiser",
+            "mode-nuit": "Mode nuit",
+            "fr": "FR",
+            "en": "EN",
+            "ar": "AR",
+            "dir": "ltr"
+        },
+        en: {
+            "title-espace": "Welcome to your AlaMath space",
+            "btnLogout": "Logout",
+            "btnAddSeance": "Add subject / session",
+            "cours-title": "Course details",
+            "demandes-title": "Pending requests",
+            "nom-eleve": "Student name",
+            "matiere": "Subject",
+            "date-debut": "Start date",
+            "nbre-seance": "Number of sessions",
+            "nbre-seance-impayees": "Unpaid sessions",
+            "prochaine-seance": "Next session",
+            "prof": "Teacher",
+            "observation": "Observation",
+            "paiement": "Payment",
+            "matiere-demandee": "Requested subject",
+            "date-demande": "Request date",
+            "btn-payer": "Pay",
+            "btn-payer-disabled": "Paid",
+            "popupTitle": "Request new subject / session",
+            "select-eleve": "Select the concerned student:",
+            "choose-eleve": "-- Select student --",
+            "add-new-eleve": "+ Add new name...",
+            "choose-cycle": "-- Select cycle --",
+            "choose-niveau": "-- Select grade --",
+            "choose-matiere": "Choose subject:",
+            "btn-demander": "Request",
+            "envoi-en-cours": "Sending...",
+            "demande-envoyee": "Your request has been sent!",
+            "erreur-envoi": "Error while sending.",
+            "erreur-reseau": "Network error: ",
+            "btnAfficher": "Show",
+            "btnMasquer": "Hide",
+            "actualiser": "Refresh",
+            "mode-nuit": "Night mode",
+            "fr": "FR",
+            "en": "EN",
+            "ar": "AR",
+            "dir": "ltr"
+        },
+        ar: {
+            "title-espace": "مرحبا بك في فضاء علاماث",
+            "btnLogout": "تسجيل الخروج",
+            "btnAddSeance": "إضافة مادة / حصة",
+            "cours-title": "تفاصيل الدروس",
+            "demandes-title": "الطلبات المعلقة",
+            "nom-eleve": "اسم التلميذ",
+            "matiere": "المادة",
+            "date-debut": "تاريخ البداية",
+            "nbre-seance": "عدد الحصص",
+            "nbre-seance-impayees": "حصص غير مدفوعة",
+            "prochaine-seance": "الحصة القادمة",
+            "prof": "الأستاذ",
+            "observation": "ملاحظة",
+            "paiement": "الدفع",
+            "matiere-demandee": "المادة المطلوبة",
+            "date-demande": "تاريخ الطلب",
+            "btn-payer": "الدفع",
+            "btn-payer-disabled": "تم الدفع",
+            "popupTitle": "طلب مادة / حصة جديدة",
+            "select-eleve": "اختر التلميذ المعني:",
+            "choose-eleve": "-- اختر التلميذ --",
+            "add-new-eleve": "+ إضافة اسم جديد...",
+            "choose-cycle": "-- اختر السلك --",
+            "choose-niveau": "-- اختر المستوى --",
+            "choose-matiere": "اختر المادة:",
+            "btn-demander": "طلب",
+            "envoi-en-cours": "جاري الإرسال...",
+            "demande-envoyee": "تم إرسال طلبك!",
+            "erreur-envoi": "خطأ أثناء الإرسال.",
+            "erreur-reseau": "خطأ في الشبكة: ",
+            "btnAfficher": "إظهار",
+            "btnMasquer": "إخفاء",
+            "actualiser": "تحديث",
+            "mode-nuit": "الوضع الليلي",
+            "fr": "فر",
+            "en": "إنج",
+            "ar": "عر",
+            "dir": "rtl"
+        }
+    };
+
+    let currentLang = "fr";
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById("lang-fr").classList.toggle("active", lang==="fr");
+        document.getElementById("lang-en").classList.toggle("active", lang==="en");
+        document.getElementById("lang-ar").classList.toggle("active", lang==="ar");
+        document.body.dir = translations[lang].dir;
+        document.getElementById("main-container").dir = translations[lang].dir;
+        document.getElementById("main-container").classList.toggle("rtl", lang==="ar");
+        document.body.classList.toggle("rtl", lang==="ar");
+
+        document.getElementById("title-espace").innerText = translations[lang]["title-espace"];
+        document.getElementById("btnLogout").innerText = translations[lang]["btnLogout"];
+        document.getElementById("btnAddSeance").innerText = translations[lang]["btnAddSeance"];
+        document.getElementById("popupTitle").innerText = translations[lang]["popupTitle"];
+        document.getElementById("demanderBtn").innerText = translations[lang]["btn-demander"];
+
+        // Popup placeholders
+        document.getElementById("inputNouveauEleve").placeholder = translations[lang]["add-new-eleve"];
+        document.getElementById("selectCycle").options[0].text = translations[lang]["choose-cycle"];
+        document.getElementById("selectNiveau").options[0].text = translations[lang]["choose-niveau"];
+
+        // Traduire select élèves
+        let selectEleve = document.getElementById("selectEleve");
+        if (selectEleve) {
+            selectEleve.options[0].text = translations[lang]["choose-eleve"];
+            if (selectEleve.options.length > 1)
+                selectEleve.options[selectEleve.options.length-1].text = translations[lang]["add-new-eleve"];
+        }
+
+        showUserInfo(); // pour traduire le tableau
+    }
+
+    // Mode nuit
+    function applyNightMode(night) {
+        if (night) {
+            document.body.classList.add('night');
+            document.getElementById('night-toggle').classList.add('night');
+            document.getElementById('night-icon').textContent = "☀️";
+            localStorage.setItem('alamathNight', '1');
+        } else {
+            document.body.classList.remove('night');
+            document.getElementById('night-toggle').classList.remove('night');
+            document.getElementById('night-icon').textContent = "🌙";
+            localStorage.removeItem('alamathNight');
+        }
+    }
+    function toggleNightMode() {
+        const isNight = !document.body.classList.contains('night');
+        applyNightMode(isNight);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        applyNightMode(localStorage.getItem('alamathNight') === '1');
+        setLang(currentLang);
+    });
+
+    // --- Données scolarité
     const niveauxParCycle = {
         "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
         "Élémentaire": ["CP", "CE1", "CE2", "CM1", "CM2"],
@@ -360,6 +674,8 @@
         "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
         "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
     };
+
+    // cookies
     function getSessionCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -382,7 +698,8 @@
     function eraseSessionCookie(name) {
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
-    // popup logique
+
+    // POPUP LOGIQUE (identique)
     let matiereSelectionnee = "";
     let eleveSelectionne = "";
     let cycleSelectionne = "";
@@ -400,11 +717,11 @@
         }
         listeEleves = Array.from(elevesSet);
         let elevesHtml = `
-            <div style="margin-bottom:0.5em;">Sélectionnez l'élève concerné :</div>
+            <div style="margin-bottom:0.5em;">${translations[currentLang]["select-eleve"]}</div>
             <select id="selectEleve" style="width:100%;padding:6px;font-size:1em;">
-                <option value="">-- Choisissez un élève --</option>
+                <option value="">${translations[currentLang]["choose-eleve"]}</option>
                 ${listeEleves.map(e => `<option value="${e}">${e}</option>`).join('')}
-                <option value="__autre">+ Ajouter un nouveau nom...</option>
+                <option value="__autre">${translations[currentLang]["add-new-eleve"]}</option>
             </select>
         `;
         document.getElementById('listeElevesContainer').innerHTML = elevesHtml;
@@ -428,11 +745,11 @@
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
             document.getElementById('inputNouveauEleve').value = "";
             document.getElementById('selectCycle').value = "";
-            document.getElementById('selectNiveau').innerHTML = `<option value="">-- Choisissez un niveau --</option>`;
+            document.getElementById('selectNiveau').innerHTML = `<option value="">${translations[currentLang]["choose-niveau"]}</option>`;
             document.getElementById('listeMatieres').innerHTML = "";
             document.getElementById('selectCycle').onchange = function() {
                 cycleSelectionne = this.value;
-                let options = `<option value="">-- Choisissez un niveau --</option>`;
+                let options = `<option value="">${translations[currentLang]["choose-niveau"]}</option>`;
                 if(niveauxParCycle[cycleSelectionne]) {
                     options += niveauxParCycle[cycleSelectionne].map(n => `<option value="${n}">${n}</option>`).join('');
                 }
@@ -445,7 +762,7 @@
                 niveauSelectionne = this.value;
                 let listeHtml = "";
                 if(matieresParCycle[cycleSelectionne]) {
-                    listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">Choisissez la matière :</div>`;
+                    listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">${translations[currentLang]["choose-matiere"]}</div>`;
                     listeHtml += matieresParCycle[cycleSelectionne].map(mat =>
                         `<div style="margin-bottom:0.6em;">
                             <label style="cursor:pointer;">
@@ -474,7 +791,7 @@
             let niveau = coursEleve ? (coursEleve.niveau||"") : "";
             let listeHtml = "";
             if(matieresParCycle[cycle]) {
-                listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">Choisissez la matière :</div>`;
+                listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">${translations[currentLang]["choose-matiere"]}</div>`;
                 listeHtml += matieresParCycle[cycle].map(mat =>
                     `<div style="margin-bottom:0.6em;">
                         <label style="cursor:pointer;">
@@ -551,7 +868,7 @@
             matiere_demande: matiereSelectionnee,
             demande_date: new Date().toISOString()
         };
-        document.getElementById('popupAjoutMsg').textContent = "Envoi en cours...";
+        document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["envoi-en-cours"];
         fetch('https://api.alamath.com/demande-matiere', {
             method: "POST",
             headers: {'Content-Type':'application/json'},
@@ -559,17 +876,17 @@
         }).then(async res => {
             if(res.ok) {
                 document.getElementById('popupAjoutMsg').style.color = "#13b813";
-                document.getElementById('popupAjoutMsg').textContent = "Votre demande a bien été envoyée !";
+                document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["demande-envoyee"];
                 setTimeout(() => { closePopupAjout(); refreshData(); }, 1800);
             } else {
-                let msg = "Erreur lors de l'envoi.";
+                let msg = translations[currentLang]["erreur-envoi"];
                 try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
                 document.getElementById('popupAjoutMsg').style.color = "#c00";
                 document.getElementById('popupAjoutMsg').textContent = msg;
             }
         }).catch(e => {
             document.getElementById('popupAjoutMsg').style.color = "#c00";
-            document.getElementById('popupAjoutMsg').textContent = "Erreur réseau : " + e;
+            document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["erreur-reseau"] + e;
         });
     };
     function closePopupAjout() {
@@ -580,21 +897,21 @@
         let rows = "";
         if (isEleve) {
             rows += `
-                <div class="user-row"><span class="user-label">Nom du tuteur</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">${translations[currentLang]["nom-eleve"]}</span><span class="user-value">${user.nom || ""}</span></div>
                 <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
                 <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
                 <div class="user-row">
                     <span class="user-label">Clé de récupération</span>
                     <span class="user-value">
                         <span class="masked" id="cleRecup">********</span>
-                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
                 <div class="user-row">
                     <span class="user-label">Mot de passe</span>
                     <span class="user-value">
                         <span class="masked" id="motDePasse">********</span>
-                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
                 <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
@@ -602,21 +919,21 @@
             `;
         } else {
             rows += `
-                <div class="user-row"><span class="user-label">Nom</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">${translations[currentLang]["nom-eleve"]}</span><span class="user-value">${user.nom || ""}</span></div>
                 <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
                 <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
                 <div class="user-row">
                     <span class="user-label">Clé de récupération</span>
                     <span class="user-value">
                         <span class="masked" id="cleRecup">********</span>
-                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">Afficher</button>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
                 <div class="user-row">
                     <span class="user-label">Mot de passe</span>
                     <span class="user-value">
                         <span class="masked" id="motDePasse">********</span>
-                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">Afficher</button>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
                 <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
@@ -638,19 +955,19 @@
 
         // Tableau principal des cours
         if (user.cours && user.cours.length > 0) {
-            htmlCours += `<div class="cours-title">Détails des cours</div>
+            htmlCours += `<div class="cours-title">${translations[currentLang]["cours-title"]}</div>
             <div style="overflow-x:auto">
                 <table class="cours-table">
                     <tr>
-                        <th>Nom élève</th>
-                        <th>Matière</th>
-                        <th>Date début</th>
-                        <th>Nombre de séances</th>
-                        <th>Séances impayées</th>
-                        <th>Prochaine séance</th>
-                        <th>Professeur</th>
-                        <th>Observation</th>
-                        <th>Paiement</th>
+                        <th>${translations[currentLang]["nom-eleve"]}</th>
+                        <th>${translations[currentLang]["matiere"]}</th>
+                        <th>${translations[currentLang]["date-debut"]}</th>
+                        <th>${translations[currentLang]["nbre-seance"]}</th>
+                        <th>${translations[currentLang]["nbre-seance-impayees"]}</th>
+                        <th>${translations[currentLang]["prochaine-seance"]}</th>
+                        <th>${translations[currentLang]["prof"]}</th>
+                        <th>${translations[currentLang]["observation"]}</th>
+                        <th>${translations[currentLang]["paiement"]}</th>
                     </tr>
                     ${user.cours.map((coursItem, idx) => {
                         let nbImpayees = Number(coursItem.nbre_seance_impayees || 0);
@@ -669,7 +986,7 @@
                                     class="btn payer" 
                                     ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
                                     onclick="payerSeanceCours(${idx})"
-                                >Payer</button>
+                                >${translations[currentLang]["btn-payer"]}</button>
                             </td>
                         </tr>
                     `}).join('')}
@@ -679,14 +996,14 @@
 
         // Ajout des demandes en attente
         if (user.demandes && user.demandes.length > 0) {
-            htmlCours += `<div class="cours-title">Demandes en attente</div>
+            htmlCours += `<div class="cours-title">${translations[currentLang]["demandes-title"]}</div>
             <div style="overflow-x:auto">
                  <table class="cours-table">
                    <tr>
-                     <th>Nom élève</th>
-                     <th>Matière demandée</th>
-                     <th>Date demande</th>
-                     <th>Paiement</th>
+                     <th>${translations[currentLang]["nom-eleve"]}</th>
+                     <th>${translations[currentLang]["matiere-demandee"]}</th>
+                     <th>${translations[currentLang]["date-demande"]}</th>
+                     <th>${translations[currentLang]["paiement"]}</th>
                    </tr>
                    ${user.demandes.map((d, idx) =>
                       `<tr>
@@ -694,7 +1011,7 @@
                         <td>${d.matiere_demande}</td>
                         <td>${d.demande_date}</td>
                         <td>
-                            <button class="btn payer" onclick="payerDemande(${idx})" ${d.payee === "oui" ? 'disabled' : ''}>Payer</button>
+                            <button class="btn payer" onclick="payerDemande(${idx})" ${d.payee === "oui" ? 'disabled' : ''}>${d.payee === "oui" ? translations[currentLang]["btn-payer-disabled"] : translations[currentLang]["btn-payer"]}</button>
                         </td>
                       </tr>`
                     ).join('')}
@@ -740,17 +1057,16 @@
         }).then(res => res.json())
           .then(result => {
             if (result.success) {
-                alert("Paiement effectué !");
+                alert(translations[currentLang]["btn-payer-disabled"]);
                 refreshData();
             } else {
-                alert(result.message || "Erreur lors du paiement");
+                alert(result.message || translations[currentLang]["erreur-envoi"]);
             }
         });
     }
 
     function payerSeanceCours(idx) {
-        // À compléter selon ta logique de paiement pour les cours existants.
-        alert("Paiement de la séance #" + (idx+1) + " (fonction à compléter)");
+        alert(translations[currentLang]["btn-payer"] + " #" + (idx+1));
     }
 
     function refreshData() {
@@ -775,13 +1091,13 @@
                 setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
                 showUserInfo();
             } else if(result && result.message) {
-                alert("Erreur lors de l'actualisation : " + result.message);
+                alert(translations[currentLang]["erreur-envoi"] + " : " + result.message);
             } else {
-                alert("Erreur lors de l'actualisation.");
+                alert(translations[currentLang]["erreur-envoi"]);
             }
         })
         .catch(err => {
-            alert("Erreur réseau lors de l'actualisation : " + err);
+            alert(translations[currentLang]["erreur-reseau"] + err);
         });
     }
 
@@ -797,11 +1113,11 @@
         const btn = document.getElementById(btnId);
         if (elem.dataset.masked === "true") {
             elem.textContent = elem.dataset.value;
-            btn.textContent = "Masquer";
+            btn.textContent = translations[currentLang]["btnMasquer"];
             elem.dataset.masked = "false";
         } else {
             elem.textContent = "********";
-            btn.textContent = "Afficher";
+            btn.textContent = translations[currentLang]["btnAfficher"];
             elem.dataset.masked = "true";
         }
     }
