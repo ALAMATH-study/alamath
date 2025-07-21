@@ -153,7 +153,6 @@
         .btn.logout:hover {
             background: #b91c1c;
         }
-        /* Section cours */
         .cours-section {
             width: 100%;
             max-width: 680px;
@@ -217,7 +216,6 @@
             color: #7a8699;
             cursor: not-allowed;
         }
-        /* Popup */
         #popupAjout {
             display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
             background:rgba(0,0,0,0.20);z-index:999;align-items:center;justify-content:center;
@@ -232,7 +230,6 @@
             position:absolute;top:8px;right:16px;background:none;border:none;
             font-size:1.5em;cursor:pointer;
         }
-        /* Boutons flottants */
         .float-btn {
             position: fixed;
             bottom: 32px;
@@ -350,53 +347,6 @@
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.94-7.1 1 1 0 00-1.98-.2A6 6 0 116 12a1 1 0 100 2h5v-5a1 1 0 10-2 0v2.07A8 8 0 0020 12a8 8 0 00-2.35-5.65z"></path></svg>
     </button>
     <script>
-        function showUserInfo() {
-    const userDataString = getSessionCookie('alamathUser');
-    if (!userDataString) {
-        window.location.href = '/';
-        return;
-    }
-    const user = JSON.parse(userDataString);
-    document.getElementById("userInfo").innerHTML = renderUserData(user);
-
-    // Récupérer les demandes associées au tuteur
-    fetch('https://api.alamath.com/demandes-tuteur', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nom: user.nom, email: user.email, tel: user.tel })
-    }).then(res => res.json())
-      .then(demandes => {
-        const coursSection = document.getElementById("coursSection");
-        let htmlCours = renderCoursSection(user);
-        // Ajoute les demandes en attente
-        if (demandes && demandes.length > 0) {
-          htmlCours += `<div class="cours-title">Demandes en attente</div>
-          <div style="overflow-x:auto">
-             <table class="cours-table">
-               <tr>
-                 <th>Nom élève</th>
-                 <th>Matière demandée</th>
-                 <th>Date demande</th>
-                 <th>Statut</th>
-               </tr>
-               ${demandes.map(d =>
-                  `<tr>
-                    <td>${d.nom_eleve}</td>
-                    <td>${d.matiere_demande}</td>
-                    <td>${d.demande_date}</td>
-                    <td><span style="color:orange;">En attente</span></td>
-                  </tr>`
-                ).join('')}
-             </table>
-          </div>`;
-        }
-        coursSection.innerHTML = htmlCours;
-        coursSection.style.display = "block";
-        // (reste inchangé)
-        if (user.keyWords) { /* ... */ }
-        if (user.password) { /* ... */ }
-      });
-}
     // constantes pour niveaux et matières
     const niveauxParCycle = {
         "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
@@ -410,7 +360,6 @@
         "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
         "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
     };
-    // cookies/utils
     function getSessionCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -474,10 +423,10 @@
         const select = document.getElementById('selectEleve');
         const val = select.value;
         matiereSelectionnee = "";
-        if(val !== "") {
+        if(val !== "" && val === "__autre") {
             document.getElementById('champsNouveauEleve').style.display = "";   
             document.getElementById('champsMatiereExistEleve').innerHTML = "";
-            document.getElementById('inputNouveauEleve').value = select.options[select.selectedIndex].text;
+            document.getElementById('inputNouveauEleve').value = "";
             document.getElementById('selectCycle').value = "";
             document.getElementById('selectNiveau').innerHTML = `<option value="">-- Choisissez un niveau --</option>`;
             document.getElementById('listeMatieres').innerHTML = "";
@@ -515,12 +464,7 @@
                 verifierAffichageDemandeBtn();
             };
             document.getElementById('inputNouveauEleve').oninput = verifierAffichageDemandeBtn;
-        } else if(val==="") {
-            document.getElementById('champsNouveauEleve').style.display = "none";
-            document.getElementById('champsMatiereExistEleve').innerHTML = "";
-            matiereSelectionnee = "";
-            verifierAffichageDemandeBtn();
-        } else {
+        } else if(val !== "" && val !== "__autre") {
             document.getElementById('champsNouveauEleve').style.display = "none";
             // Afficher le choix matière (toujours !)
             const userDataString = getSessionCookie('alamathUser');
@@ -552,6 +496,11 @@
                     verifierAffichageDemandeBtn();
                 }
             });
+            verifierAffichageDemandeBtn();
+        } else {
+            document.getElementById('champsNouveauEleve').style.display = "none";
+            document.getElementById('champsMatiereExistEleve').innerHTML = "";
+            matiereSelectionnee = "";
             verifierAffichageDemandeBtn();
         }
     }
@@ -611,7 +560,7 @@
             if(res.ok) {
                 document.getElementById('popupAjoutMsg').style.color = "#13b813";
                 document.getElementById('popupAjoutMsg').textContent = "Votre demande a bien été envoyée !";
-                setTimeout(closePopupAjout, 1800);
+                setTimeout(() => { closePopupAjout(); refreshData(); }, 1800);
             } else {
                 let msg = "Erreur lors de l'envoi.";
                 try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
@@ -676,54 +625,6 @@
         }
         return `<div class="user-info-grid">${rows}</div>`;
     }
-    function renderCoursSection(user) {
-        const cours = user.cours && Array.isArray(user.cours) ? user.cours : [];
-        let tableHtml = "";
-        if (cours.length > 0) {
-            const headersMap = {
-                nom_eleve: "Nom élève",
-                matiere: "Matière",
-                date_debut: "Date début",
-                nbre_seance: "Nombre de séances",
-                nbre_seance_impayees: "Séances impayées",
-                prochaine_seance: "Prochaine séance",
-                prof: "Nom du professeur",
-                observation: "Observation"
-            };
-            const coursKeys = Object.keys(cours[0]);
-            tableHtml += `<div class="cours-title">Détails des cours</div>
-            <div style="overflow-x:auto">
-                <table class="cours-table">
-                    <tr>
-                        ${coursKeys.map(col =>
-                            `<th>${headersMap[col] || col}</th>`
-                        ).join('')}
-                        <th>Paiement</th>
-                    </tr>
-                    ${cours.map((coursItem, idx) => {
-                        let nbImpayees = Number(coursItem.nbre_seance_impayees || coursItem["nbre_seance_impayees"] || 0);
-                        return `
-                        <tr class="dynamic-row">
-                            ${coursKeys.map(col =>
-                                `<td>${coursItem[col] || ''}</td>`
-                            ).join('')}
-                            <td>
-                                <button 
-                                    class="btn payer" 
-                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
-                                    onclick="payerSeance(${idx})"
-                                >Payer</button>
-                            </td>
-                        </tr>
-                    `}).join('')}
-                </table>
-            </div>`;
-        }
-        return tableHtml;
-    }
-    function payerSeance(index) {
-        alert("Paiement de la séance #" + (index+1) + " (à compléter avec votre logique de paiement)");
-    }
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -733,7 +634,75 @@
         const user = JSON.parse(userDataString);
         document.getElementById("userInfo").innerHTML = renderUserData(user);
         const coursSection = document.getElementById("coursSection");
-        coursSection.innerHTML = renderCoursSection(user);
+        let htmlCours = "";
+
+        // Tableau principal des cours
+        if (user.cours && user.cours.length > 0) {
+            htmlCours += `<div class="cours-title">Détails des cours</div>
+            <div style="overflow-x:auto">
+                <table class="cours-table">
+                    <tr>
+                        <th>Nom élève</th>
+                        <th>Matière</th>
+                        <th>Date début</th>
+                        <th>Nombre de séances</th>
+                        <th>Séances impayées</th>
+                        <th>Prochaine séance</th>
+                        <th>Professeur</th>
+                        <th>Observation</th>
+                        <th>Paiement</th>
+                    </tr>
+                    ${user.cours.map((coursItem, idx) => {
+                        let nbImpayees = Number(coursItem.nbre_seance_impayees || 0);
+                        return `
+                        <tr class="dynamic-row">
+                            <td>${coursItem.nom_eleve || ''}</td>
+                            <td>${coursItem.matiere || ''}</td>
+                            <td>${coursItem.date_debut || ''}</td>
+                            <td>${coursItem.nbre_seance || ''}</td>
+                            <td>${coursItem.nbre_seance_impayees || ''}</td>
+                            <td>${coursItem.prochaine_seance || ''}</td>
+                            <td>${coursItem.prof || ''}</td>
+                            <td>${coursItem.observation || ''}</td>
+                            <td>
+                                <button 
+                                    class="btn payer" 
+                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
+                                    onclick="payerSeanceCours(${idx})"
+                                >Payer</button>
+                            </td>
+                        </tr>
+                    `}).join('')}
+                </table>
+            </div>`;
+        }
+
+        // Ajout des demandes en attente
+        if (user.demandes && user.demandes.length > 0) {
+            htmlCours += `<div class="cours-title">Demandes en attente</div>
+            <div style="overflow-x:auto">
+                 <table class="cours-table">
+                   <tr>
+                     <th>Nom élève</th>
+                     <th>Matière demandée</th>
+                     <th>Date demande</th>
+                     <th>Paiement</th>
+                   </tr>
+                   ${user.demandes.map((d, idx) =>
+                      `<tr>
+                        <td>${d.nom_eleve}</td>
+                        <td>${d.matiere_demande}</td>
+                        <td>${d.demande_date}</td>
+                        <td>
+                            <button class="btn payer" onclick="payerDemande(${idx})" ${d.payee === "oui" ? 'disabled' : ''}>Payer</button>
+                        </td>
+                      </tr>`
+                    ).join('')}
+                 </table>
+            </div>`;
+        }
+
+        coursSection.innerHTML = htmlCours;
         coursSection.style.display = "block";
         if (user.keyWords) {
             const elem = document.getElementById('cleRecup');
@@ -752,11 +721,38 @@
             }
         }
     }
-    showUserInfo();
-    function logout() {
-        eraseSessionCookie('alamathUser');
-        window.location.href = '/';
+
+    function payerDemande(idx) {
+        const userDataString = getSessionCookie('alamathUser');
+        const user = JSON.parse(userDataString);
+        const demande = user.demandes[idx];
+        if (!demande) return;
+        fetch('https://api.alamath.com/payer-demande', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nom_eleve: demande.nom_eleve,
+                nom: demande.nom,
+                email: demande.email,
+                tel: demande.tel,
+                matiere_demande: demande.matiere_demande
+            })
+        }).then(res => res.json())
+          .then(result => {
+            if (result.success) {
+                alert("Paiement effectué !");
+                refreshData();
+            } else {
+                alert(result.message || "Erreur lors du paiement");
+            }
+        });
     }
+
+    function payerSeanceCours(idx) {
+        // À compléter selon ta logique de paiement pour les cours existants.
+        alert("Paiement de la séance #" + (idx+1) + " (fonction à compléter)");
+    }
+
     function refreshData() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
@@ -788,6 +784,14 @@
             alert("Erreur réseau lors de l'actualisation : " + err);
         });
     }
+
+    showUserInfo();
+
+    function logout() {
+        eraseSessionCookie('alamathUser');
+        window.location.href = '/';
+    }
+
     function toggleMask(id, btnId) {
         const elem = document.getElementById(id);
         const btn = document.getElementById(btnId);
