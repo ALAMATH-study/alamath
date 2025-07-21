@@ -350,6 +350,53 @@
         <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M17.65 6.35A7.95 7.95 0 0012 4a8 8 0 100 16 8 8 0 007.94-7.1 1 1 0 00-1.98-.2A6 6 0 116 12a1 1 0 100 2h5v-5a1 1 0 10-2 0v2.07A8 8 0 0020 12a8 8 0 00-2.35-5.65z"></path></svg>
     </button>
     <script>
+        function showUserInfo() {
+    const userDataString = getSessionCookie('alamathUser');
+    if (!userDataString) {
+        window.location.href = '/';
+        return;
+    }
+    const user = JSON.parse(userDataString);
+    document.getElementById("userInfo").innerHTML = renderUserData(user);
+
+    // Récupérer les demandes associées au tuteur
+    fetch('https://api.alamath.com/demandes-tuteur', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom: user.nom, email: user.email, tel: user.tel })
+    }).then(res => res.json())
+      .then(demandes => {
+        const coursSection = document.getElementById("coursSection");
+        let htmlCours = renderCoursSection(user);
+        // Ajoute les demandes en attente
+        if (demandes && demandes.length > 0) {
+          htmlCours += `<div class="cours-title">Demandes en attente</div>
+          <div style="overflow-x:auto">
+             <table class="cours-table">
+               <tr>
+                 <th>Nom élève</th>
+                 <th>Matière demandée</th>
+                 <th>Date demande</th>
+                 <th>Statut</th>
+               </tr>
+               ${demandes.map(d =>
+                  `<tr>
+                    <td>${d.nom_eleve}</td>
+                    <td>${d.matiere_demande}</td>
+                    <td>${d.demande_date}</td>
+                    <td><span style="color:orange;">En attente</span></td>
+                  </tr>`
+                ).join('')}
+             </table>
+          </div>`;
+        }
+        coursSection.innerHTML = htmlCours;
+        coursSection.style.display = "block";
+        // (reste inchangé)
+        if (user.keyWords) { /* ... */ }
+        if (user.password) { /* ... */ }
+      });
+}
     // constantes pour niveaux et matières
     const niveauxParCycle = {
         "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
