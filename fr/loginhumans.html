@@ -4,56 +4,198 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription & Connexion Sécurisées AlaMath.com</title>
+    <title>AlaMath.com - Inscription & Connexion Sécurisées</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --main-blue: #2166c1;
+            --main-blue-hover: #144488;
+            --main-bg: #f4f7fb;
+            --main-bg-dark: #172133;
+            --main-text: #222d3a;
+            --main-text-dark: #f4f7fb;
+            --light-blue: #eaf2fa;
+            --light-blue-dark: #223357;
+            --btn-bg: #2166c1;
+            --btn-bg-hover: #144488;
+            --btn-text: #fff;
+            --btn-bg-dark: #304066;
+            --btn-bg-hover-dark: #13243e;
+            --btn-text-dark: #ffe15a;
+            --input-bg: #fff;
+            --input-bg-dark: #24324d;
+            --input-border: #b6c3db;
+            --input-border-dark: #3e5170;
+            --radius: 14px;
+            --transition: 0.18s cubic-bezier(.77,0,.18,1);
+            --shadow: 0 4px 16px rgba(0,0,0,0.09);
+            --shadow-dark: 0 4px 18px #0a18374b;
+            --icon-sun: #ffe15a;
+            --icon-moon: #ffe15a;
+        }
         body {
             font-family: 'Poppins', Arial, sans-serif;
-            background: url('bkg.png') no-repeat center center fixed;
+            /* Background image */
+            background: url('bkg.png') no-repeat center center fixed, var(--main-bg);
             background-size: cover;
-            color: #222;
+            color: var(--main-text);
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             text-align: center;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night {
+            background: url('bkg.png') no-repeat center center fixed, var(--main-bg-dark);
+            background-size: cover;
+            color: var(--main-text-dark);
         }
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.14);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(138deg,rgba(33,102,193,0.09) 0%,rgba(255,255,255,0.6) 100%);
             z-index: -1;
+            transition: background 0.4s;
         }
-        .container {
-            width: 95%;
-            max-width: 470px;
-            margin: 40px auto;
-            background: rgba(255,255,255,0.98);
-            padding: 30px 20px 20px 20px;
-            border-radius: 18px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-            text-align: center;
+        body.night::before {
+            background: linear-gradient(138deg,rgba(34,51,87,0.88) 0%,rgba(23,33,51,0.97) 100%);
+        }
+        /* Floating language and night mode buttons */
+        .floating-lang-night {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .floating-lang-night .lang-btn,
+        .floating-lang-night .night-toggle {
+            width: 48px;
+            height: 48px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.12em;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.22s;
+            outline: none;
+            border: 2px solid transparent;
+        }
+        .floating-lang-night .lang-btn.active,
+        .floating-lang-night .lang-btn:hover {
+            background: var(--main-blue-hover);
+            color: var(--btn-text);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #2166c180;
+            transform: scale(1.08) rotate(-7deg);
+        }
+        .floating-lang-night .night-toggle {
+            font-size: 1.4em;
+            background: #fffbe7;
+            color: var(--icon-moon);
+        }
+        .floating-lang-night .night-toggle.night,
+        .floating-lang-night .night-toggle:hover {
+            background: #223357;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #22335770;
+            transform: scale(1.08) rotate(7deg);
+        }
+        body.night .floating-lang-night .lang-btn {
+            background: var(--btn-bg-dark);
+            color: var(--btn-text-dark);
+            border-color: transparent;
+        }
+        body.night .floating-lang-night .lang-btn.active,
+        body.night .floating-lang-night .lang-btn:hover {
+            background: var(--btn-bg-hover-dark);
+            color: var(--btn-text-dark);
+            border-color: #ffe15a;
+        }
+        body.night .floating-lang-night .night-toggle {
+            background: #1a2236;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+        }
+        @media (max-width: 600px) {
+            .floating-lang-night {
+                top: 0.7rem;
+                left: 0.7rem;
+            }
+            .floating-lang-night .lang-btn, .floating-lang-night .night-toggle {
+                width: 38px; height: 38px; font-size: 0.95em;
+            }
         }
         .logo {
             display: block;
-            margin: 20px auto 12px auto;
-            width: 110px;
+            margin: 22px auto 12px auto;
+            width: 95px;
+            filter: drop-shadow(0 2px 8px #0002);
+        }
+        .container {
+            width: 98%;
+            max-width: 430px;
+            margin: 40px auto;
+            background: #fff;
+            color: var(--main-text);
+            padding: 32px 22px 20px 22px;
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            backdrop-filter: blur(1.5px);
+            position: relative;
+            direction: ltr;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night .container {
+            background: var(--light-blue-dark);
+            color: var(--main-text-dark);
+            box-shadow: var(--shadow-dark);
+        }
+        h2, h3 {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
         }
         h2 {
-            color: #004aad;
-            margin-bottom: 0.6em;
+            color: var(--main-blue);
+            font-weight: 700;
+            margin-bottom: 0.8em;
+            font-size: 1.45em;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        body.night h2 {
+            color: #ffe15a;
         }
         h3 {
-            color: #2d3e50;
+            color: #1b294a;
             margin-bottom: 0.5em;
-        }
-        label {
             font-weight: 600;
-            display: block;
-            margin: 12px 0 4px 0;
+            font-size: 1.12em;
+        }
+        body.night h3 {
+            color: #ffe15a;
+        }
+        .section-title {
+            margin: 0.8em 0 0.3rem 0;
+            font-size: 1.01rem;
+            font-weight: 600;
+            color: var(--main-blue);
             text-align: left;
+        }
+        body.night .section-title {
+            color: #ffe15a;
         }
         .form-group {
             display: flex;
@@ -75,64 +217,49 @@
         }
         select, input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
             width: 100%;
-            padding: 0.8em;
-            border: 1px solid #ddd;
-            border-radius: 7px;
+            padding: 0.85em 0.7em;
+            border: 1.3px solid var(--input-border);
+            border-radius: var(--radius);
             font-size: 1em;
-            background: rgba(245,245,245,0.98);
-            color: #4a6fa3;
+            background: var(--input-bg);
+            color: var(--main-text);
             box-sizing: border-box;
+            transition: border-color var(--transition), background 0.4s, color 0.4s;
         }
-        button {
+        body.night select, body.night input[type="text"], body.night input[type="email"], body.night input[type="password"], body.night input[type="tel"] {
+            background: var(--input-bg-dark);
+            color: var(--main-text-dark);
+            border: 1.3px solid var(--input-border-dark);
+        }
+        select:focus, input:focus {
+            border-color: var(--main-blue);
+            outline: none;
+        }
+        button, .btn {
             width: 100%;
             padding: 0.82em;
-            background: #004aad;
-            color: white;
+            background: var(--btn-bg);
+            color: var(--btn-text);
             border: none;
-            font-size: 1.1em;
+            font-size: 1.09em;
             cursor: pointer;
-            border-radius: 7px;
+            border-radius: var(--radius);
             margin-top: 10px;
             margin-bottom: 0.8em;
             font-weight: bold;
+            transition: background var(--transition), color var(--transition);
+            box-shadow: 0 4px 17px rgba(0,74,173,0.09);
         }
-        button:hover {
-            background: #003080;
+        button:hover, .btn:hover {
+            background: var(--btn-bg-hover);
         }
-        .hidden {
-            display: none;
+        body.night button, body.night .btn {
+            background: var(--btn-bg-dark);
+            color: var(--btn-text-dark);
         }
-        #output {
-            background: #e7f4ff;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: left;
-        }
-        .info {
-            font-size: 14px;
-            color: #666;
-            margin-top: 10px;
-        }
-        #qrcode {
-            display: inline-block;
-            margin: 18px auto 8px auto;
-            text-align: center;
-        }
-        .message {
-            margin-top: 1rem;
-            font-size: 1rem;
-            min-height: 1.5em;
-        }
-        .error { color: #ff4d4d; }
-        .success { color: #2ecc71; }
-        .section-title {
-            margin-bottom: 0.3rem;
-            font-size: 1.07rem;
-            font-weight: 600;
-            color: #004aad;
-            text-align: left;
+        body.night button:hover, body.night .btn:hover {
+            background: var(--btn-bg-hover-dark);
+            color: #ffe15a;
         }
         .type-switch {
             display: flex;
@@ -143,6 +270,89 @@
         .type-switch label {
             cursor: pointer;
             font-weight: 600;
+            border-radius: 8px;
+            padding: 0.08em 0.7em;
+            transition: background 0.13s;
+        }
+        .type-switch input[type="radio"] {
+            accent-color: var(--main-blue);
+            margin-right: 0.3em;
+        }
+        .hidden { display: none; }
+        #output {
+            background: var(--light-blue);
+            padding: 10px;
+            border-radius: var(--radius);
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+        body.night #output {
+            background: var(--light-blue-dark);
+            color: var(--main-text-dark);
+        }
+        #qrcode {
+            display: inline-block;
+            margin: 18px auto 8px auto;
+            text-align: center;
+            border-radius: 9px;
+            background: #fafbff;
+            padding: 8px;
+            box-shadow: 0 1.5px 8px #004aad17;
+        }
+        body.night #qrcode {
+            background: #101b2e;
+        }
+        .message {
+            margin-top: 1rem;
+            font-size: 1rem;
+            min-height: 1.5em;
+        }
+        .error { color: #ff4d4d; }
+        .success { color: #2ecc71; }
+        footer {
+            margin:2rem 0 1rem 0;
+            text-align: center;
+            color: #8a97b3;
+            font-size: 0.99em;
+        }
+        body.night footer {
+            color: #b4bfd7;
+        }
+        /* Floating buttons bottom left */
+        .floating-buttons {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .floating-buttons button {
+            width: 48px;
+            height: 48px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            padding: 0;
+        }
+        .floating-buttons button:hover {
+            background: var(--main-blue-hover);
+            color: #fff;
+        }
+        body.night .floating-buttons button {
+            background: var(--btn-bg-dark);
+            color: var(--btn-text-dark);
+            border: 1.2px solid #2a4079;
         }
         @media (max-width: 600px) {
             .container {
@@ -156,28 +366,60 @@
                 flex-direction: column;
                 gap: 0;
             }
+            .floating-lang-night {
+                top: 0.7rem;
+                left: 0.7rem;
+            }
+            .floating-lang-night .lang-btn, .floating-lang-night .night-toggle {
+                width: 38px; height: 38px; font-size: 0.95em;
+            }
+            .floating-buttons {
+                bottom: 0.7rem;
+                left: 0.7rem;
+            }
+            .floating-buttons button {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
+            }
         }
+        /* RTL Support */
+        .rtl, body.rtl, .container.rtl {
+            direction: rtl !important;
+        }
+        .rtl input, .rtl select, .rtl label, .rtl .input-row, .rtl .form-group {
+            text-align: right !important;
+        }
+        .rtl .section-title { text-align: right !important;}
+        .rtl .type-switch { justify-content: flex-end; }
     </style>
 </head>
 <body>
+    <div class="floating-lang-night" id="lang-night-box">
+        <button id="lang-fr" class="lang-btn" onclick="setLang('fr')">FR</button>
+        <button id="lang-en" class="lang-btn" onclick="setLang('en')">EN</button>
+        <button id="lang-ar" class="lang-btn" onclick="setLang('ar')">AR</button>
+        <button class="night-toggle" id="night-toggle" title="Mode nuit / Night mode" onclick="toggleNightMode()">
+            <span id="night-icon">🌙</span>
+        </button>
+    </div>
     <img src="logo.png" alt="Alamath" class="logo">
-    <div class="container">
-        <h2>Inscription & Connexion Sécurisées</h2>
+    <div class="container" id="container">
+        <h2 id="title-signin">Inscription & Connexion Sécurisées</h2>
         <!-- Section Inscription -->
         <div id="signup">
-            <h3>Inscription à AlaMath.com</h3>
+            <h3 id="signup-title">à AlaMath.com</h3>
             <form id="signupForm" autocomplete="off">
-                <div class="section-title">Vous êtes :</div>
+                <div class="section-title" id="youare-title">Vous êtes :</div>
                 <div class="type-switch">
                     <label>
-                        <input type="radio" name="usertype" value="eleve" checked onclick="toggleUserType()"> Élève
+                        <input type="radio" name="usertype" value="eleve" checked onclick="toggleUserType()"> <span id="label-eleve">Élève</span>
                     </label>
                     <label>
-                        <input type="radio" name="usertype" value="prof" onclick="toggleUserType()"> Professeur
+                        <input type="radio" name="usertype" value="prof" onclick="toggleUserType()"> <span id="label-prof">Professeur</span>
                     </label>
                 </div>
-
-                <div class="section-title">Scolarité</div>
+                <div class="section-title" id="school-title">Scolarité</div>
                 <div class="form-group">
                     <div class="input-row">
                         <select id="cycle" required>
@@ -195,12 +437,10 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="section-title" id="eleve-title" style="display:block;">Informations de l'élève</div>
                 <div class="form-group" id="eleve-info-group" style="display:block;">
                     <input type="text" id="nom_eleve" placeholder="Nom complet de l'élève" required>
                 </div>
-
                 <div class="section-title" id="contact-title">Informations du tuteur</div>
                 <div class="form-group">
                     <div class="input-row">
@@ -213,8 +453,8 @@
                     </div>
                     <input type="text" id="keyWords" placeholder="Clé de récupération (7 mots)" required style="margin-bottom:0;">
                 </div>
-                <button type="button" onclick="generateKeyWords()">Générer 7 mots aléatoires</button>
-                <button type="submit">Créer mon compte & Générer QR</button>
+                <button type="button" id="btn-generate-words" onclick="generateKeyWords()">Générer 7 mots aléatoires</button>
+                <button type="submit" id="btn-create-account">Créer mon compte & Générer QR</button>
             </form>
             <div id="displayInfo"></div>
             <div id="qrcode"></div>
@@ -222,7 +462,7 @@
         </div>
         <!-- Section Connexion -->
         <div class="section" id="login" style="margin-top:40px;">
-            <h3>Connexion</h3>
+            <h3 id="login-title">Connexion</h3>
             <form id="loginForm" autocomplete="off">
                 <div class="form-group">
                     <div class="input-row">
@@ -230,46 +470,101 @@
                     <input type="password" id="loginPassword" placeholder="Entrez votre mot de passe" autocomplete="current-password">
                     </div>
                 </div>
-                <button type="submit">Se connecter</button>
+                <button type="submit" id="btn-login">Se connecter</button>
                 <p id="loginInfo"></p>
             </form>
         </div>
     </div>
+    <div class="floating-buttons">
+        <button id="btn-home" title="Accueil" onclick="goHome()"><span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">🏠</span></button>
+        <button id="btn-prev" title="Précédent" onclick="goBack()"><span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">⬅️</span></button>
+    </div>
+    <footer>
+        <p id="footer-text">&copy; SARL IaSmarKet Services - Tous droits réservés - 2025</p>
+    </footer>
     <script>
-    // --- Config backend ---
-    const BACKEND_URL = 'https://api.alamath.com';
-
-    // Détection du type de plateforme
-    function getTypeTem() {
-        if (location.hostname.includes('alamath.com')) return 'fralamath';
-        return 'autre';
-    }
-
-    // Gestion cycles/matières
-    const data = {
-      "Maternelle": {
-        niveaux: ["Petite section", "Moyenne section", "Grande section"],
-        matieres: ["Découverte", "Jeux éducatifs", "Langage"]
-      },
-      "Élémentaire": {
-        niveaux: ["CP", "CE1", "CE2", "CM1", "CM2"],
-        matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"]
-      },
-      "Collège": {
-        niveaux: ["6e", "5e", "4e", "3e"],
-        matieres: ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"]
-      },
-      "Lycée": {
-        niveaux: ["Seconde", "Première", "Terminale"],
-        matieres: ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
-      }
+    // --- Traductions & fonctions JS comme précédemment (inchangées) ---
+    const translations = {
+        fr: { "title-signin": "Inscription & Connexion Sécurisées", "signup-title": "à AlaMath.com", "login-title": "Connexion", "youare-title": "Vous êtes :", "label-eleve": "Élève", "label-prof": "Professeur", "school-title": "Scolarité", "eleve-title": "Informations de l'élève", "contact-title": "Informations du tuteur", "btn-generate-words": "Générer 7 mots aléatoires", "btn-create-account": "Créer mon compte & Générer QR", "btn-login": "Se connecter", "footer-text": "SARL IaSmarKet Services - Tous droits réservés - 2025", "home": "Accueil", "previous": "Précédent", "Inscription": "Inscription", "Connexion": "Connexion", "cycle": "-- Choisir le cycle --", "niveau": "-- Choisir le niveau --", "matiere": "-- Choisir la matière --", "nom_eleve": "Nom complet de l'élève", "nom_tuteur": "Nom complet du tuteur", "nom_prof": "Votre nom complet", "email_tuteur": "Email du tuteur", "email_prof": "Votre email", "tel_tuteur": "Téléphone du tuteur", "tel_prof": "Votre téléphone", "userId": "Choisissez un ID", "keyWords": "Clé de récupération (7 mots)", "generate_success": "Inscription réussie ! Vos infos et QR sont générés ci-dessous.", "generate_error": "Erreur lors de l’inscription. Veuillez réessayer.", "server_error": "Le serveur est en maintenance, veuillez réessayer plus tard.", "login_placeholder_id": "Entrez votre ID", "login_placeholder_pwd": "Entrez votre mot de passe", "login_btn": "Se connecter", "login_fill": "Veuillez remplir les deux champs.", "login_error": "❌ Utilisateur introuvable ou mot de passe incorrect.", "arabe": "Arabe", "dir": "ltr" },
+        en: { "title-signin": "Secure Signup & Login", "signup-title": "on AlaMath.com", "login-title": "Login", "youare-title": "You are:", "label-eleve": "Student", "label-prof": "Teacher", "school-title": "Schooling", "eleve-title": "Student Information", "contact-title": "Guardian's Information", "btn-generate-words": "Generate 7 random words", "btn-create-account": "Create my account & Generate QR", "btn-login": "Log in", "footer-text": "SARL IaSmarKet Services - All rights reserved - 2025", "home": "Home", "previous": "Previous", "Inscription": "Sign up", "Connexion": "Login", "cycle": "-- Select cycle --", "niveau": "-- Select grade --", "matiere": "-- Select subject --", "nom_eleve": "Student's full name", "nom_tuteur": "Guardian's full name", "nom_prof": "Your full name", "email_tuteur": "Guardian's email", "email_prof": "Your email", "tel_tuteur": "Guardian's phone", "tel_prof": "Your phone", "userId": "Choose an ID", "keyWords": "Recovery key (7 words)", "generate_success": "Registration successful! Your info and QR are below.", "generate_error": "Registration failed. Please try again.", "server_error": "Server maintenance, please try later.", "login_placeholder_id": "Enter your ID", "login_placeholder_pwd": "Enter your password", "login_btn": "Log in", "login_fill": "Please fill in both fields.", "login_error": "❌ User not found or wrong password.", "arabe": "Arabic", "dir": "ltr" },
+        ar: { "title-signin": "تسجيل و دخول آمن", "signup-title": "في AlaMath.com", "login-title": "دخول", "youare-title": "أنت:", "label-eleve": "طالب", "label-prof": "أستاذ", "school-title": "الدراسة", "eleve-title": "معلومات الطالب", "contact-title": "معلومات الولي", "btn-generate-words": "توليد 7 كلمات عشوائية", "btn-create-account": "أنشئ حسابي وولّد QR", "btn-login": "دخول", "footer-text": "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -", "home": "الرئيسية", "previous": "السابق", "Inscription": "تسجيل", "Connexion": "دخول", "cycle": "-- اختر السلك --", "niveau": "-- اختر المستوى --", "matiere": "-- اختر المادة --", "nom_eleve": "الاسم الكامل للطالب", "nom_tuteur": "اسم الولي الكامل", "nom_prof": "اسمك الكامل", "email_tuteur": "البريد الإلكتروني للولي", "email_prof": "بريدك الإلكتروني", "tel_tuteur": "هاتف الولي", "tel_prof": "هاتفك", "userId": "اختر معرف", "keyWords": "كلمة الاسترجاع (7 كلمات)", "generate_success": "تم التسجيل بنجاح! معلوماتك وQR أدناه.", "generate_error": "حدث خطأ أثناء التسجيل. حاول مجدداً.", "server_error": "الخادم تحت الصيانة، حاول لاحقاً.", "login_placeholder_id": "أدخل معرفك", "login_placeholder_pwd": "أدخل كلمة المرور", "login_btn": "دخول", "login_fill": "يرجى ملء الحقلين.", "login_error": "❌ المستخدم غير موجود أو كلمة المرور غير صحيحة.", "arabe": "العربية", "dir": "rtl" }
     };
+    let currentLang = "fr";
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById("lang-fr").classList.toggle("active", lang==="fr");
+        document.getElementById("lang-en").classList.toggle("active", lang==="en");
+        document.getElementById("lang-ar").classList.toggle("active", lang==="ar");
+        document.body.dir = translations[lang].dir;
+        document.getElementById("container").dir = translations[lang].dir;
+        document.getElementById("container").classList.toggle("rtl", lang === "ar");
+        document.body.classList.toggle("rtl", lang === "ar");
+        document.getElementById("title-signin").innerText = translations[lang]["title-signin"];
+        document.getElementById("signup-title").innerText = translations[lang]["signup-title"];
+        document.getElementById("login-title").innerText = translations[lang]["login-title"];
+        document.getElementById("youare-title").innerText = translations[lang]["youare-title"];
+        document.getElementById("label-eleve").innerText = translations[lang]["label-eleve"];
+        document.getElementById("label-prof").innerText = translations[lang]["label-prof"];
+        document.getElementById("school-title").innerText = translations[lang]["school-title"];
+        document.getElementById("eleve-title").innerText = translations[lang]["eleve-title"];
+        document.getElementById("contact-title").innerText = translations[lang]["contact-title"];
+        document.getElementById("btn-generate-words").innerText = translations[lang]["btn-generate-words"];
+        document.getElementById("btn-create-account").innerText = translations[lang]["btn-create-account"];
+        document.getElementById("btn-login").innerText = translations[lang]["btn-login"];
+        document.getElementById("footer-text").innerText = translations[lang]["footer-text"];
+        document.getElementById("btn-home").title = translations[lang].home;
+        document.getElementById("btn-prev").title = translations[lang].previous;
+        document.getElementById("cycle").options[0].text = translations[lang]["cycle"];
+        document.getElementById("niveau").options[0].text = translations[lang]["niveau"];
+        document.getElementById("matiere").options[0].text = translations[lang]["matiere"];
+        document.getElementById("nom_eleve").placeholder = translations[lang]["nom_eleve"];
+        const isEleve = document.querySelector('input[name="usertype"]:checked').value === 'eleve';
+        document.getElementById('contact-title').innerText = isEleve ? translations[lang]["contact-title"] : (lang==="ar"?translations[lang]["contact-title"]:translations[lang]["contact-title"].replace("du tuteur",""));
+        document.getElementById('nom').placeholder = isEleve ? translations[lang]["nom_tuteur"] : translations[lang]["nom_prof"];
+        document.getElementById('email').placeholder = isEleve ? translations[lang]["email_tuteur"] : translations[lang]["email_prof"];
+        document.getElementById('tel').placeholder = isEleve ? translations[lang]["tel_tuteur"] : translations[lang]["tel_prof"];
+        document.getElementById('userId').placeholder = translations[lang]["userId"];
+        document.getElementById('keyWords').placeholder = translations[lang]["keyWords"];
+        document.getElementById("loginUserId").placeholder = translations[lang]["login_placeholder_id"];
+        document.getElementById("loginPassword").placeholder = translations[lang]["login_placeholder_pwd"];
+        document.getElementById("loginInfo").textContent = "";
+    }
+    // Mode nuit
+    function applyNightMode(night) {
+        if (night) {
+            document.body.classList.add('night');
+            document.getElementById('night-toggle').classList.add('night');
+            document.getElementById('night-icon').textContent = "☀️";
+            localStorage.setItem('alamathNight', '1');
+        } else {
+            document.body.classList.remove('night');
+            document.getElementById('night-toggle').classList.remove('night');
+            document.getElementById('night-icon').textContent = "🌙";
+            localStorage.removeItem('alamathNight');
+        }
+    }
+    function toggleNightMode() {
+        const isNight = !document.body.classList.contains('night');
+        applyNightMode(isNight);
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        // Appliquer mode nuit si défini
+        applyNightMode(localStorage.getItem('alamathNight') === '1');
+        setLang(currentLang);
+    });
 
+    // Scolarité dynamique
+    const data = {
+      "Maternelle": { niveaux: ["Petite section", "Moyenne section", "Grande section"], matieres: ["Découverte", "Jeux éducatifs", "Langage", "Arabe"] },
+      "Élémentaire": { niveaux: ["CP", "CE1", "CE2", "CM1", "CM2"], matieres: ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais", "Arabe"] },
+      "Collège": { niveaux: ["6e", "5e", "4e", "3e"], matieres: ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais", "Arabe"] },
+      "Lycée": { niveaux: ["Seconde", "Première", "Terminale"], matieres: ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais", "Arabe"] }
+    };
     document.getElementById('cycle').addEventListener('change', function() {
         const niveauSelect = document.getElementById('niveau');
         const matiereSelect = document.getElementById('matiere');
-        niveauSelect.innerHTML = '<option value="">-- Choisir le niveau --</option>';
-        matiereSelect.innerHTML = '<option value="">-- Choisir la matière --</option>';
+        niveauSelect.innerHTML = `<option value="">${translations[currentLang]["niveau"]}</option>`;
+        matiereSelect.innerHTML = `<option value="">${translations[currentLang]["matiere"]}</option>`;
         matiereSelect.disabled = true;
         if (!this.value) {
             niveauSelect.disabled = true;
@@ -286,7 +581,7 @@
     document.getElementById('niveau').addEventListener('change', function() {
         const cycle = document.getElementById('cycle').value;
         const matiereSelect = document.getElementById('matiere');
-        matiereSelect.innerHTML = '<option value="">-- Choisir la matière --</option>';
+        matiereSelect.innerHTML = `<option value="">${translations[currentLang]["matiere"]}</option>`;
         if (!this.value || !cycle) {
             matiereSelect.disabled = true;
             return;
@@ -294,7 +589,7 @@
         data[cycle].matieres.forEach(matiere => {
             const option = document.createElement('option');
             option.value = matiere;
-            option.textContent = matiere;
+            option.textContent = matiere.toLowerCase() === "arabe" ? translations[currentLang]["arabe"] : matiere;
             matiereSelect.appendChild(option);
         });
         matiereSelect.disabled = false;
@@ -302,17 +597,16 @@
 
     function toggleUserType() {
         const isEleve = document.querySelector('input[name="usertype"]:checked').value === 'eleve';
-        document.getElementById('contact-title').textContent = isEleve ? "Informations du tuteur" : "Vos informations";
-        document.getElementById('nom').placeholder = isEleve ? "Nom complet du tuteur" : "Votre nom complet";
-        document.getElementById('email').placeholder = isEleve ? "Email du tuteur" : "Votre email";
-        document.getElementById('tel').placeholder = isEleve ? "Téléphone du tuteur" : "Votre téléphone";
-        // Affichage ou masquage du bloc élève
+        document.getElementById('contact-title').innerText = isEleve ? translations[currentLang]["contact-title"] : (currentLang==="ar"?translations[currentLang]["contact-title"]:translations[currentLang]["contact-title"].replace("du tuteur",""));
+        document.getElementById('nom').placeholder = isEleve ? translations[currentLang]["nom_tuteur"] : translations[currentLang]["nom_prof"];
+        document.getElementById('email').placeholder = isEleve ? translations[currentLang]["email_tuteur"] : translations[currentLang]["email_prof"];
+        document.getElementById('tel').placeholder = isEleve ? translations[currentLang]["tel_tuteur"] : translations[currentLang]["tel_prof"];
         document.getElementById('eleve-title').style.display = isEleve ? 'block' : 'none';
         document.getElementById('eleve-info-group').style.display = isEleve ? 'block' : 'none';
         document.getElementById('nom_eleve').required = isEleve;
     }
-    toggleUserType();
-
+    function goHome() { window.location.href = 'https://www.alamath.com'; }
+    function goBack() { window.history.back(); }
     function generateKeyWords() {
         const words = [];
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -325,7 +619,6 @@
         }
         document.getElementById("keyWords").value = words.join(" ");
     }
-
     function generatePassword(id, phone, keyWords) {
         const secretKey = "MaSuperCléSecrète";
         const inputString = id + phone + keyWords + secretKey;
@@ -337,11 +630,9 @@
             return hashHex.substring(0, 12);
         });
     }
-
-    // Inscription
     document.getElementById('signupForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const typetem = getTypeTem();
+        const typetem = "fralamath";
         const usertype = document.querySelector('input[name="usertype"]:checked').value;
         const cycle = document.getElementById('cycle').value;
         const niveau = document.getElementById('niveau').value;
@@ -354,12 +645,11 @@
         const keyWords = document.getElementById('keyWords').value.trim();
 
         const messageDiv = document.getElementById('message');
-        messageDiv.textContent = "Envoi de votre inscription...";
+        messageDiv.textContent = "...";
         messageDiv.className = "message";
 
-        // Validation conditionnelle
         if(!cycle || !niveau || !matiere || (document.querySelector('input[name="usertype"]:checked').value === 'eleve' && !nom_eleve) || !nom || !email || !tel || !userId || !keyWords) {
-            messageDiv.textContent = "Veuillez remplir tous les champs obligatoires.";
+            messageDiv.textContent = translations[currentLang]["generate_error"];
             messageDiv.className = "message error";
             return;
         }
@@ -369,7 +659,7 @@
                 typetem, usertype, cycle, niveau, matiere, nom_eleve, nom, email, tel, userId, keyWords, password
             };
 
-            fetch(`${BACKEND_URL}/`, {
+            fetch(`https://api.alamath.com/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -378,11 +668,9 @@
             })
             .then(async response => {
                 if (response.ok) {
-                    messageDiv.textContent = "Inscription réussie ! Vos infos et QR sont générés ci-dessous.";
+                    messageDiv.textContent = translations[currentLang]["generate_success"];
                     messageDiv.className = "message success";
                     document.getElementById('signupForm').reset();
-
-                    // Afficher infos et QR uniquement si inscription acceptée
                     const displayInfo = document.getElementById("displayInfo");
                     displayInfo.innerHTML = `<pre style="text-align:left;padding:7px 0;">
 Nom élève: ${nom_eleve}
@@ -399,29 +687,26 @@ Mot de passe: ${password}
                         height: 150
                     });
                 } else {
-                    let msg = "Erreur lors de l’inscription. Veuillez réessayer.";
+                    let msg = translations[currentLang]["generate_error"];
                     try {
                         const data = await response.json();
                         if(data && data.message) msg = data.message;
                     } catch(e){}
                     messageDiv.textContent = msg;
                     messageDiv.className = "message error";
-                    // Effacer infos et QR en cas d'erreur/doublon
                     document.getElementById("displayInfo").innerHTML = "";
                     document.getElementById("qrcode").innerHTML = "";
                 }
             })
             .catch(error => {
-                messageDiv.textContent = "Le serveur est en maintenance, veuillez réessayer plus tard. " ;
+                messageDiv.textContent = translations[currentLang]["server_error"];
                 messageDiv.className = "message error";
-                // Effacer infos et QR en cas d'erreur
                 document.getElementById("displayInfo").innerHTML = "";
                 document.getElementById("qrcode").innerHTML = "";
             });
         });
     });
 
-    // --- Gestion Cookie Simple ---
     function setSessionCookie(name, value, days=1) {
         let expires = "";
         if (days) {
@@ -444,8 +729,6 @@ Mot de passe: ${password}
     function eraseSessionCookie(name) {
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
-
-    // Redirection si déjà connecté
     function redirectIfLoggedIn() {
         const userData = getSessionCookie('alamathUser');
         if (userData) {
@@ -454,18 +737,17 @@ Mot de passe: ${password}
     }
     redirectIfLoggedIn();
 
-    // Connexion utilisateur
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const inputId = document.getElementById("loginUserId").value.trim();
         const inputPassword = document.getElementById("loginPassword").value.trim();
 
         if (!inputId || !inputPassword) {
-            document.getElementById("loginInfo").textContent = "Veuillez remplir les deux champs.";
+            document.getElementById("loginInfo").textContent = translations[currentLang]["login_fill"];
             return;
         }
 
-        fetch(`${BACKEND_URL}/login`, {
+        fetch(`https://api.alamath.com/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -475,20 +757,21 @@ Mot de passe: ${password}
         .then(response => response.json())
         .then(result => {
             if (result.success && result.user) {
-                // Enregistre les données utilisateur dans un cookie (stringifié)
-                setSessionCookie('alamathUser', JSON.stringify(result.user), 1); // 1 jour
-                // Redirige vers l'espace utilisateur
+                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
                 window.location.href = "/espace.html";
             } else if(result && result.message) {
                 document.getElementById("loginInfo").innerHTML = `<span style="color:red;">❌ ${result.message}</span>`;
             } else {
-                document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>❌ Utilisateur introuvable ou mot de passe incorrect.</span>";
+                document.getElementById("loginInfo").innerHTML = `<span style='color:red;'>${translations[currentLang]["login_error"]}</span>`;
             }
         })
         .catch(error => {
-            document.getElementById("loginInfo").innerHTML = "<span style='color:red;'>Erreur réseau : Le serveur est en maintenance, veuillez réessayer plus tard.</span>";
+            document.getElementById("loginInfo").innerHTML = `<span style='color:red;'>${translations[currentLang]["server_error"]}</span>`;
         });
     });
+
+    // Initial state
+    toggleUserType();
     </script>
 </body>
 </html>
