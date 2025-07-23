@@ -737,7 +737,7 @@ Mot de passe: ${password}
     function redirectIfLoggedIn() {
         const userData = getSessionCookie('alamathUser');
         if (userData) {
-            window.location.href = "/espace.html";
+            window.location.href = "/ma/espace.html";
         }
     }
     redirectIfLoggedIn();
@@ -763,7 +763,7 @@ Mot de passe: ${password}
         .then(result => {
             if (result.success && result.user) {
                 setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
-                window.location.href = "/espace.html";
+                window.location.href = "/ma/espace.html";
             } else if(result && result.message) {
                 document.getElementById("loginInfo").innerHTML = `<span style="color:red;">❌ ${result.message}</span>`;
             } else {
