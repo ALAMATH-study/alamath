@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Espace - AlaMath</title>
+    <title>Mon Espace - AlaMath Maroc</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -444,7 +444,7 @@
     </div>
     <div class="main-container" id="main-container">
         <div class="card">
-            <h2 id="title-espace">Bienvenue sur votre espace AlaMath</h2>
+            <h2 id="title-espace">Bienvenue sur votre espace AlaMath Maroc</h2>
             <div id="userInfo"></div>
             <div class="flex-btn-row">
                 <button class="btn logout" id="btnLogout" onclick="logout()">Déconnexion</button>
@@ -463,8 +463,8 @@
             <input id="inputNouveauEleve" type="text" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;" placeholder="Nouveau nom d'élève"/>
             <select id="selectCycle" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;">
                 <option value="">-- Choisissez un cycle --</option>
-                <option value="Maternelle">Maternelle</option>
-                <option value="Élémentaire">Élémentaire</option>
+                <option value="Préscolaire">Préscolaire</option>
+                <option value="Primaire">Primaire</option>
                 <option value="Collège">Collège</option>
                 <option value="Lycée">Lycée</option>
             </select>
@@ -479,13 +479,13 @@
       </div>
     </div>
     <script>
-    // -------- Traductions --------
+    // -------- Traductions adaptées Maroc --------
     const translations = {
         fr: {
-            "title-espace": "Bienvenue sur votre espace AlaMath",
+            "title-espace": "Bienvenue sur votre espace AlaMath Maroc",
             "btnLogout": "Déconnexion",
             "btnAddSeance": "Ajouter une matière / séance",
-            "cours-title": "Elèves & détails des cours",
+            "cours-title": "Élèves & détails des cours",
             "demandes-title": "Demandes en attente",
             "nom-eleve": "Nom ",
             "cycle": "Cycle",
@@ -524,12 +524,12 @@
             "dir": "ltr"
         },
         en: {
-            "title-espace": "Welcome to your AlaMath space",
+            "title-espace": "Welcome to your AlaMath Morocco space",
             "btnLogout": "Logout",
             "btnAddSeance": "Add subject / session",
-            "cours-title": "students & Course details",
+            "cours-title": "Students & Course details",
             "demandes-title": "Pending requests",
-            "nom-eleve": "name",
+            "nom-eleve": "Name",
             "cycle": "Cycle",
             "niveau": "Grade",
             "matiere": "Subject",
@@ -566,10 +566,10 @@
             "dir": "ltr"
         },
         ar: {
-            "title-espace": "مرحبا بك في فضاء علاماث",
+            "title-espace": "مرحبا بك في فضاء علاماث المغرب",
             "btnLogout": "تسجيل الخروج",
             "btnAddSeance": "إضافة مادة / حصة",
-            "cours-title": " تلاميذ & تفاصيل الدروس",
+            "cours-title": "تلاميذ & تفاصيل الدروس",
             "demandes-title": "الطلبات المعلقة",
             "nom-eleve": "الإسم ",
             "cycle": "السلك",
@@ -610,6 +610,43 @@
     };
 
     let currentLang = "fr";
+
+    // --- Données scolarité MAROC ---
+    const niveauxParCycle = {
+        "Préscolaire": ["Petite section", "Moyenne section", "Grande section"],
+        "Primaire": [
+            "1ère année", "2ème année", "3ème année", "4ème année", "5ème année", "6ème année"
+        ],
+        "Collège": [
+            "1ère année collège", "2ème année collège", "3ème année collège"
+        ],
+        "Lycée": [
+            "Tronc commun sciences", "Tronc commun lettres", 
+            "1ère année Bac Sciences Mathématiques A", "1ère année Bac Sciences Mathématiques B",
+            "1ère année Bac Sciences Physiques", "1ère année Bac Sciences de la Vie et de la Terre",
+            "1ère année Bac Sciences Économiques", "1ère année Bac Lettres",
+            "2ème année Bac Sciences Mathématiques A", "2ème année Bac Sciences Mathématiques B",
+            "2ème année Bac Sciences Physiques", "2ème année Bac SVT",
+            "2ème année Bac Sciences Économiques", "2ème année Bac Lettres"
+        ]
+    };
+    const matieresParCycle = {
+        "Préscolaire": [
+            "Arabe", "Français", "Mathématiques", "Découverte", "Activités artistiques"
+        ],
+        "Primaire": [
+            "Arabe", "Français", "Amazighe", "Mathématiques", "Activités scientifiques", "Éducation islamique", 
+            "Histoire-Géographie", "Éducation artistique", "Anglais"
+        ],
+        "Collège": [
+            "Arabe", "Français", "Amazighe", "Mathématiques", "SVT", "Physique-Chimie",
+            "Anglais", "Histoire-Géographie", "Éducation islamique", "Technologie", "Informatique"
+        ],
+        "Lycée": [
+            "Arabe", "Français", "Anglais", "Espagnol", "Philosophie", "Mathématiques", "Physique-Chimie", 
+            "SVT", "Sciences économiques", "Histoire-Géographie", "Informatique", "Éducation islamique"
+        ]
+    };
 
     function setLang(lang) {
         currentLang = lang;
@@ -667,20 +704,6 @@
         setLang(currentLang);
     });
 
-    // --- Données scolarité
-    const niveauxParCycle = {
-        "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
-        "Élémentaire": ["CP", "CE1", "CE2", "CM1", "CM2"],
-        "Collège": ["6e", "5e", "4e", "3e"],
-        "Lycée": ["Seconde", "Première", "Terminale"]
-    };
-    const matieresParCycle = {
-        "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
-        "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
-        "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
-        "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
-    };
-
     // cookies
     function getSessionCookie(name) {
         const nameEQ = name + "=";
@@ -705,7 +728,7 @@
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // POPUP LOGIQUE (identique)
+    // POPUP LOGIQUE
     let matiereSelectionnee = "";
     let eleveSelectionne = "";
     let cycleSelectionne = "";
