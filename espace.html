@@ -245,6 +245,7 @@
         .cours-table th, .cours-table td {
             padding: 0.78em 1em;
             text-align: left;
+            white-space: nowrap;
         }
         .cours-table th {
             background: #e0f0ff;
@@ -315,7 +316,6 @@
             position:absolute;top:8px;right:16px;background:none;border:none;
             font-size:1.5em;cursor:pointer;
         }
-        /* Floating buttons left */
         .floating-left {
             position: fixed;
             top: 1rem;
@@ -448,7 +448,7 @@
             <div id="userInfo"></div>
             <div class="flex-btn-row">
                 <button class="btn logout" id="btnLogout" onclick="logout()">Déconnexion</button>
-                <button class="btn" id="btnAddSeance" onclick="ajouterSeance()">Ajouter une matière / élève</button>
+                <button class="btn" id="btnAddSeance" onclick="ajouterSeance()">Ajouter une matière / séance</button>
             </div>
         </div>
         <div class="cours-section" id="coursSection" style="display:none;"></div>
@@ -479,15 +479,17 @@
       </div>
     </div>
     <script>
-    // --- Traductions ---
+    // -------- Traductions --------
     const translations = {
         fr: {
             "title-espace": "Bienvenue sur votre espace AlaMath",
             "btnLogout": "Déconnexion",
-            "btnAddSeance": "Ajouter une matière / élève",
+            "btnAddSeance": "Ajouter une matière / séance",
             "cours-title": "Détails des cours",
             "demandes-title": "Demandes en attente",
             "nom-eleve": "Nom élève",
+            "cycle": "Cycle",
+            "niveau": "Niveau",
             "matiere": "Matière",
             "date-debut": "Date début",
             "nbre-seance": "Nombre de séances",
@@ -524,10 +526,12 @@
         en: {
             "title-espace": "Welcome to your AlaMath space",
             "btnLogout": "Logout",
-            "btnAddSeance": "Add subject / student",
+            "btnAddSeance": "Add subject / session",
             "cours-title": "Course details",
             "demandes-title": "Pending requests",
             "nom-eleve": "Student name",
+            "cycle": "Cycle",
+            "niveau": "Grade",
             "matiere": "Subject",
             "date-debut": "Start date",
             "nbre-seance": "Number of sessions",
@@ -564,10 +568,12 @@
         ar: {
             "title-espace": "مرحبا بك في فضاء علاماث",
             "btnLogout": "تسجيل الخروج",
-            "btnAddSeance": "إضافة مادة / تلميذ(ة)",
+            "btnAddSeance": "إضافة مادة / حصة",
             "cours-title": "تفاصيل الدروس",
             "demandes-title": "الطلبات المعلقة",
             "nom-eleve": "اسم التلميذ",
+            "cycle": "السلك",
+            "niveau": "المستوى",
             "matiere": "المادة",
             "date-debut": "تاريخ البداية",
             "nbre-seance": "عدد الحصص",
@@ -783,7 +789,6 @@
             document.getElementById('inputNouveauEleve').oninput = verifierAffichageDemandeBtn;
         } else if(val !== "" && val !== "__autre") {
             document.getElementById('champsNouveauEleve').style.display = "none";
-            // Afficher le choix matière (toujours !)
             const userDataString = getSessionCookie('alamathUser');
             const user = JSON.parse(userDataString);
             let coursEleve = (user.cours || []).find(c=>c.nom_eleve===val);
@@ -914,8 +919,6 @@
                         <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
-                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
-                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
             `;
         } else {
             rows += `
@@ -936,8 +939,6 @@
                         <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
                     </span>
                 </div>
-                <div class="user-row"><span class="user-label">Cycle</span><span class="user-value">${user.cycle || ""}</span></div>
-                <div class="user-row"><span class="user-label">Niveau</span><span class="user-value">${user.niveau || ""}</span></div>
             `;
         }
         return `<div class="user-info-grid">${rows}</div>`;
@@ -960,6 +961,8 @@
                 <table class="cours-table">
                     <tr>
                         <th>${translations[currentLang]["nom-eleve"]}</th>
+                        <th>${translations[currentLang]["cycle"] || "Cycle"}</th>
+                        <th>${translations[currentLang]["niveau"] || "Niveau"}</th>
                         <th>${translations[currentLang]["matiere"]}</th>
                         <th>${translations[currentLang]["date-debut"]}</th>
                         <th>${translations[currentLang]["nbre-seance"]}</th>
@@ -974,6 +977,8 @@
                         return `
                         <tr class="dynamic-row">
                             <td>${coursItem.nom_eleve || ''}</td>
+                            <td>${coursItem.cycle || ''}</td>
+                            <td>${coursItem.niveau || ''}</td>
                             <td>${coursItem.matiere || ''}</td>
                             <td>${coursItem.date_debut || ''}</td>
                             <td>${coursItem.nbre_seance || ''}</td>
@@ -994,7 +999,7 @@
             </div>`;
         }
 
-        // Ajout des demandes en attente
+        // Ajout des demandes en attente (sans bouton Payer)
         if (user.demandes && user.demandes.length > 0) {
             htmlCours += `<div class="cours-title">${translations[currentLang]["demandes-title"]}</div>
             <div style="overflow-x:auto">
@@ -1003,16 +1008,12 @@
                      <th>${translations[currentLang]["nom-eleve"]}</th>
                      <th>${translations[currentLang]["matiere-demandee"]}</th>
                      <th>${translations[currentLang]["date-demande"]}</th>
-                     <th>${translations[currentLang]["paiement"]}</th>
                    </tr>
-                   ${user.demandes.map((d, idx) =>
+                   ${user.demandes.map((d) =>
                       `<tr>
                         <td>${d.nom_eleve}</td>
                         <td>${d.matiere_demande}</td>
                         <td>${d.demande_date}</td>
-                        <td>
-                            <button class="btn payer" onclick="payerDemande(${idx})" ${d.payee === "oui" ? 'disabled' : ''}>${d.payee === "oui" ? translations[currentLang]["btn-payer-disabled"] : translations[currentLang]["btn-payer"]}</button>
-                        </td>
                       </tr>`
                     ).join('')}
                  </table>
@@ -1037,32 +1038,6 @@
                 elem.textContent = "********";
             }
         }
-    }
-
-    function payerDemande(idx) {
-        const userDataString = getSessionCookie('alamathUser');
-        const user = JSON.parse(userDataString);
-        const demande = user.demandes[idx];
-        if (!demande) return;
-        fetch('https://api.alamath.com/payer-demande', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                nom_eleve: demande.nom_eleve,
-                nom: demande.nom,
-                email: demande.email,
-                tel: demande.tel,
-                matiere_demande: demande.matiere_demande
-            })
-        }).then(res => res.json())
-          .then(result => {
-            if (result.success) {
-                alert(translations[currentLang]["btn-payer-disabled"]);
-                refreshData();
-            } else {
-                alert(result.message || translations[currentLang]["erreur-envoi"]);
-            }
-        });
     }
 
     function payerSeanceCours(idx) {
