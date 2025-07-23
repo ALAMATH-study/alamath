@@ -5,71 +5,683 @@
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Espace - AlaMath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            background: #f0f6fb;
-            color: #222;
+        :root {
+            --color-bg1: #f5f8fb;
+            --color-bg2: #d0e4f7;
+            --color-bg3: #f2e6ff;
+            --color-primary: #0066ee;
+            --color-primary-dark: #004aad;
+            --color-secondary: #13b813;
+            --color-danger: #e53e3e;
+            --color-card: #fff;
+            --radius: 18px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.13);
+            --font-main: 'Inter', Arial, sans-serif;
+            --font-title: 'Poppins', Arial, sans-serif;
+            --icon-sun: #ffe15a;
+            --icon-moon: #ffe15a;
+        }
+        html, body {
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            text-align: center;
         }
-        .container {
-            width: 94%;
-            max-width: 520px;
-            margin: 38px auto;
-            background: #fff;
-            padding: 32px 20px 20px 20px;
-            border-radius: 18px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-            text-align: center;
+        body {
+            background:
+                url('bkg.png') center center/cover no-repeat fixed,
+                radial-gradient(circle at 80% 0%, var(--color-bg3) 0, transparent 38%),
+                radial-gradient(circle at 10% 100%, var(--color-bg2) 0, transparent 49%),
+                linear-gradient(120deg, var(--color-bg1) 60%, #e5f0fc 100%);
+            font-family: var(--font-main);
+            color: #222;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night {
+            background:
+                url('bkg.png') center center/cover no-repeat fixed,
+                radial-gradient(circle at 80% 0%, #223357 0, transparent 38%),
+                radial-gradient(circle at 10% 100%, #172133 0, transparent 49%),
+                linear-gradient(120deg, #172133 60%, #223357 100%);
+            color: #f4f7fb;
+        }
+        .rtl, body.rtl {
+            direction: rtl !important;
+        }
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 32px;
+            padding: 0 16px;
+        }
+        .card {
+            background: var(--color-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            padding: 34px 20px 26px 20px;
+            margin: 46px 0 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s;
+            position: relative;
+            z-index: 5;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night .card {
+            background: #223357;
+            color: #f4f7fb;
+            box-shadow: 0 4px 18px #0a18374b;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
         }
         h2 {
-            color: #004aad;
-            margin-bottom: 0.6em;
+            font-family: var(--font-title);
+            color: var(--color-primary-dark);
+            font-size: 2em;
+            margin-bottom: 0.7em;
+            margin-top: 0;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            text-align: center;
+            transition: color 0.3s;
         }
-        .logout-btn {
-            background: #ff4d4d;
-            color: white;
+        body.night h2 {
+            color: #ffe15a;
+        }
+        .user-info-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: #f7fafc;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px #e9f1fa;
+            padding: 22px 16px;
+            margin-bottom: 18px;
+        }
+        body.night .user-info-grid {
+            background: #223357;
+            color: #f4f7fb;
+        }
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+        }
+        .user-label {
+            color: var(--color-primary-dark);
+            font-weight: 600;
+            min-width: 90px;
+            font-family: var(--font-title);
+            font-size: 1.04em;
+            flex-shrink: 0;
+        }
+        body.night .user-label {
+            color: #ffe15a;
+        }
+        .user-value {
+            font-size: 1.07em;
+            font-family: inherit;
+        }
+        .masked {
+            letter-spacing: 0.22em;
+            font-size: 1.03em;
+            vertical-align: middle;
+        }
+        .show-hide-btn {
+            background: none;
             border: none;
+            color: var(--color-primary-dark);
             font-size: 1em;
             cursor: pointer;
-            border-radius: 7px;
-            margin-top: 10px;
-            padding: 0.7em 1.3em;
+            margin-left: 7px;
             font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 5px;
         }
-        .logout-btn:hover {
-            background: #c00;
+        body.night .show-hide-btn {
+            color: #ffe15a;
         }
-        .user-data {
-            text-align: left;
-            font-size: 1.08em;
-            margin: 1.2em 0;
-            padding: 1em 1.1em;
-            background: #f7faff;
+        .show-hide-btn:hover {
+            color: var(--color-primary);
+            background: #f1f5ff;
+        }
+        body.night .show-hide-btn:hover {
+            background: #172133;
+            color: #ffe15a;
+        }
+        .flex-btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.3em;
+            margin-top: 1.4em;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: var(--color-primary-dark);
+            color: #fff;
+            border: none;
+            font-size: 1.05em;
+            font-family: var(--font-title);
+            cursor: pointer;
             border-radius: 8px;
+            margin: 0 8px;
+            padding: 0.75em 1.3em;
+            font-weight: 600;
+            transition: background 0.16s, box-shadow 0.16s;
+            box-shadow: 0 2px 10px #004aad13;
+            min-width: 135px;
         }
-        .user-data b {
-            color: #004aad;
+        .btn:hover {
+            background: var(--color-primary);
+            color: #fff;
+        }
+        body.night .btn {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .btn:hover {
+            background: #13243e;
+            color: #ffe15a;
+        }
+        .btn.logout {
+            background: var(--color-danger);
+            box-shadow: 0 2px 10px #e53e3e12;
+        }
+        .btn.logout:hover {
+            background: #b91c1c;
         }
         .cours-section {
+            width: 100%;
+            max-width: 680px;
+            background: #f0f8ff;
+            border-radius: 14px;
+            padding: 30px 16px;
+            box-shadow: 0 1px 7px #c5e8ff36;
+            margin: 32px auto 0 auto;
+            animation: fadeIn 1.2s;
+            position: relative;
+            z-index: 3;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.night .cours-section {
+            background: #223357;
+            color: #f4f7fb;
+        }
+        .cours-title {
+            font-family: var(--font-title);
+            color: var(--color-primary-dark);
+            font-size: 1.19em;
+            font-weight: 700;
+            margin-bottom: 1.1em;
+            margin-top: 0;
+        }
+        body.night .cours-title {
+            color: #ffe15a;
+        }
+        .cours-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--color-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px #b9e5ff15;
+            table-layout: auto;
+        }
+        body.night .cours-table {
+            background: #223357;
+            color: #fff;
+        }
+        .cours-table th, .cours-table td {
+            padding: 0.78em 1em;
             text-align: left;
-            margin: 1.2em 0;
-            background: #e7f4ff;
-            border-radius: 8px;
-            padding: 1em 1.1em;
+            white-space: nowrap;
+        }
+        .cours-table th {
+            background: #e0f0ff;
+            color: var(--color-primary-dark);
+            font-weight: 700;
+            font-size: 1.02em;
+            border-bottom: 2px solid #b3dfff;
+        }
+        body.night .cours-table th {
+            background: #223357;
+            color: #ffe15a;
+            border-bottom: 2px solid #ffe15a88;
+        }
+        .cours-table td {
+            background: #f7fcfe;
+            border-bottom: 1px solid #e8f4fc;
+            font-size: 0.99em;
+        }
+        body.night .cours-table td {
+            background: #304066;
+            color: #ffe15a;
+            border-bottom: 1px solid #223357;
+        }
+        .cours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .cours-table tr:nth-child(even) td {
+            background: #f3faff;
+        }
+        body.night .cours-table tr:nth-child(even) td {
+            background: #223357;
+        }
+        .btn.payer {
+            background: var(--color-primary);
+            min-width: 90px;
+            padding: 0.5em 1em;
+            font-size: 0.97em;
+        }
+        .btn.payer:disabled {
+            background: #c0d9ed;
+            color: #7a8699;
+            cursor: not-allowed;
+        }
+        body.night .btn.payer {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .btn.payer:disabled {
+            background: #223357;
+            color: #aaa;
+        }
+        #popupAjout {
+            display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;
+            background:rgba(0,0,0,0.20);z-index:999;align-items:center;justify-content:center;
+        }
+        #popupAjout .popup-inner {
+            background:#fff;padding:2.2em 1.5em 2em 1.5em;border-radius:16px;
+            max-width:370px;width:96vw;box-shadow:0 4px 20px #0003;position:relative;
+        }
+        body.night #popupAjout .popup-inner {
+            background: #223357;
+            color: #ffe15a;
+        }
+        #popupAjout h3 {margin-top:0;}
+        #popupAjoutMsg { color:var(--color-primary-dark);margin-top:1em;font-size:1em;}
+        body.night #popupAjoutMsg { color: #ffe15a;}
+        #popupAjoutCloseBtn {
+            position:absolute;top:8px;right:16px;background:none;border:none;
+            font-size:1.5em;cursor:pointer;
+        }
+        .floating-left {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: row;
+            gap: 0.7rem;
+            align-items: center;
+        }
+        .floating-left .lang-btn, .floating-left .night-toggle, .floating-left .refresh-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary-dark);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.12em;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.22s;
+            outline: none;
+            border: 2px solid transparent;
+        }
+        .floating-left .lang-btn.active,
+        .floating-left .lang-btn:hover {
+            background: var(--color-primary);
+            color: var(--btn-text);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #2166c180;
+            transform: scale(1.08) rotate(-7deg);
+        }
+        .floating-left .night-toggle {
+            font-size: 1.4em;
+            background: #fffbe7;
+            color: var(--icon-moon);
+        }
+        .floating-left .night-toggle.night,
+        .floating-left .night-toggle:hover {
+            background: #223357;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+            box-shadow: 0 4px 16px #22335770;
+            transform: scale(1.08) rotate(7deg);
+        }
+        .floating-left .refresh-btn {
+            font-size: 1.4em;
+            background: var(--color-primary);
+        }
+        .floating-left .refresh-btn:hover {
+            background: #13b813;
+            color: #fff;
+        }
+        body.night .floating-left .lang-btn {
+            background: #304066;
+            color: #ffe15a;
+            border-color: transparent;
+        }
+        body.night .floating-left .lang-btn.active,
+        body.night .floating-left .lang-btn:hover {
+            background: #13243e;
+            color: #ffe15a;
+            border-color: #ffe15a;
+        }
+        body.night .floating-left .night-toggle {
+            background: #1a2236;
+            color: var(--icon-sun);
+            border-color: #ffe15a;
+        }
+        body.night .floating-left .refresh-btn {
+            background: #304066;
+            color: #ffe15a;
+        }
+        body.night .floating-left .refresh-btn:hover {
+            background: #13b813;
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .main-container { padding: 0 3vw; }
+            .card {
+                margin: 16px 0 0 0;
+                max-width: 99vw;
+                padding: 16px 4vw 14px 4vw;
+            }
+            .user-info-grid {
+                padding: 12px 4vw;
+            }
+            .cours-section {
+                border-radius: 10px;
+                padding: 18px 2vw;
+                margin: 18px 0 0 0;
+                max-width: 99vw;
+            }
+            .cours-title { font-size: 1.06em; }
+            .cours-table th, .cours-table td { font-size: 0.98em; padding: 0.65em 0.4em; }
+            .flex-btn-row { flex-direction: column; gap: 1em; }
+            .floating-left {
+                top: 0.7rem;
+                left: 0.7rem;
+            }
+            .floating-left .lang-btn, .floating-left .night-toggle, .floating-left .refresh-btn {
+                width: 38px; height: 38px; font-size: 0.95em;
+            }
+        }
+        @media (max-width: 400px) {
+            h2 { font-size: 1.08em;}
+            .btn, .btn.logout { font-size: 0.97em; min-width: 90px; padding: 0.65em 0.9em; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Bienvenue sur votre espace AlaMath</h2>
-        <div id="userInfo"></div>
-        <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    <div class="floating-left" id="floatingLeft">
+        <button id="lang-fr" class="lang-btn" onclick="setLang('fr')">FR</button>
+        <button id="lang-en" class="lang-btn" onclick="setLang('en')">EN</button>
+        <button id="lang-ar" class="lang-btn" onclick="setLang('ar')">AR</button>
+        <button class="night-toggle" id="night-toggle" title="Mode nuit / Night mode" onclick="toggleNightMode()">
+            <span id="night-icon">🌙</span>
+        </button>
+        <button id="refresh-btn" class="refresh-btn" title="Actualiser / Refresh" onclick="refreshData()">
+            &#x21bb;
+        </button>
+    </div>
+    <div class="main-container" id="main-container">
+        <div class="card">
+            <h2 id="title-espace">Bienvenue sur votre espace AlaMath</h2>
+            <div id="userInfo"></div>
+            <div class="flex-btn-row">
+                <button class="btn logout" id="btnLogout" onclick="logout()">Déconnexion</button>
+                <button class="btn" id="btnAddSeance" onclick="ajouterSeance()">Ajouter une matière / séance</button>
+            </div>
+        </div>
+        <div class="cours-section" id="coursSection" style="display:none;"></div>
+    </div>
+    <!-- Popup ajout matière/séance (inchangé) -->
+    <div id="popupAjout">
+      <div class="popup-inner">
+        <button id="popupAjoutCloseBtn" onclick="closePopupAjout()">&times;</button>
+        <h3 id="popupTitle">Demander une nouvelle matière / séance</h3>
+        <div id="listeElevesContainer" style="margin-bottom:1em;"></div>
+        <div id="champsNouveauEleve" style="display:none;">
+            <input id="inputNouveauEleve" type="text" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;" placeholder="Nouveau nom d'élève"/>
+            <select id="selectCycle" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;">
+                <option value="">-- Choisissez un cycle --</option>
+                <option value="Maternelle">Maternelle</option>
+                <option value="Élémentaire">Élémentaire</option>
+                <option value="Collège">Collège</option>
+                <option value="Lycée">Lycée</option>
+            </select>
+            <select id="selectNiveau" style="width:100%;margin-bottom:0.7em;padding:6px;font-size:1em;">
+                <option value="">-- Choisissez un niveau --</option>
+            </select>
+            <div id="listeMatieres"></div>
+        </div>
+        <div id="champsMatiereExistEleve"></div>
+        <button id="demanderBtn" class="btn" style="display:none;width:100%;margin-top:1.2em;">Demander</button>
+        <div id="popupAjoutMsg"></div>
+      </div>
     </div>
     <script>
-    // Cookie helpers
+    // -------- Traductions --------
+    const translations = {
+        fr: {
+            "title-espace": "Bienvenue sur votre espace AlaMath",
+            "btnLogout": "Déconnexion",
+            "btnAddSeance": "Ajouter une matière / séance",
+            "cours-title": "Elèves & détails des cours",
+            "demandes-title": "Demandes en attente",
+            "nom-eleve": "Nom ",
+            "cycle": "Cycle",
+            "niveau": "Niveau",
+            "matiere": "Matière",
+            "date-debut": "Date début",
+            "nbre-seance": "Nombre de séances",
+            "nbre-seance-impayees": "Séances impayées",
+            "prochaine-seance": "Prochaine séance",
+            "prof": "Professeur",
+            "observation": "Observation",
+            "paiement": "Paiement",
+            "matiere-demandee": "Matière demandée",
+            "date-demande": "Date demande",
+            "btn-payer": "Payer",
+            "btn-payer-disabled": "Payé",
+            "popupTitle": "Demander une nouvelle matière / séance",
+            "select-eleve": "Sélectionnez l'élève concerné :",
+            "choose-eleve": "-- Choisissez un élève --",
+            "add-new-eleve": "+ Ajouter un nouveau nom...",
+            "choose-cycle": "-- Choisissez un cycle --",
+            "choose-niveau": "-- Choisissez un niveau --",
+            "choose-matiere": "Choisissez la matière :",
+            "btn-demander": "Demander",
+            "envoi-en-cours": "Envoi en cours...",
+            "demande-envoyee": "Votre demande a bien été envoyée !",
+            "erreur-envoi": "Erreur lors de l'envoi.",
+            "erreur-reseau": "Erreur réseau : ",
+            "btnAfficher": "Afficher",
+            "btnMasquer": "Masquer",
+            "actualiser": "Actualiser",
+            "mode-nuit": "Mode nuit",
+            "fr": "FR",
+            "en": "EN",
+            "ar": "AR",
+            "dir": "ltr"
+        },
+        en: {
+            "title-espace": "Welcome to your AlaMath space",
+            "btnLogout": "Logout",
+            "btnAddSeance": "Add subject / session",
+            "cours-title": "students & Course details",
+            "demandes-title": "Pending requests",
+            "nom-eleve": "name",
+            "cycle": "Cycle",
+            "niveau": "Grade",
+            "matiere": "Subject",
+            "date-debut": "Start date",
+            "nbre-seance": "Number of sessions",
+            "nbre-seance-impayees": "Unpaid sessions",
+            "prochaine-seance": "Next session",
+            "prof": "Teacher",
+            "observation": "Observation",
+            "paiement": "Payment",
+            "matiere-demandee": "Requested subject",
+            "date-demande": "Request date",
+            "btn-payer": "Pay",
+            "btn-payer-disabled": "Paid",
+            "popupTitle": "Request new subject / session",
+            "select-eleve": "Select the concerned student:",
+            "choose-eleve": "-- Select student --",
+            "add-new-eleve": "+ Add new name...",
+            "choose-cycle": "-- Select cycle --",
+            "choose-niveau": "-- Select grade --",
+            "choose-matiere": "Choose subject:",
+            "btn-demander": "Request",
+            "envoi-en-cours": "Sending...",
+            "demande-envoyee": "Your request has been sent!",
+            "erreur-envoi": "Error while sending.",
+            "erreur-reseau": "Network error: ",
+            "btnAfficher": "Show",
+            "btnMasquer": "Hide",
+            "actualiser": "Refresh",
+            "mode-nuit": "Night mode",
+            "fr": "FR",
+            "en": "EN",
+            "ar": "AR",
+            "dir": "ltr"
+        },
+        ar: {
+            "title-espace": "مرحبا بك في فضاء علاماث",
+            "btnLogout": "تسجيل الخروج",
+            "btnAddSeance": "إضافة مادة / حصة",
+            "cours-title": " تلاميذ & تفاصيل الدروس",
+            "demandes-title": "الطلبات المعلقة",
+            "nom-eleve": "الإسم ",
+            "cycle": "السلك",
+            "niveau": "المستوى",
+            "matiere": "المادة",
+            "date-debut": "تاريخ البداية",
+            "nbre-seance": "عدد الحصص",
+            "nbre-seance-impayees": "حصص غير مدفوعة",
+            "prochaine-seance": "الحصة القادمة",
+            "prof": "الأستاذ",
+            "observation": "ملاحظة",
+            "paiement": "الدفع",
+            "matiere-demandee": "المادة المطلوبة",
+            "date-demande": "تاريخ الطلب",
+            "btn-payer": "الدفع",
+            "btn-payer-disabled": "تم الدفع",
+            "popupTitle": "طلب مادة / حصة جديدة",
+            "select-eleve": "اختر التلميذ المعني:",
+            "choose-eleve": "-- اختر التلميذ --",
+            "add-new-eleve": "+ إضافة اسم جديد...",
+            "choose-cycle": "-- اختر السلك --",
+            "choose-niveau": "-- اختر المستوى --",
+            "choose-matiere": "اختر المادة:",
+            "btn-demander": "طلب",
+            "envoi-en-cours": "جاري الإرسال...",
+            "demande-envoyee": "تم إرسال طلبك!",
+            "erreur-envoi": "خطأ أثناء الإرسال.",
+            "erreur-reseau": "خطأ في الشبكة: ",
+            "btnAfficher": "إظهار",
+            "btnMasquer": "إخفاء",
+            "actualiser": "تحديث",
+            "mode-nuit": "الوضع الليلي",
+            "fr": "فر",
+            "en": "إنج",
+            "ar": "عر",
+            "dir": "rtl"
+        }
+    };
+
+    let currentLang = "fr";
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById("lang-fr").classList.toggle("active", lang==="fr");
+        document.getElementById("lang-en").classList.toggle("active", lang==="en");
+        document.getElementById("lang-ar").classList.toggle("active", lang==="ar");
+        document.body.dir = translations[lang].dir;
+        document.getElementById("main-container").dir = translations[lang].dir;
+        document.getElementById("main-container").classList.toggle("rtl", lang==="ar");
+        document.body.classList.toggle("rtl", lang==="ar");
+
+        document.getElementById("title-espace").innerText = translations[lang]["title-espace"];
+        document.getElementById("btnLogout").innerText = translations[lang]["btnLogout"];
+        document.getElementById("btnAddSeance").innerText = translations[lang]["btnAddSeance"];
+        document.getElementById("popupTitle").innerText = translations[lang]["popupTitle"];
+        document.getElementById("demanderBtn").innerText = translations[lang]["btn-demander"];
+
+        // Popup placeholders
+        document.getElementById("inputNouveauEleve").placeholder = translations[lang]["add-new-eleve"];
+        document.getElementById("selectCycle").options[0].text = translations[lang]["choose-cycle"];
+        document.getElementById("selectNiveau").options[0].text = translations[lang]["choose-niveau"];
+
+        // Traduire select élèves
+        let selectEleve = document.getElementById("selectEleve");
+        if (selectEleve) {
+            selectEleve.options[0].text = translations[lang]["choose-eleve"];
+            if (selectEleve.options.length > 1)
+                selectEleve.options[selectEleve.options.length-1].text = translations[lang]["add-new-eleve"];
+        }
+
+        showUserInfo(); // pour traduire le tableau
+    }
+
+    // Mode nuit
+    function applyNightMode(night) {
+        if (night) {
+            document.body.classList.add('night');
+            document.getElementById('night-toggle').classList.add('night');
+            document.getElementById('night-icon').textContent = "☀️";
+            localStorage.setItem('alamathNight', '1');
+        } else {
+            document.body.classList.remove('night');
+            document.getElementById('night-toggle').classList.remove('night');
+            document.getElementById('night-icon').textContent = "🌙";
+            localStorage.removeItem('alamathNight');
+        }
+    }
+    function toggleNightMode() {
+        const isNight = !document.body.classList.contains('night');
+        applyNightMode(isNight);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        applyNightMode(localStorage.getItem('alamathNight') === '1');
+        setLang(currentLang);
+    });
+
+    // --- Données scolarité
+    const niveauxParCycle = {
+        "Maternelle": ["Petite section", "Moyenne section", "Grande section"],
+        "Élémentaire": ["CP", "CE1", "CE2", "CM1", "CM2"],
+        "Collège": ["6e", "5e", "4e", "3e"],
+        "Lycée": ["Seconde", "Première", "Terminale"]
+    };
+    const matieresParCycle = {
+        "Maternelle": ["Découverte", "Jeux éducatifs", "Langage"],
+        "Élémentaire": ["Mathématiques", "Français", "Sciences", "Histoire-Géographie", "Anglais"],
+        "Collège": ["Mathématiques", "Français", "Histoire-Géographie", "SVT", "Physique-Chimie", "Anglais"],
+        "Lycée": ["Mathématiques", "Français", "Philosophie", "Physique-Chimie", "SVT", "Histoire-Géographie", "Anglais"]
+    };
+
+    // cookies
     function getSessionCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
@@ -80,51 +692,409 @@
         }
         return null;
     }
+    function setSessionCookie(name, value, days=1) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Strict";
+    }
     function eraseSessionCookie(name) {
         document.cookie = name+'=; Max-Age=-99999999; path=/; SameSite=Strict';
     }
 
-    // Affichage utilisateur
+    // POPUP LOGIQUE (identique)
+    let matiereSelectionnee = "";
+    let eleveSelectionne = "";
+    let cycleSelectionne = "";
+    let niveauSelectionne = "";
+    let listeEleves = [];
+    function ajouterSeance() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        let elevesSet = new Set();
+        if (user.cours && Array.isArray(user.cours)) {
+            user.cours.forEach(c => {
+                if (c.nom_eleve) elevesSet.add(c.nom_eleve);
+            });
+        }
+        listeEleves = Array.from(elevesSet);
+        let elevesHtml = `
+            <div style="margin-bottom:0.5em;">${translations[currentLang]["select-eleve"]}</div>
+            <select id="selectEleve" style="width:100%;padding:6px;font-size:1em;">
+                <option value="">${translations[currentLang]["choose-eleve"]}</option>
+                ${listeEleves.map(e => `<option value="${e}">${e}</option>`).join('')}
+                <option value="__autre">${translations[currentLang]["add-new-eleve"]}</option>
+            </select>
+        `;
+        document.getElementById('listeElevesContainer').innerHTML = elevesHtml;
+        document.getElementById('champsNouveauEleve').style.display = "none";
+        document.getElementById('champsMatiereExistEleve').innerHTML = "";
+        document.getElementById('demanderBtn').style.display = "none";
+        matiereSelectionnee = "";
+        eleveSelectionne = "";
+        cycleSelectionne = "";
+        niveauSelectionne = "";
+        document.getElementById('popupAjoutMsg').textContent = '';
+        document.getElementById('popupAjout').style.display = "flex";
+        document.getElementById('selectEleve').onchange = selectionEleveChanged;
+    }
+    function selectionEleveChanged() {
+        const select = document.getElementById('selectEleve');
+        const val = select.value;
+        matiereSelectionnee = "";
+        if(val !== "" && val === "__autre") {
+            document.getElementById('champsNouveauEleve').style.display = "";   
+            document.getElementById('champsMatiereExistEleve').innerHTML = "";
+            document.getElementById('inputNouveauEleve').value = "";
+            document.getElementById('selectCycle').value = "";
+            document.getElementById('selectNiveau').innerHTML = `<option value="">${translations[currentLang]["choose-niveau"]}</option>`;
+            document.getElementById('listeMatieres').innerHTML = "";
+            document.getElementById('selectCycle').onchange = function() {
+                cycleSelectionne = this.value;
+                let options = `<option value="">${translations[currentLang]["choose-niveau"]}</option>`;
+                if(niveauxParCycle[cycleSelectionne]) {
+                    options += niveauxParCycle[cycleSelectionne].map(n => `<option value="${n}">${n}</option>`).join('');
+                }
+                document.getElementById('selectNiveau').innerHTML = options;
+                niveauSelectionne = "";
+                document.getElementById('listeMatieres').innerHTML = "";
+                verifierAffichageDemandeBtn();
+            };
+            document.getElementById('selectNiveau').onchange = function() {
+                niveauSelectionne = this.value;
+                let listeHtml = "";
+                if(matieresParCycle[cycleSelectionne]) {
+                    listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">${translations[currentLang]["choose-matiere"]}</div>`;
+                    listeHtml += matieresParCycle[cycleSelectionne].map(mat =>
+                        `<div style="margin-bottom:0.6em;">
+                            <label style="cursor:pointer;">
+                                <input type="radio" name="matiereAjout" value="${mat}"> ${mat}
+                            </label>
+                        </div>`
+                    ).join('');
+                }
+                document.getElementById('listeMatieres').innerHTML = listeHtml;
+                Array.from(document.getElementsByName('matiereAjout')).forEach(r => {
+                    r.onclick = function() {
+                        matiereSelectionnee = this.value;
+                        verifierAffichageDemandeBtn();
+                    }
+                });
+                verifierAffichageDemandeBtn();
+            };
+            document.getElementById('inputNouveauEleve').oninput = verifierAffichageDemandeBtn;
+        } else if(val !== "" && val !== "__autre") {
+            document.getElementById('champsNouveauEleve').style.display = "none";
+            const userDataString = getSessionCookie('alamathUser');
+            const user = JSON.parse(userDataString);
+            let coursEleve = (user.cours || []).find(c=>c.nom_eleve===val);
+            let cycle = coursEleve ? (coursEleve.cycle||"") : "";
+            let niveau = coursEleve ? (coursEleve.niveau||"") : "";
+            let listeHtml = "";
+            if(matieresParCycle[cycle]) {
+                listeHtml = `<div style="margin-bottom:0.7em;text-align:left;">${translations[currentLang]["choose-matiere"]}</div>`;
+                listeHtml += matieresParCycle[cycle].map(mat =>
+                    `<div style="margin-bottom:0.6em;">
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="matiereAjout" value="${mat}"> ${mat}
+                        </label>
+                    </div>`
+                ).join('');
+            } else {
+                listeHtml = `<div style="color:#c00;">Aucune matière disponible pour ce cycle.</div>`;
+            }
+            document.getElementById('champsMatiereExistEleve').innerHTML = listeHtml;
+            matiereSelectionnee = "";
+            eleveSelectionne = val;
+            cycleSelectionne = cycle;
+            niveauSelectionne = niveau;
+            Array.from(document.getElementsByName('matiereAjout')).forEach(r => {
+                r.onclick = function() {
+                    matiereSelectionnee = this.value;
+                    verifierAffichageDemandeBtn();
+                }
+            });
+            verifierAffichageDemandeBtn();
+        } else {
+            document.getElementById('champsNouveauEleve').style.display = "none";
+            document.getElementById('champsMatiereExistEleve').innerHTML = "";
+            matiereSelectionnee = "";
+            verifierAffichageDemandeBtn();
+        }
+    }
+    function verifierAffichageDemandeBtn() {
+        const select = document.getElementById('selectEleve');
+        const val = select ? select.value : "";
+        let ok = false;
+        if(val && val !== "__autre") {
+            if(matiereSelectionnee) ok = true;
+        } else if(val==="__autre") {
+            let nom = document.getElementById('inputNouveauEleve').value.trim();
+            let cycle = document.getElementById('selectCycle').value;
+            let niveau = document.getElementById('selectNiveau').value;
+            if(nom && cycle && niveau && matiereSelectionnee) ok = true;
+        }
+        document.getElementById('demanderBtn').style.display = ok ? "block" : "none";
+    }
+    document.addEventListener('input', function(e){
+        if(e.target && e.target.id === 'inputNouveauEleve') verifierAffichageDemandeBtn();
+    });
+    document.getElementById('demanderBtn').onclick = function() {
+        const select = document.getElementById('selectEleve');
+        const val = select.value;
+        let nomEleve = "";
+        let cycle = "";
+        let niveau = "";
+        if(val === "__autre") {
+            nomEleve = document.getElementById('inputNouveauEleve').value.trim();
+            cycle = document.getElementById('selectCycle').value;
+            niveau = document.getElementById('selectNiveau').value;
+        } else {
+            nomEleve = val;
+            cycle = cycleSelectionne;
+            niveau = niveauSelectionne;
+        }
+        if (!matiereSelectionnee || !nomEleve) return;
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) { window.location.href = '/'; return; }
+        const user = JSON.parse(userDataString);
+        const dataToSend = {
+            usertype: user.usertype,
+            nom_eleve: nomEleve,
+            nom: user.nom || "",
+            email: user.email || "",
+            tel: user.tel || "",
+            niveau: niveau || "",
+            cycle: cycle || "",
+            matiere_demande: matiereSelectionnee,
+            demande_date: new Date().toISOString()
+        };
+        document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["envoi-en-cours"];
+        fetch('https://api.alamath.com/demande-matiere', {
+            method: "POST",
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(dataToSend)
+        }).then(async res => {
+            if(res.ok) {
+                document.getElementById('popupAjoutMsg').style.color = "#13b813";
+                document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["demande-envoyee"];
+                setTimeout(() => { closePopupAjout(); refreshData(); }, 1800);
+            } else {
+                let msg = translations[currentLang]["erreur-envoi"];
+                try { const data = await res.json(); if(data && data.message) msg = data.message; } catch(e){}
+                document.getElementById('popupAjoutMsg').style.color = "#c00";
+                document.getElementById('popupAjoutMsg').textContent = msg;
+            }
+        }).catch(e => {
+            document.getElementById('popupAjoutMsg').style.color = "#c00";
+            document.getElementById('popupAjoutMsg').textContent = translations[currentLang]["erreur-reseau"] + e;
+        });
+    };
+    function closePopupAjout() {
+        document.getElementById('popupAjout').style.display = "none";
+    }
+    function renderUserData(user) {
+        const isEleve = user.usertype && user.usertype.toLowerCase() === "eleve";
+        let rows = "";
+        if (isEleve) {
+            rows += `
+                <div class="user-row"><span class="user-label">${translations[currentLang]["nom-eleve"]}</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">${translations[currentLang]["btnAfficher"]}</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
+                    </span>
+                </div>
+            `;
+        } else {
+            rows += `
+                <div class="user-row"><span class="user-label">${translations[currentLang]["nom-eleve"]}</span><span class="user-value">${user.nom || ""}</span></div>
+                <div class="user-row"><span class="user-label">Téléphone</span><span class="user-value">${user.tel || ""}</span></div>
+                <div class="user-row"><span class="user-label">Email</span><span class="user-value">${user.email || ""}</span></div>
+                <div class="user-row">
+                    <span class="user-label">Clé de récupération</span>
+                    <span class="user-value">
+                        <span class="masked" id="cleRecup">********</span>
+                        <button class="show-hide-btn" id="btnCleRecup" type="button" onclick="toggleMask('cleRecup','btnCleRecup')">${translations[currentLang]["btnAfficher"]}</button>
+                    </span>
+                </div>
+                <div class="user-row">
+                    <span class="user-label">Mot de passe</span>
+                    <span class="user-value">
+                        <span class="masked" id="motDePasse">********</span>
+                        <button class="show-hide-btn" id="btnMotDePasse" type="button" onclick="toggleMask('motDePasse','btnMotDePasse')">${translations[currentLang]["btnAfficher"]}</button>
+                    </span>
+                </div>
+            `;
+        }
+        return `<div class="user-info-grid">${rows}</div>`;
+    }
     function showUserInfo() {
         const userDataString = getSessionCookie('alamathUser');
         if (!userDataString) {
-            window.location.href = '/'; // Redirige vers page de login si pas connecté
+            window.location.href = '/';
             return;
         }
         const user = JSON.parse(userDataString);
-        let html = `
-            <div class="user-data">
-                <b>Plateforme :</b> ${user.typetem || ''}<br>
-                <b>ID :</b> ${user.userId}<br>
-                <b>Nom :</b> ${user.nom}<br>
-                <b>Email :</b> ${user.email}<br>
-                <b>Téléphone :</b> ${user.tel}<br>
-                <b>Type :</b> ${user.usertype}<br>
-                <b>Cycle :</b> ${user.cycle}<br>
-                <b>Niveau :</b> ${user.niveau}<br>
-            </div>
-        `;
-        if(user.cours && Array.isArray(user.cours) && user.cours.length > 0) {
-            html += `<div class="cours-section"><b>Cours suivis :</b><br>`;
-            user.cours.forEach((cours, idx) => {
-                html += `<u>Cours #${idx+1}</u><br>`;
-                html += `Matière : ${cours.matiere || ""}<br>`;
-                html += `Date début : ${cours.date_debut ? new Date(cours.date_debut).toLocaleString() : ''}<br>`;
-                html += `Mois payés : ${(cours.mois_payes || []).join(', ')}<br>`;
-                html += `Mois impayés : ${(cours.mois_impayes || []).join(', ')}<br>`;
-                html += `Prochaine séance : ${cours.prochaine_seance ? new Date(cours.prochaine_seance).toLocaleString() : ''}<br>`;
-                html += `Prof : ${cours.prof || ""}<br>`;
-                html += `Observation : ${cours.observation || ""}<br><br>`;
-            });
-            html += "</div>";
+        document.getElementById("userInfo").innerHTML = renderUserData(user);
+        const coursSection = document.getElementById("coursSection");
+        let htmlCours = "";
+
+        // Tableau principal des cours
+        if (user.cours && user.cours.length > 0) {
+            htmlCours += `<div class="cours-title">${translations[currentLang]["cours-title"]}</div>
+            <div style="overflow-x:auto">
+                <table class="cours-table">
+                    <tr>
+                        <th>${translations[currentLang]["nom-eleve"]}</th>
+                        <th>${translations[currentLang]["cycle"] || "Cycle"}</th>
+                        <th>${translations[currentLang]["niveau"] || "Niveau"}</th>
+                        <th>${translations[currentLang]["matiere"]}</th>
+                        <th>${translations[currentLang]["date-debut"]}</th>
+                        <th>${translations[currentLang]["nbre-seance"]}</th>
+                        <th>${translations[currentLang]["nbre-seance-impayees"]}</th>
+                        <th>${translations[currentLang]["prochaine-seance"]}</th>
+                        <th>${translations[currentLang]["prof"]}</th>
+                        <th>${translations[currentLang]["observation"]}</th>
+                        <th>${translations[currentLang]["paiement"]}</th>
+                    </tr>
+                    ${user.cours.map((coursItem, idx) => {
+                        let nbImpayees = Number(coursItem.nbre_seance_impayees || 0);
+                        return `
+                        <tr class="dynamic-row">
+                            <td>${coursItem.nom_eleve || ''}</td>
+                            <td>${coursItem.cycle || ''}</td>
+                            <td>${coursItem.niveau || ''}</td>
+                            <td>${coursItem.matiere || ''}</td>
+                            <td>${coursItem.date_debut || ''}</td>
+                            <td>${coursItem.nbre_seance || ''}</td>
+                            <td>${coursItem.nbre_seance_impayees || ''}</td>
+                            <td>${coursItem.prochaine_seance || ''}</td>
+                            <td>${coursItem.prof || ''}</td>
+                            <td>${coursItem.observation || ''}</td>
+                            <td>
+                                <button 
+                                    class="btn payer" 
+                                    ${nbImpayees > 0 ? '' : 'disabled="disabled"'}
+                                    onclick="payerSeanceCours(${idx})"
+                                >${translations[currentLang]["btn-payer"]}</button>
+                            </td>
+                        </tr>
+                    `}).join('')}
+                </table>
+            </div>`;
         }
-        document.getElementById("userInfo").innerHTML = html;
+
+        // Ajout des demandes en attente (sans bouton Payer)
+        if (user.demandes && user.demandes.length > 0) {
+            htmlCours += `<div class="cours-title">${translations[currentLang]["demandes-title"]}</div>
+            <div style="overflow-x:auto">
+                 <table class="cours-table">
+                   <tr>
+                     <th>${translations[currentLang]["nom-eleve"]}</th>
+                     <th>${translations[currentLang]["matiere-demandee"]}</th>
+                     <th>${translations[currentLang]["date-demande"]}</th>
+                   </tr>
+                   ${user.demandes.map((d) =>
+                      `<tr>
+                        <td>${d.nom_eleve}</td>
+                        <td>${d.matiere_demande}</td>
+                        <td>${d.demande_date}</td>
+                      </tr>`
+                    ).join('')}
+                 </table>
+            </div>`;
+        }
+
+        coursSection.innerHTML = htmlCours;
+        coursSection.style.display = "block";
+        if (user.keyWords) {
+            const elem = document.getElementById('cleRecup');
+            if (elem) {
+                elem.dataset.value = user.keyWords;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
+            }
+        }
+        if (user.password) {
+            const elem = document.getElementById('motDePasse');
+            if (elem) {
+                elem.dataset.value = user.password;
+                elem.dataset.masked = "true";
+                elem.textContent = "********";
+            }
+        }
     }
+
+    function payerSeanceCours(idx) {
+        alert(translations[currentLang]["btn-payer"] + " #" + (idx+1));
+    }
+
+    function refreshData() {
+        const userDataString = getSessionCookie('alamathUser');
+        if (!userDataString) {
+            window.location.href = '/';
+            return;
+        }
+        const user = JSON.parse(userDataString);
+        if (!user.userId || !user.password) {
+            alert("Impossible d'actualiser: identifiants manquants.");
+            return;
+        }
+        fetch('https://api.alamath.com/login', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({userId: user.userId, password: user.password})
+        })
+        .then(res => res.json())
+        .then(result => {
+            if(result && result.success && result.user) {
+                setSessionCookie('alamathUser', JSON.stringify(result.user), 1);
+                showUserInfo();
+            } else if(result && result.message) {
+                alert(translations[currentLang]["erreur-envoi"] + " : " + result.message);
+            } else {
+                alert(translations[currentLang]["erreur-envoi"]);
+            }
+        })
+        .catch(err => {
+            alert(translations[currentLang]["erreur-reseau"] + err);
+        });
+    }
+
     showUserInfo();
 
     function logout() {
         eraseSessionCookie('alamathUser');
         window.location.href = '/';
+    }
+
+    function toggleMask(id, btnId) {
+        const elem = document.getElementById(id);
+        const btn = document.getElementById(btnId);
+        if (elem.dataset.masked === "true") {
+            elem.textContent = elem.dataset.value;
+            btn.textContent = translations[currentLang]["btnMasquer"];
+            elem.dataset.masked = "false";
+        } else {
+            elem.textContent = "********";
+            btn.textContent = translations[currentLang]["btnAfficher"];
+            elem.dataset.masked = "true";
+        }
     }
     </script>
 </body>
