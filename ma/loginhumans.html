@@ -468,6 +468,14 @@
                 </div>
                 <button type="submit" id="btn-login">Se connecter</button>
                 <p id="loginInfo"></p>
+                                <button type="button" id="btn-forgot" style="width:100%;margin-bottom:0.6em;background:#ffe15a;color:#223357;font-weight:bold;">
+                    Mot de passe oublié ?
+                </button>
+                <div id="forgot-email-box" style="display:none;margin-bottom:0.6em;">
+                    <input type="email" id="forgot-email" placeholder="Votre email" style="width:100%;padding:0.7em;border-radius:8px;">
+                    <button type="button" id="btn-send-forgot" style="width:100%;margin-top:0.4em;background:#2166c1;color:#fff;">Envoyer la demande</button>
+                </div>
+                <div id="forgot-message" class="message"></div>
             </form>
         </div>
     </div>
@@ -481,9 +489,9 @@
     <script>
     // Multi-langue/direction/nuit
     const translations = {
-        fr: { "title-signin": "Inscription & Connexion Sécurisées", "signup-title": "Inscription à AlaMath.com", "login-title": "Connexion", "youare-title": "Vous êtes :", "label-eleve": "Élève", "label-prof": "Professeur", "school-title": "Scolarité", "eleve-title": "Informations de l'élève", "contact-title": "Informations du tuteur", "btn-generate-words": "Générer 7 mots aléatoires", "btn-create-account": "Créer mon compte & Générer QR", "btn-login": "Se connecter", "footer-text": "SARL IaSmarKet Services - Tous droits réservés - 2025", "home": "Accueil", "previous": "Précédent", "Inscription": "Inscription", "Connexion": "Connexion", "cycle": "-- Choisir le cycle --", "niveau": "-- Choisir le niveau --", "matiere": "-- Choisir la matière --", "nom_eleve": "Nom complet de l'élève", "nom_tuteur": "Nom complet du tuteur", "nom_prof": "Votre nom complet", "email_tuteur": "Email du tuteur", "email_prof": "Votre email", "tel_tuteur": "Téléphone du tuteur", "tel_prof": "Votre téléphone", "userId": "Choisissez un ID", "keyWords": "Clé de récupération (7 mots)", "generate_success": "Inscription réussie ! Vos infos et QR sont générés ci-dessous.", "generate_error": "Erreur lors de l’inscription. Veuillez réessayer.", "server_error": "Le serveur est en maintenance, veuillez réessayer plus tard.", "login_placeholder_id": "Entrez votre ID", "login_placeholder_pwd": "Entrez votre mot de passe", "login_btn": "Se connecter", "login_fill": "Veuillez remplir les deux champs.", "login_error": "❌ Utilisateur introuvable ou mot de passe incorrect.", "arabe": "Arabe", "dir": "ltr" },
-        en: { "title-signin": "Secure Signup & Login", "signup-title": "Sign up on AlaMath.com", "login-title": "Login", "youare-title": "You are:", "label-eleve": "Student", "label-prof": "Teacher", "school-title": "Schooling", "eleve-title": "Student Information", "contact-title": "Guardian's Information", "btn-generate-words": "Generate 7 random words", "btn-create-account": "Create my account & Generate QR", "btn-login": "Log in", "footer-text": "SARL IaSmarKet Services - All rights reserved - 2025", "home": "Home", "previous": "Previous", "Inscription": "Sign up", "Connexion": "Login", "cycle": "-- Select cycle --", "niveau": "-- Select grade --", "matiere": "-- Select subject --", "nom_eleve": "Student's full name", "nom_tuteur": "Guardian's full name", "nom_prof": "Your full name", "email_tuteur": "Guardian's email", "email_prof": "Your email", "tel_tuteur": "Guardian's phone", "tel_prof": "Your phone", "userId": "Choose an ID", "keyWords": "Recovery key (7 words)", "generate_success": "Registration successful! Your info and QR are below.", "generate_error": "Registration failed. Please try again.", "server_error": "Server maintenance, please try later.", "login_placeholder_id": "Enter your ID", "login_placeholder_pwd": "Enter your password", "login_btn": "Log in", "login_fill": "Please fill in both fields.", "login_error": "❌ User not found or wrong password.", "arabe": "Arabic", "dir": "ltr" },
-        ar: { "title-signin": "تسجيل و دخول آمن", "signup-title": "تسجيل في AlaMath.com", "login-title": "دخول", "youare-title": "أنت:", "label-eleve": "طالب", "label-prof": "أستاذ", "school-title": "الدراسة", "eleve-title": "معلومات الطالب", "contact-title": "معلومات الولي", "btn-generate-words": "توليد 7 كلمات عشوائية", "btn-create-account": "أنشئ حسابي وولّد QR", "btn-login": "دخول", "footer-text": "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -", "home": "الرئيسية", "previous": "السابق", "Inscription": "تسجيل", "Connexion": "دخول", "cycle": "-- اختر السلك --", "niveau": "-- اختر المستوى --", "matiere": "-- اختر المادة --", "nom_eleve": "الاسم الكامل للطالب", "nom_tuteur": "اسم الولي الكامل", "nom_prof": "اسمك الكامل", "email_tuteur": "البريد الإلكتروني للولي", "email_prof": "بريدك الإلكتروني", "tel_tuteur": "هاتف الولي", "tel_prof": "هاتفك", "userId": "اختر معرف", "keyWords": "كلمة الاسترجاع (7 كلمات)", "generate_success": "تم التسجيل بنجاح! معلوماتك وQR أدناه.", "generate_error": "حدث خطأ أثناء التسجيل. حاول مجدداً.", "server_error": "الخادم تحت الصيانة، حاول لاحقاً.", "login_placeholder_id": "أدخل معرفك", "login_placeholder_pwd": "أدخل كلمة المرور", "login_btn": "دخول", "login_fill": "يرجى ملء الحقلين.", "login_error": "❌ المستخدم غير موجود أو كلمة المرور غير صحيحة.", "arabe": "العربية", "dir": "rtl" }
+        fr: {"forgot_pwd": "Mot de passe oublié ?","forgot_success": "Si votre email existe, une demande a été enregistrée.","forgot_error": "Veuillez saisir un email valide.", "title-signin": "Inscription & Connexion Sécurisées", "signup-title": "Inscription à AlaMath.com", "login-title": "Connexion", "youare-title": "Vous êtes :", "label-eleve": "Élève", "label-prof": "Professeur", "school-title": "Scolarité", "eleve-title": "Informations de l'élève", "contact-title": "Informations du tuteur", "btn-generate-words": "Générer 7 mots aléatoires", "btn-create-account": "Créer mon compte & Générer QR", "btn-login": "Se connecter", "footer-text": "SARL IaSmarKet Services - Tous droits réservés - 2025", "home": "Accueil", "previous": "Précédent", "Inscription": "Inscription", "Connexion": "Connexion", "cycle": "-- Choisir le cycle --", "niveau": "-- Choisir le niveau --", "matiere": "-- Choisir la matière --", "nom_eleve": "Nom complet de l'élève", "nom_tuteur": "Nom complet du tuteur", "nom_prof": "Votre nom complet", "email_tuteur": "Email du tuteur", "email_prof": "Votre email", "tel_tuteur": "Téléphone du tuteur", "tel_prof": "Votre téléphone", "userId": "Choisissez un ID", "keyWords": "Clé de récupération (7 mots)", "generate_success": "Inscription réussie ! Vos infos et QR sont générés ci-dessous.", "generate_error": "Erreur lors de l’inscription. Veuillez réessayer.", "server_error": "Le serveur est en maintenance, veuillez réessayer plus tard.", "login_placeholder_id": "Entrez votre ID", "login_placeholder_pwd": "Entrez votre mot de passe", "login_btn": "Se connecter", "login_fill": "Veuillez remplir les deux champs.", "login_error": "❌ Utilisateur introuvable ou mot de passe incorrect.", "arabe": "Arabe", "dir": "ltr" },
+        en: { "forgot_pwd": "Forgot password?","forgot_success": "If your email exists, a request has been recorded.","forgot_error": "Please enter a valid email.","title-signin": "Secure Signup & Login", "signup-title": "Sign up on AlaMath.com", "login-title": "Login", "youare-title": "You are:", "label-eleve": "Student", "label-prof": "Teacher", "school-title": "Schooling", "eleve-title": "Student Information", "contact-title": "Guardian's Information", "btn-generate-words": "Generate 7 random words", "btn-create-account": "Create my account & Generate QR", "btn-login": "Log in", "footer-text": "SARL IaSmarKet Services - All rights reserved - 2025", "home": "Home", "previous": "Previous", "Inscription": "Sign up", "Connexion": "Login", "cycle": "-- Select cycle --", "niveau": "-- Select grade --", "matiere": "-- Select subject --", "nom_eleve": "Student's full name", "nom_tuteur": "Guardian's full name", "nom_prof": "Your full name", "email_tuteur": "Guardian's email", "email_prof": "Your email", "tel_tuteur": "Guardian's phone", "tel_prof": "Your phone", "userId": "Choose an ID", "keyWords": "Recovery key (7 words)", "generate_success": "Registration successful! Your info and QR are below.", "generate_error": "Registration failed. Please try again.", "server_error": "Server maintenance, please try later.", "login_placeholder_id": "Enter your ID", "login_placeholder_pwd": "Enter your password", "login_btn": "Log in", "login_fill": "Please fill in both fields.", "login_error": "❌ User not found or wrong password.", "arabe": "Arabic", "dir": "ltr" },
+        ar: { "forgot_pwd": "نسيت كلمة المرور؟","forgot_success": "إذا كان بريدك الإلكتروني موجودًا، تم تسجيل الطلب.","forgot_error": "يرجى إدخال بريد إلكتروني صحيح.","title-signin": "تسجيل و دخول آمن", "signup-title": "تسجيل في AlaMath.com", "login-title": "دخول", "youare-title": "أنت:", "label-eleve": "طالب", "label-prof": "أستاذ", "school-title": "الدراسة", "eleve-title": "معلومات الطالب", "contact-title": "معلومات الولي", "btn-generate-words": "توليد 7 كلمات عشوائية", "btn-create-account": "أنشئ حسابي وولّد QR", "btn-login": "دخول", "footer-text": "شركة IaSmarKet 2025 - جميع الحقوق محفوظة -", "home": "الرئيسية", "previous": "السابق", "Inscription": "تسجيل", "Connexion": "دخول", "cycle": "-- اختر السلك --", "niveau": "-- اختر المستوى --", "matiere": "-- اختر المادة --", "nom_eleve": "الاسم الكامل للطالب", "nom_tuteur": "اسم الولي الكامل", "nom_prof": "اسمك الكامل", "email_tuteur": "البريد الإلكتروني للولي", "email_prof": "بريدك الإلكتروني", "tel_tuteur": "هاتف الولي", "tel_prof": "هاتفك", "userId": "اختر معرف", "keyWords": "كلمة الاسترجاع (7 كلمات)", "generate_success": "تم التسجيل بنجاح! معلوماتك وQR أدناه.", "generate_error": "حدث خطأ أثناء التسجيل. حاول مجدداً.", "server_error": "الخادم تحت الصيانة، حاول لاحقاً.", "login_placeholder_id": "أدخل معرفك", "login_placeholder_pwd": "أدخل كلمة المرور", "login_btn": "دخول", "login_fill": "يرجى ملء الحقلين.", "login_error": "❌ المستخدم غير موجود أو كلمة المرور غير صحيحة.", "arabe": "العربية", "dir": "rtl" }
     };
     let currentLang = "fr";
     function setLang(lang) {
@@ -523,6 +531,7 @@
         document.getElementById('keyWords').placeholder = translations[lang]["keyWords"];
         document.getElementById("loginUserId").placeholder = translations[lang]["login_placeholder_id"];
         document.getElementById("loginPassword").placeholder = translations[lang]["login_placeholder_pwd"];
+        document.getElementById("btn-forgot").innerText = translations[lang]["forgot_pwd"];
         document.getElementById("loginInfo").textContent = "";
     }
     function applyNightMode(night) {
@@ -776,6 +785,42 @@ Mot de passe: ${password}
     });
     // Initial state
     toggleUserType();
+        document.getElementById("btn-forgot").addEventListener("click", function() {
+    // Affiche le champ email si besoin
+    const forgotBox = document.getElementById("forgot-email-box");
+    forgotBox.style.display = "block";
+    document.getElementById("forgot-message").textContent = "";
+});
+
+document.getElementById("btn-send-forgot").addEventListener("click", function() {
+    const email = document.getElementById("forgot-email").value.trim();
+    const forgotMsg = document.getElementById("forgot-message");
+    forgotMsg.textContent = "...";
+    forgotMsg.className = "message";
+
+    if (!email || !/^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$/.test(email)) {
+        forgotMsg.textContent = translations[currentLang]["forgot_error"];
+        forgotMsg.className = "message error";
+        return;
+    }
+
+    fetch("https://api.alamath.com/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    })
+    .then(res => res.json())
+    .then(data => {
+        forgotMsg.textContent = translations[currentLang]["forgot_success"];
+        forgotMsg.className = "message success";
+        document.getElementById("forgot-email-box").style.display = "none";
+        document.getElementById("forgot-email").value = "";
+    })
+    .catch(() => {
+        forgotMsg.textContent = translations[currentLang]["server_error"];
+        forgotMsg.className = "message error";
+    });
+});
     </script>
 </body>
 </html>
